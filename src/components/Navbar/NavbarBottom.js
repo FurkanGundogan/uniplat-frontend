@@ -1,0 +1,32 @@
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import BottomNavigation from '@mui/material/BottomNavigation';
+import BottomNavigationAction from '@mui/material/BottomNavigationAction';
+import HomeIcon from '@mui/icons-material/Home';
+import MailIcon from '@mui/icons-material/Mail';
+import GroupsIcon from '@mui/icons-material/Groups';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import NavbarStyles from './NavbarStyles';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+export default function NavbarBottom() {
+  const classes=NavbarStyles();
+  const [value, setValue] = React.useState(0);
+
+  return (
+    <Box sx={{ width: 500 }} className={classes.NavbarBottom}>
+      <BottomNavigation
+        showLabels
+        value={value}
+        onChange={(event, newValue) => {
+          setValue(newValue);
+        }}
+      >
+        <BottomNavigationAction icon={<HomeIcon fontSize='large'/>} />
+        <BottomNavigationAction icon={<MailIcon fontSize='large'/>} />
+        <BottomNavigationAction icon={<AddCircleOutlineIcon fontSize='large'/>} />
+        <BottomNavigationAction icon={<GroupsIcon fontSize='large'/>} />
+        <BottomNavigationAction icon={<NotificationsIcon fontSize='large'/>} />
+      </BottomNavigation>
+    </Box>
+  );
+}
