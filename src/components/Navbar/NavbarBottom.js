@@ -8,10 +8,14 @@ import GroupsIcon from '@mui/icons-material/Groups';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import NavbarStyles from './NavbarStyles';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import {useContext} from "react"
+import { NewPostModalContext } from '../Contexts/NewPostModalContext';
+import { useNavigate } from "react-router-dom";
 export default function NavbarBottom() {
+  const navigate = useNavigate();
   const classes=NavbarStyles();
   const [value, setValue] = React.useState(0);
-
+  const {setNewPostState} = useContext(NewPostModalContext)
   return (
     <Box sx={{ width: 500 }} className={classes.NavbarBottom}>
       <BottomNavigation
@@ -21,9 +25,20 @@ export default function NavbarBottom() {
           setValue(newValue);
         }}
       >
-        <BottomNavigationAction icon={<HomeIcon fontSize='large'/>} />
+        <BottomNavigationAction 
+        icon={<HomeIcon fontSize='large'/>} 
+        onClick={()=>{
+          navigate("/Home")
+        }}
+        />
+
         <BottomNavigationAction icon={<MailIcon fontSize='large'/>} />
-        <BottomNavigationAction icon={<AddCircleOutlineIcon fontSize='large'/>} />
+        <BottomNavigationAction 
+        icon={<AddCircleOutlineIcon fontSize='large'/>}
+        onClick={()=>{
+          setNewPostState({isOpen:true})
+        }}
+        />
         <BottomNavigationAction icon={<GroupsIcon fontSize='large'/>} />
         <BottomNavigationAction icon={<NotificationsIcon fontSize='large'/>} />
       </BottomNavigation>

@@ -12,7 +12,7 @@ export async function loginUser(dispatch, loginPayload) {
     })
     .then((response) => {
       console.log("İstek Sonucu:", response);
-      //  home page'e login şartı koy
+      
       if (response.data) {
         dispatch({ type: "LOGIN_SUCCESS", payload: response.data });
         localStorage.setItem("currentUser", JSON.stringify(response.data));

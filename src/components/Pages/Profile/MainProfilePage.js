@@ -1,7 +1,7 @@
 import React from "react";
 import Grid from "@mui/material/Grid";
-import MainHomeStyles from "./MainHomeStyles";
-import UserAvatar from "./UserAvatar";
+import MainProfileStyles from "./MainProfileStyles";
+import UserAvatar from "../UserAvatar";
 import Divider from "@mui/material/Divider";
 import Typography from "@mui/material/Typography";
 import { Button } from "@mui/material";
@@ -9,12 +9,15 @@ import EventIcon from "@mui/icons-material/Event";
 import ArticleIcon from "@mui/icons-material/Article";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import LogoutIcon from "@mui/icons-material/Logout";
-import { useAuthDispatch, logout, useAuthState } from "../Contexts";
-
-const MainHomePage = () => {
+import { useAuthDispatch, logout, useAuthState } from "../../Contexts";
+import {useContext} from "react"
+import NewPostModal from "../Post/NewPostModal";
+import { NewPostModalContext } from '../../Contexts/NewPostModalContext';
+const MainProfilePage = () => {
   // const navigate = useNavigate();
   const dispatch = useAuthDispatch(); // read dispatch method from context
   const mainState = useAuthState(); //read user details from context
+  const {newPostState,setNewPostState} = useContext(NewPostModalContext)
   console.log("mainstate", mainState);
 
   const handleLogout = () => {
@@ -22,7 +25,7 @@ const MainHomePage = () => {
     window.location.href = "/SignIn";
   };
 
-  const classes = MainHomeStyles();
+  const classes = MainProfileStyles();
   return (
     <Grid container className={classes.HomeContainer}>
       <Grid item className={classes.LeftSide}>
@@ -42,6 +45,9 @@ const MainHomePage = () => {
             <Button
               className={classes.LeftSideButton}
               startIcon={<AddCircleOutlineIcon />}
+              onClick={()=>{
+                setNewPostState({isOpen:true})
+              }}
             >
               Yeni Gönderi
             </Button>
@@ -74,7 +80,8 @@ const MainHomePage = () => {
         </div>
       </Grid>
       <Grid item className={classes.Center}>
-        <h1>P</h1>
+        {  newPostState && <NewPostModal modalState={newPostState} setModal={setNewPostState}  /> }
+        <h1>Burasi Profil</h1>
         <h1>P</h1>
         <h1>P</h1>
         <h1>P</h1>
@@ -107,4 +114,4 @@ const MainHomePage = () => {
   );
 };
 
-export default MainHomePage;
+export default MainProfilePage;

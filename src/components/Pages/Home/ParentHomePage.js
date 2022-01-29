@@ -1,8 +1,9 @@
 import React from "react";
-import Navbar from "../Navbar/Navbar";
-import NavbarBottom from "../Navbar/NavbarBottom";
 import MainHomePage from "./MainHomePage";
-const HomePage = () => {
+import Navbar from "../../Navbar/Navbar";
+import NavbarBottom from "../../Navbar/NavbarBottom";
+const ParentHomePage = () => {
+
   return (
     <div>
       <Navbar />
@@ -12,4 +13,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default ParentHomePage;

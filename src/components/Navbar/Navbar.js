@@ -11,8 +11,10 @@ import SearchBar from './SearchBar';
 import GroupsIcon from '@mui/icons-material/Groups';
 import NavbarStyles from './NavbarStyles';
 import AppleIcon from '@mui/icons-material/Apple';
-
+import { useNavigate } from "react-router-dom";
+import NavbarAvatar from './NavbarAvatar';
 export default function Navbar() {
+    const navigate = useNavigate();
     // farklı dosyadan(navbarstyles) stilleri alıyoruz 
     const classes = NavbarStyles();
     return (
@@ -26,11 +28,16 @@ export default function Navbar() {
                             edge="start"
                             color="inherit"
                             aria-label="open drawer"
-
+                            onClick={()=>{
+                                navigate("/Home")}}
+                            className={classes.NavbarLogo}
                         >
-                            <AppleIcon fontSize='medium' />
+                            <AppleIcon fontSize='medium'/>
                         </IconButton>
-                        <SearchBar />
+                        <div className={classes.NavbarAvatarWrap}>
+                            <NavbarAvatar />
+                        </div>
+                        <SearchBar/>
                     </div>
                     <Box className={classes.NavbarMid}>
                         <IconButton
@@ -39,6 +46,7 @@ export default function Navbar() {
                             aria-label="account of current user"
                             aria-haspopup="true"
                             color="inherit"
+                            onClick={()=>{navigate("/Home")}}
                         >
                             <HomeIcon fontSize='large' />
                         </IconButton>

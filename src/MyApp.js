@@ -3,8 +3,11 @@ import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import { AuthProvider } from "./components/Contexts";
 import SignInPage from "./components/LoginRegister/SignInPage";
 import SignUpPage from "./components/LoginRegister/SignUpPage";
-import HomePage from "./components/HomePage/HomePage";
+import ParentHomePage from "./components/Pages/Home/ParentHomePage";
+import ParentProfilePage from "./components/Pages/Profile/ParentProfilePage";
 import { useAuthState } from "./components/Contexts";
+import { NewPostModalContextProvider } from "./components/Contexts/NewPostModalContext";
+import  ScrollToTop  from "./components/Contexts/ScrollToTop";
 function HomeRoute({ children }) {
   // homepage'e gidebilmek için login olmak gerekiyor, yoksa login sayfasına yönlendirir.
   // bu / route'u için de geçerli
@@ -23,57 +26,69 @@ function AlreadyLoggedInRoute({ children }) {
 function MyApp() {
   return (
     <AuthProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <HomeRoute>
-                <HomePage />
-              </HomeRoute>
-            }
-            exact
-          />
+      <NewPostModalContextProvider>
+        <BrowserRouter>
+        <ScrollToTop>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <HomeRoute>
+                  <ParentHomePage />
+                </HomeRoute>
+              }
+              exact
+            />
 
-          <Route
-            path="/Home"
-            element={
-              <HomeRoute>
-                <HomePage />
-              </HomeRoute>
-            }
-            exact
-          />
-          <Route
-            path="/SignIn"
-            element={
-              <AlreadyLoggedInRoute>
-                <SignInPage />
-              </AlreadyLoggedInRoute>
-            }
-            exact
-          />
-          <Route
-            path="/SignUp"
-            element={
-              <AlreadyLoggedInRoute>
-                <SignUpPage />
-              </AlreadyLoggedInRoute>
-            }
-            exact
-          />
-
-          <Route
-            path="*"
-            element={
-              <HomeRoute>
-                <HomePage />
-              </HomeRoute>
-            }
-            exact
-          />
-        </Routes>
-      </BrowserRouter>
+            <Route
+              path="/Home"
+              element={
+                <HomeRoute>
+                  <ParentHomePage />
+                </HomeRoute>
+              }
+              exact
+            />
+            <Route
+              path="/SignIn"
+              element={
+                <AlreadyLoggedInRoute>
+                  <SignInPage />
+                </AlreadyLoggedInRoute>
+              }
+              exact
+            />
+            <Route
+              path="/SignUp"
+              element={
+                <AlreadyLoggedInRoute>
+                  <SignUpPage />
+                </AlreadyLoggedInRoute>
+              }
+              exact
+            />
+            <Route
+              path="/Profile"
+              element={
+                <HomeRoute>
+                  <ParentProfilePage />
+                </HomeRoute>
+              }
+              exact
+            />
+            <Route
+              path="*"
+              element={
+                <HomeRoute>
+                  <ParentHomePage />
+                </HomeRoute>
+              }
+              exact
+            />
+          </Routes>
+          </ScrollToTop>
+        </BrowserRouter>
+      </NewPostModalContextProvider>
     </AuthProvider>
   );
 }
