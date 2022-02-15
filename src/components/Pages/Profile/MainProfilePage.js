@@ -18,7 +18,7 @@ const MainProfilePage = () => {
   const dispatch = useAuthDispatch(); // read dispatch method from context
   const mainState = useAuthState(); //read user details from context
   const {newPostState,setNewPostState} = useContext(NewPostModalContext)
-  console.log("mainstate", mainState);
+ 
 
   const handleLogout = () => {
     logout(dispatch);
@@ -46,7 +46,7 @@ const MainProfilePage = () => {
               className={classes.LeftSideButton}
               startIcon={<AddCircleOutlineIcon />}
               onClick={()=>{
-                setNewPostState({isOpen:true})
+                setNewPostState({type:"Post",isOpen:true})
               }}
             >
               Yeni Gönderi

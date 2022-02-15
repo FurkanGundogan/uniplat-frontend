@@ -20,7 +20,7 @@ const MainHomeStyles = makeStyles((theme) => ({
   },
   Center: {
     width: "50%",
-    backgroundColor: "yellow",
+    backgroundColor: "white",
     marginLeft: "25% !important",
     height: "100%",
     [theme.breakpoints.down("md")]: {

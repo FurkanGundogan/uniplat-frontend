@@ -3,7 +3,7 @@ import { useState } from 'react'
 export const NewPostModalContext = createContext()
 
 export const NewPostModalContextProvider = ({ children }) => {
-  const [newPostState, setNewPostState] = useState({isOpen:false})
+  const [newPostState, setNewPostState] = useState({type:"Post",isOpen:false,selectedFile:null})
 
   const value = {
     newPostState,

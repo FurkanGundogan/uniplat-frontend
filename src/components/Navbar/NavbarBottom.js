@@ -36,7 +36,7 @@ export default function NavbarBottom() {
         <BottomNavigationAction 
         icon={<AddCircleOutlineIcon fontSize='large'/>}
         onClick={()=>{
-          setNewPostState({isOpen:true})
+          setNewPostState({type:"Post",isOpen:true})
         }}
         />
         <BottomNavigationAction icon={<GroupsIcon fontSize='large'/>} />

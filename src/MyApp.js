@@ -7,12 +7,27 @@ import ParentHomePage from "./components/Pages/Home/ParentHomePage";
 import ParentProfilePage from "./components/Pages/Profile/ParentProfilePage";
 import { useAuthState } from "./components/Contexts";
 import { NewPostModalContextProvider } from "./components/Contexts/NewPostModalContext";
-import  ScrollToTop  from "./components/Contexts/ScrollToTop";
+import ScrollToTop from "./components/Contexts/ScrollToTop";
 function HomeRoute({ children }) {
   // homepage'e gidebilmek için login olmak gerekiyor, yoksa login sayfasına yönlendirir.
   // bu / route'u için de geçerli
-  const auth = useAuthState();
+   const auth = useAuthState();
+
+  // Alttaki auth: Telden tasarima girebilmek icin auth bariyerini geçmeyi sagliyor, 
+  /*
+  const auth = {
+    user: {
+      email: "fru@stu.fsm.edu.tr",
+      gender: "MALE",
+      name: "furkan",
+      password: "123123",
+      surname: "gundogan",
+      type: "STUDENT",
+    },
+  };
+  */
   console.log("auth:", auth);
+
   return auth.user ? children : <Navigate to="/SignIn" />;
 }
 
@@ -28,64 +43,64 @@ function MyApp() {
     <AuthProvider>
       <NewPostModalContextProvider>
         <BrowserRouter>
-        <ScrollToTop>
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <HomeRoute>
-                  <ParentHomePage />
-                </HomeRoute>
-              }
-              exact
-            />
+          <ScrollToTop>
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  <HomeRoute>
+                    <ParentHomePage />
+                  </HomeRoute>
+                }
+                exact
+              />
 
-            <Route
-              path="/Home"
-              element={
-                <HomeRoute>
-                  <ParentHomePage />
-                </HomeRoute>
-              }
-              exact
-            />
-            <Route
-              path="/SignIn"
-              element={
-                <AlreadyLoggedInRoute>
-                  <SignInPage />
-                </AlreadyLoggedInRoute>
-              }
-              exact
-            />
-            <Route
-              path="/SignUp"
-              element={
-                <AlreadyLoggedInRoute>
-                  <SignUpPage />
-                </AlreadyLoggedInRoute>
-              }
-              exact
-            />
-            <Route
-              path="/Profile"
-              element={
-                <HomeRoute>
-                  <ParentProfilePage />
-                </HomeRoute>
-              }
-              exact
-            />
-            <Route
-              path="*"
-              element={
-                <HomeRoute>
-                  <ParentHomePage />
-                </HomeRoute>
-              }
-              exact
-            />
-          </Routes>
+              <Route
+                path="/Home"
+                element={
+                  <HomeRoute>
+                    <ParentHomePage />
+                  </HomeRoute>
+                }
+                exact
+              />
+              <Route
+                path="/SignIn"
+                element={
+                  <AlreadyLoggedInRoute>
+                    <SignInPage />
+                  </AlreadyLoggedInRoute>
+                }
+                exact
+              />
+              <Route
+                path="/SignUp"
+                element={
+                  <AlreadyLoggedInRoute>
+                    <SignUpPage />
+                  </AlreadyLoggedInRoute>
+                }
+                exact
+              />
+              <Route
+                path="/Profile"
+                element={
+                  <HomeRoute>
+                    <ParentProfilePage />
+                  </HomeRoute>
+                }
+                exact
+              />
+              <Route
+                path="*"
+                element={
+                  <HomeRoute>
+                    <ParentHomePage />
+                  </HomeRoute>
+                }
+                exact
+              />
+            </Routes>
           </ScrollToTop>
         </BrowserRouter>
       </NewPostModalContextProvider>

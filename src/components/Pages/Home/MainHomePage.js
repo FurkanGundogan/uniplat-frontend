@@ -13,11 +13,12 @@ import { useAuthDispatch, logout, useAuthState } from "../../Contexts";
 import {useContext} from "react"
 import NewPostModal from "../Post/NewPostModal";
 import { NewPostModalContext } from '../../Contexts/NewPostModalContext';
+import PostArea from "../HomePosts/PostArea";
 const MainHomePage = () => {
   const dispatch = useAuthDispatch(); // read dispatch method from context
   const mainState = useAuthState(); //read user details from context
   const {newPostState,setNewPostState} = useContext(NewPostModalContext)
-  console.log("mainstate", mainState);
+  
 
   const handleLogout = () => {
     logout(dispatch);
@@ -45,7 +46,7 @@ const MainHomePage = () => {
               className={classes.LeftSideButton}
               startIcon={<AddCircleOutlineIcon />}
               onClick={()=>{
-                setNewPostState({isOpen:true})
+                setNewPostState({type:"Post",isOpen:true})
               }}
             >
               Yeni Gönderi
@@ -80,21 +81,7 @@ const MainHomePage = () => {
       </Grid>
       <Grid item className={classes.Center}>
         {  newPostState && <NewPostModal modalState={newPostState} setModal={setNewPostState}  /> }
-        <h1>Home</h1>
-        <h1>P</h1>
-        <h1>P</h1>
-        <h1>P</h1>
-        <h1>P</h1>
-        <h1>P</h1>
-        <h1>P</h1>
-        <h1>P</h1>
-        <h1>P</h1>
-        <h1>P</h1>
-        <h1>P</h1>
-        <h1>P</h1>
-        <h1>P</h1>
-        <h1>P</h1>
-        <h1>P</h1>
+        <PostArea/>
       </Grid>
       <Grid item className={classes.RightSide}>
         <div className={classes.rightSideInner}>
