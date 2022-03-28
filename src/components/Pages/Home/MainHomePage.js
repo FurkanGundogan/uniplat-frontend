@@ -10,27 +10,34 @@ import ArticleIcon from "@mui/icons-material/Article";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useAuthDispatch, logout, useAuthState } from "../../Contexts";
-import {useContext} from "react"
+import { useContext } from "react";
 import NewPostModal from "../Post/NewPostModal";
-import { NewPostModalContext } from '../../Contexts/NewPostModalContext';
+import { NewPostModalContext } from "../../Contexts/NewPostModalContext";
 import PostArea from "../HomePosts/PostArea";
+import "react-awesome-lightbox/build/style.css";
+
+
 const MainHomePage = () => {
   const dispatch = useAuthDispatch(); // read dispatch method from context
   const mainState = useAuthState(); //read user details from context
-  const {newPostState,setNewPostState} = useContext(NewPostModalContext)
-  
+  const { newPostState, setNewPostState } = useContext(NewPostModalContext);
+
+  console.log(mainState.user);
 
   const handleLogout = () => {
     logout(dispatch);
     window.location.href = "/SignIn";
   };
 
+  
+ 
+
   const classes = MainHomeStyles();
   return (
     <Grid container className={classes.HomeContainer}>
       <Grid item className={classes.LeftSide}>
         <div className={classes.leftSideInner}>
-          <UserAvatar />
+          <UserAvatar name={mainState.user.name} surname={mainState.user.surname} />
           <Typography variant="body1" className={classes.UserName}>
             {mainState.user.name} {mainState.user.surname}
           </Typography>
@@ -45,8 +52,8 @@ const MainHomePage = () => {
             <Button
               className={classes.LeftSideButton}
               startIcon={<AddCircleOutlineIcon />}
-              onClick={()=>{
-                setNewPostState({type:"Post",isOpen:true})
+              onClick={() => {
+                setNewPostState({ type: "Post", isOpen: true });
               }}
             >
               Yeni Gönderi
@@ -80,8 +87,14 @@ const MainHomePage = () => {
         </div>
       </Grid>
       <Grid item className={classes.Center}>
-        {  newPostState && <NewPostModal modalState={newPostState} setModal={setNewPostState}  /> }
-        <PostArea/>
+        {newPostState && (
+          <NewPostModal modalState={newPostState} setModal={setNewPostState} />
+        )}
+
+    
+        
+
+        <PostArea />
       </Grid>
       <Grid item className={classes.RightSide}>
         <div className={classes.rightSideInner}>

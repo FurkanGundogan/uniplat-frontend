@@ -56,6 +56,14 @@ const NavbarStyles = makeStyles((theme) => ({
      
     },
   },
+  NavbarLogoutWrap: {
+    alignSelf:"center",
+    color:"#a00d0d",
+    [theme.breakpoints.up("sm")]: {
+      display: "none !important",
+     
+    },
+  },
 
 }));
 

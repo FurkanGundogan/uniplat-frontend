@@ -6,6 +6,7 @@ import { createTheme } from '@mui/material/styles';
 import { ThemeProvider } from '@mui/styles';
 import MyApp from './MyApp';
 
+
 //theme: global temada kullanılmak için kullanılıyor
 //theme providera parametre olarak gitti
 const theme = createTheme({

@@ -42,7 +42,7 @@ const style = {
   borderRadius: "18px",
   p: 4,
 };
-//  kaldırılan bir css boxShadow: "1px 2px 8px 2px rgb(255 255 255)",
+
 export default function NewPostModal({ modalState, setModal }) {
   const handleSend = async () => {
     if (validate()) {
@@ -78,7 +78,7 @@ export default function NewPostModal({ modalState, setModal }) {
         modalState.dateISO,
         modalState.maxDate
       );
-      
+
       if (!econtrol) {
         setAlert({ msg: emsg, isOpen: true });
         return false;
@@ -91,6 +91,7 @@ export default function NewPostModal({ modalState, setModal }) {
   const [alertState, setAlert] = useState({ msg: "", isOpen: false });
 
   const classes = NewPostModalStyles();
+
   return (
     <div>
       <Modal
@@ -138,15 +139,13 @@ export default function NewPostModal({ modalState, setModal }) {
                     {modalState.cropModalOpen && (
                       <CropEasy {...{ modalState, setModal }} />
                     )}
-                    {
-                    
-                    modalState.cropModalOpen === false && (
+                    {modalState.cropModalOpen === false && (
                       <div>
                         <img
                           id="target"
                           alt=""
                           className={classes.media}
-                          src={URL.createObjectURL(modalState.selectedFile)}
+                          src={modalState.selectedFile}
                         />
                         <div style={{ textAlign: "center" }}>
                           <IconButton
@@ -243,7 +242,7 @@ export default function NewPostModal({ modalState, setModal }) {
                       setModal({
                         ...modalState,
                         originalFile: e.target.files[0],
-                        selectedFile: e.target.files[0],
+                        selectedFile: URL.createObjectURL(e.target.files[0]),
                         cropModalOpen: true,
                       });
 

@@ -42,47 +42,106 @@ const PostCardStyles = makeStyles((theme) => ({
     fontSize: "12px",
     fontFamily: "cursive",
   },
-  writeCommentArea:{
-    
-    "& .MuiInput-input.MuiInputBase-input":{
-      fontSize:"14px !important",
-      
+  writeCommentArea: {
+    alignItems: "stretch !important",
+    "& .MuiInput-input.MuiInputBase-input": {
+      fontSize: "14px !important",
     },
-    "& .MuiInputBase-root.MuiInput-root":{
-      "&:after": { 
+    "& .MuiInputBase-root.MuiInput-root": {
+      "&:after": {
         content: '""',
-        borderBottom: 'none !important',
-     }
+        borderBottom: "none !important",
+      },
     },
-    "& .MuiFormLabel-root.MuiInputLabel-root.Mui-focused":{
-      color:"gray !important"
+    "& .MuiFormLabel-root.MuiInputLabel-root.Mui-focused": {
+      color: "gray !important",
     },
-    
-    "& .MuiInputLabel-root.MuiInputLabel-formControl":{
-      fontSize:"14px !important",
-    }
+
+    "& .MuiInputLabel-root.MuiInputLabel-formControl": {
+      fontSize: "14px !important",
+    },
   },
-  writeCommentSendbutton:{
-    marginLeft:"4px",
-    color:"#65676b !important",
-      "&:hover": { 
-        
-        color: '#2195a3 !important',
-     }
-    
+  writeCommentSendbutton: {
+    alignSelf: "center !important",
+    marginLeft: "4px",
+    color: "#65676b !important",
+    "&:hover": {
+      color: "#2195a3 !important",
+    },
   },
-  LikeModalCloseIconWrapper:{
-    display:"flex",
-    
+  LikeModalCloseIconWrapper: {
+    display: "flex",
   },
-  LikeModalCloseIcon:{
-    marginLeft:"12px !important",
-    alignSelf:"center",
-    cursor:"pointer"
+  LikeModalCloseIcon: {
+    marginLeft: "12px !important",
+    alignSelf: "center",
+    cursor: "pointer",
   },
-  LikeModalTitle:{
-    padding:"14px 8px !important"
-  }
+  LikeModalTitle: {
+    padding: "14px 8px !important",
+  },
+  CardSectionTitleWrapper: {
+    background: "#e0e0e06b",
+    width: "100%",
+    display: "flex",
+    paddingLeft: "8px",
+    paddingTop: "8px",
+    paddingBottom: "8px",
+  },
+  CardSectionTitleText: {
+    fontSize: "18px",
+    marginLeft: "6px",
+    padding: "4px",
+    fontFamily: "'Exo 2'",
+  },
+  CardSectionBackButton: {
+    color: "white",
+    borderRadius: "16px",
+    padding: "4px",
+    background: "#00a8ff",
+    "&:hover": {
+      color: "#00a8ff",
+      background: "white",
+    },
+  },
+  commentUserNameWrapper: {
+    width: "100%",
+    marginBottom: "2px",
+  },
+  commentUserName: {
+    fontSize: "16px",
+    fontFamily: "'Rubik'",
+    fontWeight: "700",
+  },
+  commentTextWrapper: {
+    width: "100%",
+    marginBottom: "2px",
+  },
+  commentText: {
+    color: "black",
+    fontSize: "16px",
+    fontFamily: "'Rubik'",
+    fontWeight: "300",
+  },
+  commentTimeWrapper: {
+    width: "100%",
+    marginBottom: "0px",
+  },
+  commentTimeText: {
+    color: "gray",
+    fontSize: "12px",
+  },
+  commentsAreaWrapper: {
+    marginTop: "32px",
+  },
+  innerPostCardWrapper: {
+    padding: "4px 16px 16px 16px !important",
+  },
+  nestedCardWrapper: {
+    borderRadius: "8px !important",
+    boxShadow:
+      "-1px -1px 0px 0px rgb(0 0 0 / 32%), 0px 1px 1px 0px rgb(255 255 255 / 92%), 0px 1px 3px 0px rgb(27 27 27) !important",
+  },
 }));
 
 export default PostCardStyles;

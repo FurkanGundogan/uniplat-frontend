@@ -10,12 +10,17 @@ import NavbarStyles from './NavbarStyles';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import {useContext} from "react"
 import { NewPostModalContext } from '../Contexts/NewPostModalContext';
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useLocation } from "react-router-dom";
 export default function NavbarBottom() {
   const navigate = useNavigate();
   const classes=NavbarStyles();
-  const [value, setValue] = React.useState(0);
+ 
   const {setNewPostState} = useContext(NewPostModalContext)
+  const location=useLocation()
+  const index=location.state?location.state.bottomindex:0
+  const [value, setValue] = React.useState(index);
+
+
   return (
     <Box sx={{ width: 500 }} className={classes.NavbarBottom}>
       <BottomNavigation
@@ -28,7 +33,8 @@ export default function NavbarBottom() {
         <BottomNavigationAction 
         icon={<HomeIcon fontSize='large'/>} 
         onClick={()=>{
-          navigate("/Home")
+          window.scrollTo(0,0)
+          navigate("/Home",{state:{...location.state,bottomindex:0}});
         }}
         />
 
@@ -39,8 +45,12 @@ export default function NavbarBottom() {
           setNewPostState({type:"Post",isOpen:true})
         }}
         />
-        <BottomNavigationAction icon={<GroupsIcon fontSize='large'/>} />
-        <BottomNavigationAction icon={<NotificationsIcon fontSize='large'/>} />
+        <BottomNavigationAction 
+        onClick={()=>navigate("/social",{state:{...location.state,bottomindex:3}})}
+        icon={<GroupsIcon fontSize='large'/>} />
+
+        <BottomNavigationAction icon={<NotificationsIcon 
+        onClick={()=>navigate("/notifications",{state:{...location.state,bottomindex:4}})} fontSize='large'/>} />
       </BottomNavigation>
     </Box>
   );

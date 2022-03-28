@@ -28,6 +28,7 @@ const CropEasy = ({ modalState, setModal }) => {
       setOriginal(URL.createObjectURL(modalState.originalFile));
       // blob isteği sonsuz loopa giriyordu, useEffects ile onMount şekline
       // çevirerek düzelttik, alttaki yorum satırı warningi görmemek için
+      
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const cropComplete = (croppedArea, croppedAreaPixels) => {
@@ -43,7 +44,7 @@ const CropEasy = ({ modalState, setModal }) => {
       );
       setModal({
         ...modalState,
-        selectedFile: file,
+        selectedFile: URL.createObjectURL(file),
         cropModalOpen: false,
       });
     } catch (error) {
