@@ -106,6 +106,7 @@ const MainProfilePage = () => {
                 Follow
               </Button>
             )}
+
             {isAdmin && (
               <div className={classes.AdminAreaWrapper}>
                 <Divider />

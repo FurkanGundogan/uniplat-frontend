@@ -252,6 +252,12 @@ const MainProfileStyles = makeStyles((theme) => ({
   AdminListModalTitle: {
     padding: "14px 8px !important",
   },
+  GroupAreaWrapper: {
+    [theme.breakpoints.up("lg")]: {
+      paddingLeft: "72px",
+      paddingRight: "72px",
+    },
+  },
 
   "@global": {
     body: {

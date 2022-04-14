@@ -1,6 +1,6 @@
 import ProfilePostArea from "./ProfilePostArea";
 import ProfileEventArea from "./ProfileEventArea";
-
+import GroupArea from "./GroupArea"
 export const getContent = (index) => {
   switch (index) {
     case 0:
@@ -18,7 +18,7 @@ export const getContent = (index) => {
     case 4:
       return "LIKES";
     case 5:
-      return "Groups";
+      return <GroupArea/>;
 
     default:
       break;

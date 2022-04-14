@@ -2,6 +2,7 @@ import * as React from "react";
 import { styled } from "@mui/material/styles";
 import ArrowForwardIosSharpIcon from "@mui/icons-material/ArrowForwardIosSharp";
 import MuiAccordion from "@mui/material/Accordion";
+import { useAuthState } from "../../../Contexts";
 import MuiAccordionSummary from "@mui/material/AccordionSummary";
 import MuiAccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
@@ -9,9 +10,7 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
-import MainGroupStyles from "../MainGroupStyles";
-import { useAuthState } from "../../../Contexts";
-
+import MainProfileStyles from "../../Profile/MainProfileStyles";
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
 ))(({ theme }) => ({
@@ -48,53 +47,33 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
   borderTop: "1px solid rgba(0, 0, 0, .125)",
 }));
 
-export default function CustomizedAccordions({
-  setShowAdminList,
-  setJoinReqList,
-  setNewClubPostState,
-}) {
+export default function CustomizedAccordions({setCreateUniState,setCreateClubState}) {
   const [expanded, setExpanded] = React.useState(false);
-  const mainState = useAuthState(); //read user details from context
-  const handleChange = () => {
+  const mainState = useAuthState(); 
+  const handleChange =()=> {
     setExpanded(!expanded);
   };
-  const classes = MainGroupStyles();
+  const classes = MainProfileStyles();
   return (
     <div className={classes.responsiveAdminArea}>
-      <Accordion expanded={expanded} onChange={handleChange}>
+      <Accordion
+        sx={{marginRight:"8px"}}
+        expanded={expanded}
+        onChange={handleChange}
+      >
         <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
-          <Typography component="span">Admin</Typography>
+          <Typography component="span">Teacher Panel</Typography>
         </AccordionSummary>
-        <AccordionDetails sx={{ padding: "0px !important" }}>
-          <List
-            sx={{ padding: "0px !important" }}
-            component="nav"
-            aria-label="mailbox folders"
-          >
-            {/*
+        <AccordionDetails sx={{padding:"0px !important"}}>
+          <List sx={{padding:"0px !important"}} component="nav" aria-label="mailbox folders">
             <ListItem button>
-              <ListItemText onClick={()=>setJoinReqList(true)} primary="Show Join Requests" />
-            </ListItem>
-            */}
-            <Divider />
-            <ListItem onClick={() => setShowAdminList(true)} button>
-              <ListItemText primary="Show Admins" />
+              <ListItemText onClick={()=>setCreateClubState({isopen:true})} primary="Create Club" />
             </ListItem>
             <Divider />
-            <ListItem
-              onClick={() =>
-                setNewClubPostState({
-                  type: "Post",
-                  isOpen: true,
-                  from: mainState.user.email,
-                  clubPost: true,
-                  clubID: "1",
-                })
-              }
-              button
-            >
-              <ListItemText primary="New Post" />
+            <ListItem onClick={()=>setCreateUniState({isopen:true})} button>
+              <ListItemText primary="Create University" />
             </ListItem>
+            <Divider />
           </List>
         </AccordionDetails>
       </Accordion>

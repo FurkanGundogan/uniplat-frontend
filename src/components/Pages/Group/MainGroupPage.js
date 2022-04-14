@@ -39,8 +39,8 @@ const MainGroupPage = () => {
   const [settings, setSettings] = useState();
 
   const isAdmin = groupID === "1";
-  const isMember = groupID === "2";
-  const [joinReq, setJoinReq] = useState(false);
+  // const isMember = groupID === "2";
+  // const [joinReq, setJoinReq] = useState(false);
   const classes = MainGroupStyles();
   const [showAdminList, setShowAdminList] = React.useState(false);
   const [showJoinReqList, setJoinReqList] = React.useState(false);
@@ -87,35 +87,41 @@ const MainGroupPage = () => {
             </Typography>
           </div>
           <div className={classes.LeftSideButtonWrapper}>
-            {isAdmin === false && isMember === false && (
+            {/*
+            isAdmin === false && isMember === false && (
               <Button
                 className={classes.LeftSideButton}
                 onClick={() => setJoinReq(!joinReq)}
               >
                 {joinReq ? "Send Join Request" : "Waiting..."}
               </Button>
-            )}
-            {isAdmin === false && isMember === false && follow === false && (
+            )
+            */
+            }
+            {isAdmin === false  && follow === false && (
               <Button
                 className={classes.LeftSideButton}
                 onClick={() => setFollow(!follow)}
               >
-                Follow
+                Join
               </Button>
             )}
-            {isAdmin === false && isMember === false && follow === true && (
+            {isAdmin === false  && follow === true && (
               <Button
                 className={classes.LeftSideButton}
                 onClick={() => setFollow(!follow)}
               >
-                UnFollow
-              </Button>
-            )}
-            {isAdmin === false && isMember === true && (
-              <Button color="error" onClick={() => console.log("leave group")}>
                 Leave
               </Button>
             )}
+            {/*
+            isAdmin === false && isMember === true && (
+              <Button color="error" onClick={() => console.log("leave group")}>
+                Leave
+              </Button>
+            )
+            */
+          }
 
             {isAdmin && (
               <div className={classes.AdminAreaWrapper}>
@@ -130,10 +136,13 @@ const MainGroupPage = () => {
                     <ListItemText primary="Show Admins" />
                   </ListItem>
                   <Divider />
+                  {
+                    /*
                   <ListItem onClick={() => setJoinReqList(true)} button>
                     <ListItemText primary="Show Join Requests" />
                   </ListItem>
-                  <Divider />
+                  */
+                  }
                   <ListItem onClick={()=> setNewClubPostState({ type: "Post", 
                   isOpen: true,
                   from:mainState.user.email,
@@ -179,27 +188,31 @@ const MainGroupPage = () => {
                 </Button>
               )}
 
-              {isAdmin === false && isMember === false && follow === false && (
+              {isAdmin === false && follow === false && (
                 <Button
                   className={classes.CenterTopButton}
                   onClick={() => setFollow(!follow)}
                 >
-                  Follow
+                  Join
                 </Button>
               )}
-              {isAdmin === false && isMember === false && follow === true && (
+              {isAdmin === false  && follow === true && (
                 <Button
                   className={classes.CenterTopButton}
                   onClick={() => setFollow(!follow)}
                 >
-                  UnFollow
-                </Button>
-              )}
-              {isAdmin === false && isMember === true && (
-                <Button color="error" onClick={() => console.log("leave group")}>
                   Leave
                 </Button>
               )}
+              {
+                /*
+              isAdmin === false && isMember === true && (
+                <Button color="error" onClick={() => console.log("leave group")}>
+                  Leave
+                </Button>
+              )
+              */
+              }
             </div>
           </div>
           <div className={classes.CenterTopUserInfoRightSide}>
@@ -218,7 +231,8 @@ const MainGroupPage = () => {
                 {"44 Followers"}
               </div>
             </div>
-            {isAdmin === false && isMember === false && (
+            {/*
+            isAdmin === false && isMember === false && (
               <div className={classes.CenterTopUserInfoRightSideRequstButtonWrapper}>
                 <Button
                   className={classes.CenterTopButton}
@@ -227,7 +241,9 @@ const MainGroupPage = () => {
                   {joinReq ? "Send Join Request" : "Waiting..."}
                 </Button>
                 </div>
-              )}
+              )
+              */
+              }
           </div>
         </div>
         {isAdmin && (

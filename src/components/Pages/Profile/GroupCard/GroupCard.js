@@ -8,14 +8,14 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useNavigate } from "react-router-dom";
-export default function RecipeReviewCard() {
+export default function RecipeReviewCard({group}) {
   const navigate = useNavigate();
 
   return (
     <Card
-      sx={{ maxWidth: 345, cursor:"pointer" }}
+      sx={{marginBottom:"8px", cursor:"pointer"}}
       onClick={() => {
-        navigate("/groups/1");
+        navigate("/groups/"+group.id);
       }}
     >
       <CardHeader
@@ -24,13 +24,9 @@ export default function RecipeReviewCard() {
             R
           </Avatar>
         }
-        action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
-          </IconButton>
-        }
-        title="Club Name"
-        subheader="University"
+    
+        title={group.name?group.name: "Club Name"}
+        subheader={group.uni?group.uni: "University"}
       />
       <CardContent>
         <Typography variant="body2" color="text.secondary">
