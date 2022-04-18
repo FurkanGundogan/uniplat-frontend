@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Grid from "@mui/material/Grid";
 import MainProfileStyles from "./MainProfileStyles";
 import UserAvatar from "../UserAvatar";
@@ -25,26 +25,37 @@ import Acciordion from "./Accordion/Accordion"
 import AdminListModal from "./AdminListModal"
 import CreateClubModal from "./ProfileCreateClub/CreateClubModal";
 import { NewUniPostModalContext } from "../../Contexts/NewUniPostModalContext";
+import { ProfileContext } from "../Profile/ProfileContext";
 const MainProfilePage = () => {
   // const navigate = useNavigate();
   const [tab, setTab] = React.useState(0);
   const mainState = useAuthState(); //read user details from context
+
   const { newPostState, setNewPostState } = useContext(NewPostModalContext);
   const { newUniPostState, setNewUniPostState } = useContext(NewUniPostModalContext);
-  const { username } = useParams();
+  const { userid,uniid } = useParams();
   // bu noktada username yerine user id ile kişi bilgileri için istek yönetimi yapılacak
-  console.log("profil sahibi:", username);
+  console.log("profil sahibi:", userid);
   // bu follow bilgisi bilgilerle kontrol edilecek
   const [follow, setFollow] = useState(false);
   const [settings, setSettings] = useState();
   const [createClubState, setCreateClubState] = useState();
+  const [isAdmin, setIsAdmin] = useState(true);
   const isYourProfile =
-    mainState.user.name + mainState.user.surname === username;
+    mainState.user.id  === userid;
 
+  const { profileState,setProfileState } = useContext(ProfileContext);
+
+ 
+
+  useEffect(() => {
+    
+    setIsAdmin(profileState.userInfo.adminId===mainState.user.id)
+
+  }, [profileState.userInfo]); //eslint-disable-line 
   
 
-  const isAdmin = username==="fatihsultanmehmetvakifuniversitesi";
-  const isUni = username==="fatihsultanmehmetvakifuniversitesi";
+  const isUni = userid==="fatihsultanmehmetvakifuniversitesi";
   // buradaki durum bilgisi istekle yönetilecek
 
   const classes = MainProfileStyles();
@@ -58,28 +69,25 @@ const MainProfilePage = () => {
             <div className={classes.editButtonWrapper}>
               <IconButton
                 aria-label="delete"
-                onClick={() => setSettings({ isopen: true })}
+                onClick={() => setSettings({ ...profileState.userInfo,isopen: true })}
               >
                 <EditIcon />
               </IconButton>
             </div>
           )}
-          <UserAvatar
-            name={mainState.user.name}
-            surname={mainState.user.surname}
-          />
+          <UserAvatar/>
           <Typography variant="body1" className={classes.UserName}>
-            {mainState.user.name} {mainState.user.surname}
+            {profileState.userInfo.name} {profileState.userInfo.surname}
           </Typography>
           <Divider />
           <Typography variant="body1" className={classes.UserName}>
-            {"Fatih Sultan Mehmet Vakıf Universitesi"}
+          {profileState.userUniInfo.name}
           </Typography>
           <Typography variant="body1" className={classes.UserUni}>
             {mainState.user.email}
           </Typography>
           <Typography variant="body1" className={classes.UserDept}>
-            {mainState.user.type}
+          {profileState.userInfo.type}
           </Typography>
           <Divider />
           <div className={classes.LeftSideFollowWrapper}>
@@ -145,7 +153,12 @@ const MainProfilePage = () => {
           <NewPostModal modalState={newUniPostState} setModal={setNewUniPostState} />
         )}
         {settings && (
-          <ProfileSettingsModal settings={settings} setSettings={setSettings} />
+          <ProfileSettingsModal 
+          settings={settings} 
+          setSettings={setSettings} 
+          mainState={mainState} 
+          profileState={profileState}
+          setProfileState={setProfileState} />
         )}
         {createClubState && (
           <CreateClubModal settings={createClubState} setSettings={setCreateClubState} />
@@ -188,14 +201,14 @@ const MainProfilePage = () => {
           </div>
           <div className={classes.CenterTopUserInfoRightSide}>
             <div className={classes.CenterTopUserInfoRightSideUserName}>
-              {mainState.user.name} {mainState.user.surname}
+            {profileState.userInfo.name} {profileState.userInfo.surname}
             </div>
             <div className={classes.CenterTopUserInfoRightSideUniversityName}>
-              {"Fatih Sultan Mehmet Vakıf Universitesi"}
+            {profileState.userUniInfo.name}
             </div>
 
             <div className={classes.CenterTopUserInfoRightSideUserType}>
-              {mainState.user.type}
+            {profileState.userInfo.type}
             </div>
 
             <div className={classes.CenterTopUserInfoRightSideFollowWrapper}>

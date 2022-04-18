@@ -24,6 +24,12 @@ export const AuthReducer = (initialState, action) => {
                 user: action.payload,
                 loading: false
             };
+        case "UPDATE":
+            return {
+                 ...initialState,
+                user: action.payload,
+                loading: false
+            };
         case "LOGOUT":
             return {
                 ...initialState,

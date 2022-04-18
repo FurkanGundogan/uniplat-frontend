@@ -30,10 +30,10 @@ const style = {
   p: 4,
 };
 
-export default function CreateUniModal({ settings, setSettings }) {
+export default function CreateUniModal({ user,settings, setSettings }) {
   const handleSend = async () => {
     if (validate()) {
-      save(settings);
+      save(user,settings);
       
     } else {
       window.scrollTo(0, 0);

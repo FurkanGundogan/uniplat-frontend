@@ -1,27 +1,23 @@
-export const getUniCollection = () => [
-  {
-    id: "123e4567-e89b-12d3-a456-556642440000",
-    title: "Fatih Sultan Mehmet Vakıf Üniversitesi",
-  },
-];
+import axios from "axios"
+
 
 export const getGenderCollection = () => [
-  { id: "FEMALE", title: "Kadın" },
-  { id: "MALE", title: "Erkek" },
+  { id: "FEMALE", name: "Kadın" },
+  { id: "MALE", name: "Erkek" },
 ];
 
 export const getDepartmentCollection = () => [
-  { id: "Bilgisayar Mühendisliği", title: "Bilgisayar Mühendisliği" },
-  { id: "Hukuk", title: "Hukuk" },
-  { id: "İşletme", title: "İşletme" },
+  { id: "Bilgisayar Mühendisliği", name: "Bilgisayar Mühendisliği" },
+  { id: "Hukuk", name: "Hukuk" },
+  { id: "İşletme", name: "İşletme" },
 ];
 
 export const getTypeCollection = () => [
-  { id: "TEACHER", title: "Teacher" },
-  { id: "STUDENT", title: "Student" },
+  { id: "TEACHER", name: "Teacher" },
+  { id: "STUDENT", name: "Student" },
 ];
 
 export const getDegreeCollection = () => [
-  { id: "Lisans", title: "Lisans" },
-  { id: "Ön Lisans", title: "Ön Lisans" },
+  { id: "Lisans", name: "Lisans" },
+  { id: "Ön Lisans", name: "Ön Lisans" },
 ];

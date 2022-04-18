@@ -19,6 +19,7 @@ import ParenSocialPage from "./components/Pages/Social/ParentSocialPage";
 import { GroupContextProvider } from "./components/Pages/Group/GroupContext";
 import { NewUniPostModalContextProvider } from "./components/Contexts/NewUniPostModalContext";
 import { NewClubPostModalContextProvider } from "./components/Contexts/NewClubPostModalContext";
+
 function HomeRoute({ children }) {
   // homepage'e gidebilmek için login olmak gerekiyor, yoksa login sayfasına yönlendirir.
   // bu / route'u için de geçerli
@@ -82,7 +83,20 @@ function AppWrapper() {
           exact
         />
         <Route
-          path="/:username"
+          path="/:userid"
+          element={
+            <HomeRoute>
+              <ProfileContextProvider>
+                <NewUniPostModalContextProvider>
+                  <ParentProfilePage />
+                </NewUniPostModalContextProvider>
+              </ProfileContextProvider>
+            </HomeRoute>
+          }
+          exact
+        />
+         <Route
+          path="/uni/:uniid"
           element={
             <HomeRoute>
               <ProfileContextProvider>

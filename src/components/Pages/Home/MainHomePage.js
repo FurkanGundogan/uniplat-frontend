@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Grid from "@mui/material/Grid";
 import MainHomeStyles from "./MainHomeStyles";
 import UserAvatar from "../UserAvatar";
@@ -13,23 +13,22 @@ import { useAuthDispatch, logout, useAuthState } from "../../Contexts";
 import { useContext } from "react";
 import NewPostModal from "../Post/NewPostModal";
 import { NewPostModalContext } from "../../Contexts/NewPostModalContext";
+import { UserExtraInfoContext } from "../../Contexts/UserExtraInfoContext";
 import PostArea from "../HomePosts/PostArea";
 import "react-awesome-lightbox/build/style.css";
-
 
 const MainHomePage = () => {
   const dispatch = useAuthDispatch(); // read dispatch method from context
   const mainState = useAuthState(); //read user details from context
   const { newPostState, setNewPostState } = useContext(NewPostModalContext);
-
-  console.log(mainState.user);
+  const { userUni } = useContext(UserExtraInfoContext);
+  console.log("home mainstate:", mainState.user);
 
   const handleLogout = () => {
     logout(dispatch);
     window.location.href = "/SignIn";
   };
 
-  
  
 
   const classes = MainHomeStyles();
@@ -37,13 +36,18 @@ const MainHomePage = () => {
     <Grid container className={classes.HomeContainer}>
       <Grid item className={classes.LeftSide}>
         <div className={classes.leftSideInner}>
-          <UserAvatar name={mainState.user.name} surname={mainState.user.surname} />
+          <UserAvatar
+            id={mainState.user.id}
+          />
           <Typography variant="body1" className={classes.UserName}>
             {mainState.user.name} {mainState.user.surname}
           </Typography>
           <Divider />
           <Typography variant="body1" className={classes.UserUni}>
             {mainState.user.email}
+          </Typography>
+          <Typography variant="body1" className={classes.UserUni}>
+            {userUni.name}
           </Typography>
           <Typography variant="body1" className={classes.UserDept}>
             {mainState.user.type}
@@ -90,9 +94,6 @@ const MainHomePage = () => {
         {newPostState && (
           <NewPostModal modalState={newPostState} setModal={setNewPostState} />
         )}
-
-    
-        
 
         <PostArea />
       </Grid>

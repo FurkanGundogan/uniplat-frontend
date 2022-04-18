@@ -10,6 +10,7 @@ export function useAuthState() {
   // Alttaki mycontext: Telden tasarima girebilmek icin auth bariyerini geçmeyi sagliyor,
   // return mycontext olarak çevir
   
+  /*
   const mycontext = {
     user: {
       email: "fru@stu.fsm.edu.tr",
@@ -20,19 +21,19 @@ export function useAuthState() {
       type: "STUDENT",
     },
   }
-  
+  */
   if (context === undefined) {
     throw new Error("useAuthState must be used within a AuthProvider");
   }
 
-  return mycontext;
+  return context;
 }
 
 export function useAuthDispatch() {
   const context = React.useContext(AuthDispatchContext);
    // Alttaki mycontext: Telden tasarima girebilmek icin auth bariyerini geçmeyi sagliyor,
   // return mycontext olarak çevir
-  
+  /*
   const mycontext = {
     user: {
       email: "fru@stu.fsm.edu.tr",
@@ -43,12 +44,12 @@ export function useAuthDispatch() {
       type: "STUDENT",
     },
   }
-  
+  */
   if (context === undefined) {
     throw new Error("useAuthDispatch must be used within a AuthProvider");
   }
 
-  return mycontext;
+  return context;
 }
 
 export const AuthProvider = ({ children }) => {

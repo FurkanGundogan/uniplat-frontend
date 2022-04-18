@@ -1,12 +1,13 @@
 import React, { createContext } from "react";
-import { useState } from "react";
-
+import { useState,useEffect } from "react";
+import { useParams } from "react-router-dom";
+import axios from "axios"
 // burada ve PostContext'de aynı data var
 export const data = [
   {
     id: "postid1",
     type: "Post",
-    owner: "furkangundogan",
+    owner: "1346fd43-e551-4eed-807a-0904c786393f",
     owner_name: "Furkan Gundogan",
     createdAt: "2022-02-19T12:25:00.000Z",
     img: "https://www.casper.com.tr/uploads/2021/02/wallpaper-3.jpg",
@@ -56,7 +57,7 @@ export const data = [
   {
     id: "postid3",
     type: "Event",
-    owner: "fatihsultanmehmetvakifuniversitesi",
+    owner: "b45bbe98-178f-4fd1-b49d-3663c1fce92e",
     owner_name: "Fatih Sultan Mehmet Vakıf Üniversitesi",
     createdAt: "2022-03-01T07:25:00.000Z",
     img: "https://skitguys.com/media/images/video/Light_Flares_Upcoming_Still_LSM-HD.jpg",
@@ -77,7 +78,7 @@ export const data = [
   {
     id: "postid4",
     type: "Post",
-    owner: "fatihsultanmehmetvakifuniversitesi",
+    owner: "b45bbe98-178f-4fd1-b49d-3663c1fce92e",
     owner_name: "Fatih Sultan Mehmet Vakıf Üniversitesi",
     createdAt: "2022-03-01T07:25:00.000Z",
     img: "https://mobilehd.blob.core.windows.net/main/2016/09/berries-food-table-wallpaper.jpg",
@@ -108,7 +109,7 @@ export const data = [
     innerPost: {
       id: "postid1",
       type: "Post",
-      owner: "furkangundogan",
+      owner: "1346fd43-e551-4eed-807a-0904c786393f",
       owner_name: "Furkan Gundogan",
       createdAt: "2022-02-19T12:25:00.000Z",
       img: "https://www.casper.com.tr/uploads/2021/02/wallpaper-3.jpg",
@@ -149,15 +150,115 @@ export const groups = [
   },
 ];
 
+export const userInfo = {
+  id: "",
+  name: "",
+  surname: "",
+  gender: "",
+  birthDate: "2022-04-15T11:44:30.204Z",
+  universityId: "",
+  type: "",
+  description: "",
+  profileImgId: "",
+  messageAccessed: true,
+  version: 0,
+};
+
+export const userUniInfo = {
+  id: "",
+  name: "",
+};
+
 export const ProfileContext = createContext();
 
 export const ProfileContextProvider = ({ children }) => {
-  const [profileState, setProfileState] = useState({ posts: data,groups:groups });
+  const [profileState, setProfileState] = useState({
+    userInfo: userInfo,
+    userUniInfo:userUniInfo,
+    posts: data,
+    groups: groups,
+  });
 
   const value = {
     profileState,
     setProfileState,
   };
+
+  // user bilgileri için istek
+  const { userid } = useParams();
+  const { uniid } = useParams();
+
+
+  const URL_USERS = "http://localhost:8080/users";
+  useEffect(() => {
+    const setUserInfo = async () => {
+    
+      await axios
+        .get(URL_USERS + "/" + userid)
+        .then((response) => {
+          
+          setProfileState({...profileState,userInfo:response.data});
+        })
+        .catch((e) => {
+          console.log("profile-user-info-get-error");
+
+        });
+    };
+    if (userid !== undefined) {
+     
+      setUserInfo();
+    }
+   
+  }, [userid]); //eslint-disable-line 
+
+  // user uni bilgisi için istek
+  const URL_UNIVERSITIES = "http://localhost:8080/universities"
+  useEffect(() => {
+    const setUserUniInfo = async () => {
+      
+      await axios
+        .get(URL_UNIVERSITIES + "/" + profileState.userInfo.universityId)
+        .then((response) => {
+         
+          setProfileState({...profileState,userUniInfo:response.data});
+        })
+        .catch((e) => {
+          console.log("profile-user-Uni-info-get-error");
+        });
+    };
+    if (userid !== undefined && profileState.userInfo.universityId !== "") {
+     
+      setUserUniInfo();
+    }
+    
+  }, [profileState.userInfo]); //eslint-disable-line 
+
+
+
+  // uni/id   uni profil sayfasi ise veri getirme
+ 
+
+
+  useEffect(() => {
+    const setInfoAsUni = async () => {
+      await axios
+        .get(URL_UNIVERSITIES + "/" +uniid)
+        .then((response) => {
+          
+          setProfileState({...profileState,userInfo:response.data});
+        })
+        .catch((e) => {
+          console.log("Uni-profil-get-error");
+        });
+    };
+    if (uniid !== undefined ) {
+    
+      setInfoAsUni();
+    }
+    
+  }, [uniid]); //eslint-disable-line 
+
+
 
   return (
     <ProfileContext.Provider value={value}>{children}</ProfileContext.Provider>

@@ -25,6 +25,7 @@ import * as SelectService from "./SelectService";
 import InputStyles from "./InputStyles";
 import axios from "axios";
 import RegisterSuccessAlert from "./RegisterSuccessAlert";
+import { useEffect } from "react";
 //theme için makeStyles,classess yapılarını kullanıyoruz
 // globalden body'i style verdiğimiz için classess şimdilik kullanılmadı
 const useStyles = makeStyles((theme) => ({
@@ -182,6 +183,17 @@ const SignUpPage = () => {
     if (status === 200) {
       setAlertType("success");
       setAlertMsg("Register Sucess");
+      // olusturulan kullaniciyi uniye ekleme
+      axios("http://localhost:8080/university-users", {
+        method: "POST",
+        header: { "Content-type": "application/json" },
+        data: {
+          universityId:values.universityId,
+          userId:response.data.id
+        },
+      }).then((response) => {
+        console.log("Uni Ekleme Response:", response);
+      });
     } else if (status === 404) {
       setAlertType("error");
       setAlertMsg("Register Failed");
@@ -231,6 +243,26 @@ const SignUpPage = () => {
   //theme için
   const classes = useStyles();
   const selectionClasses = InputStyles();
+
+  const [uniList, setUniList] = React.useState([
+    {
+      id: "123e4567-e89b-12d3-a456-556642440000",
+      name: "Fatih Sultan Mehmet Vakıf Üniversitesi",
+    },
+  ]);
+  useEffect(() => {
+    const URL_UNIVERSITIES = "http://localhost:8080/universities";
+    axios
+      .get(URL_UNIVERSITIES + "?page=0&size=10")
+      .then((response) => {
+        console.log("res:", response.data.content);
+        setUniList(response.data.content);
+      })
+      .catch((e) => {
+        console.log("getall-uni-error");
+      });
+  }, []);
+
   return (
     <Container component="main" maxWidth="sm">
       {showAlert && (
@@ -357,7 +389,7 @@ const SignUpPage = () => {
                   label="University"
                   onChange={handleInputChange}
                   value={values.universityId}
-                  options={SelectService.getUniCollection()}
+                  options={uniList}
                   error={errors.universityId}
                 ></MySelect>
               </Box>

@@ -18,6 +18,10 @@ import { save } from "./actions";
 import CropEasy from "./crop/CropEasy";
 import { Avatar } from "@mui/material";
 import SaveAsIcon from "@mui/icons-material/SaveAs";
+import { useNavigate } from "react-router-dom";
+import { useAuthState,useAuthDispatch } from "../../../Contexts";
+import { useContext } from "react";
+import { UserExtraInfoContext } from "../../../Contexts/UserExtraInfoContext";
 const style = {
   position: "absolute",
 
@@ -30,10 +34,15 @@ const style = {
   p: 4,
 };
 
-export default function ProfileSettingsModal({ settings, setSettings }) {
+export default function ProfileSettingsModal({ settings, setSettings,mainState,profileState,setProfileState }) {
+  const dispatch = useAuthDispatch(); // read dispatch method from context
+  let navigate = useNavigate();
+  const { userImg } = useContext(UserExtraInfoContext);
   const handleSend = async () => {
     if (validate()) {
-      save(settings);
+      save(settings,mainState,dispatch,profileState,setProfileState);
+      setSettings({...settings,isopen:false})
+      navigate("/"+mainState.user.id)
     } else {
       window.scrollTo(0, 0);
     }
@@ -86,7 +95,7 @@ export default function ProfileSettingsModal({ settings, setSettings }) {
             >
               <KeyboardBackspaceIcon />
             </IconButton>
-            <div className={classes.title}>Your Account {settings.type}</div>
+            <div className={classes.title}>Your Account</div>
             <div className={classes.middleArea}>
               <div className={classes.avatarWrapper}>
                 <label htmlFor="icon-button-file">
@@ -127,7 +136,7 @@ export default function ProfileSettingsModal({ settings, setSettings }) {
                     src={
                       settings.selectedFile
                         ? settings.selectedFile
-                        : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqjYWb_kZ7jZ_aCJJdFjLqxS-DBaGsJGxopg&usqp=CAU"
+                        : userImg
                     }
                     sx={{ width: 100, height: 100, cursor: "pointer" }}
                   />
@@ -159,7 +168,8 @@ export default function ProfileSettingsModal({ settings, setSettings }) {
               <div className={classes.inputAreaWrapper}>
                 <TextField
                   id="multiline-static"
-                  placeholder="Name"
+                  placeholder={settings.name}
+                  value={settings.name}
                   className={classes.text}
                   onChange={(e) => {
                     setSettings({ ...settings, name: e.target.value });
@@ -167,7 +177,8 @@ export default function ProfileSettingsModal({ settings, setSettings }) {
                 />
                 <TextField
                   id="multiline-static"
-                  placeholder="Surname"
+                  placeholder={settings.surname}
+                  value={settings.surname}
                   className={classes.text}
                   onChange={(e) => {
                     setSettings({ ...settings, surname: e.target.value });
@@ -175,10 +186,11 @@ export default function ProfileSettingsModal({ settings, setSettings }) {
                 />
                 <TextField
                   id="multiline-static"
-                  placeholder="About You"
+                  placeholder={settings.description!==null?settings.description:"About You"}
+                  value={settings.description}
                   className={classes.text}
                   onChange={(e) => {
-                    setSettings({ ...settings, about: e.target.value });
+                    setSettings({ ...settings, description: e.target.value });
                   }}
                 />
               </div>

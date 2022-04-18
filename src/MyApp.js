@@ -1,33 +1,26 @@
 import React from "react";
-import {
-  BrowserRouter,
-} from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import { AuthProvider } from "./components/Contexts";
-
 
 import { NewPostModalContextProvider } from "./components/Contexts/NewPostModalContext";
 
 import { PostsContextProvider } from "./components/Pages/HomePosts/PostsContext";
 
-
-
 import AppWrapper from "./AppWrapper";
-
-
+import { UserExtraInfoContextProvider } from "./components/Contexts/UserExtraInfoContext";
 
 function MyApp() {
-  
   return (
     <AuthProvider>
-      <NewPostModalContextProvider>
-        
+      <UserExtraInfoContextProvider>
+        <NewPostModalContextProvider>
           <PostsContextProvider>
             <BrowserRouter>
-              <AppWrapper/>
+              <AppWrapper />
             </BrowserRouter>
           </PostsContextProvider>
-        
-      </NewPostModalContextProvider>
+        </NewPostModalContextProvider>
+      </UserExtraInfoContextProvider>
     </AuthProvider>
   );
 }

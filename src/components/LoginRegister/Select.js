@@ -11,7 +11,7 @@ import InputStyles from "./InputStyles";
 export default function MySelect(props) {
   const classes = InputStyles();
   const { name, label, value, error = null, onChange, options } = props;
-
+console.log("opt",options)
   return (
     <FormControl
       variant="outlined"
@@ -21,9 +21,9 @@ export default function MySelect(props) {
     >
       <InputLabel>{label}</InputLabel>
       <MuiSelect label={label} name={name} value={value} onChange={onChange}>
-        {options.map((item) => (
+        {options && options.map((item) => (
           <MenuItem key={item.id} value={item.id}>
-            {item.title}
+            {item.name}
           </MenuItem>
         ))}
       </MuiSelect>

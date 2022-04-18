@@ -18,7 +18,7 @@ const MainSocialPage = () => {
   console.log(mainState.user);
   const [createUniState, setCreateUniState] = useState();
   const [createClubState, setCreateClubState] = useState();
-  const [isTeacher, setTeacher] = useState(true);
+  const [isTeacher, setTeacher] = useState(mainState.user.type==="TEACHER");
   const classes = MainSocialPageStyles();
   return (
     <Grid container className={classes.HomeContainer}>
@@ -62,6 +62,7 @@ const MainSocialPage = () => {
         )}
         {createUniState && (
           <CreateUniModal
+            user={mainState.user}
             settings={createUniState}
             setSettings={setCreateUniState}
           />

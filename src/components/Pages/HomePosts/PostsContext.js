@@ -5,7 +5,7 @@ export const data=[
     {
       id:"postid1",
       type:"Post",
-      owner:"furkangundogan",
+      owner:"1346fd43-e551-4eed-807a-0904c786393f",
       owner_name:"Furkan Gundogan",
       createdAt:"2022-02-19T12:25:00.000Z",
       img:"https://www.casper.com.tr/uploads/2021/02/wallpaper-3.jpg",
@@ -51,7 +51,7 @@ export const data=[
     {
       id:"postid3",
       type:"Event",
-      owner:"fatihsultanmehmetvakifuniversitesi",
+      owner:"b45bbe98-178f-4fd1-b49d-3663c1fce92e",
       owner_name:"Fatih Sultan Mehmet Vakıf Üniversitesi",
       createdAt:"2022-03-01T07:25:00.000Z",
       img:"https://skitguys.com/media/images/video/Light_Flares_Upcoming_Still_LSM-HD.jpg",
@@ -71,7 +71,7 @@ export const data=[
     {
       id:"postid4",
       type:"Post",
-      owner:"fatihsultanmehmetvakifuniversitesi",
+      owner:"b45bbe98-178f-4fd1-b49d-3663c1fce92e",
       owner_name:"Fatih Sultan Mehmet Vakıf Üniversitesi",
       createdAt:"2022-03-01T07:25:00.000Z",
       img:"https://mobilehd.blob.core.windows.net/main/2016/09/berries-food-table-wallpaper.jpg",
@@ -101,7 +101,7 @@ export const data=[
       {
         id:"postid1",
         type:"Post",
-        owner:"furkangundogan",
+        owner:"1346fd43-e551-4eed-807a-0904c786393f",
         owner_name:"Furkan Gundogan",
         createdAt:"2022-02-19T12:25:00.000Z",
         img:"https://www.casper.com.tr/uploads/2021/02/wallpaper-3.jpg",

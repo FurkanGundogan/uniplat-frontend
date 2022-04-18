@@ -1,14 +1,36 @@
-
-export const save = (settings) => {
+import axios from "axios"
+export const save = (user,settings) => {
   const { name,about, selectedFile } = settings;
   const bodyFormData = getFile(selectedFile);
   if (bodyFormData === null) {
-    // görselsiz
+    // görselsiz    
     console.log({ name,about });
   } else {
     // görselli
     console.log({ name,about, selectedFile, bodyFormData });
   }
+
+  axios("http://localhost:8080/universities", {
+    method: "POST",
+    header: { "Content-type": "application/json" },
+    data: {
+      name:name,
+      adminId:user.id
+    },
+  })
+    .then((response) => {
+      console.log("new uni response:", response);
+      
+      //setAlert(true);
+      //window.scrollTo(0, 0);
+    })
+    .catch((error) => {
+      console.log(error)
+      //setAlertType("error");
+      //setAlertMsg(error.response.data.message);
+      //setAlert(true);
+    });
+
 };
 
 const getFile = (selectedFile) => {
