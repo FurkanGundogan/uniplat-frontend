@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Grid from "@mui/material/Grid";
 import MainHomeStyles from "./MainHomeStyles";
 import UserAvatar from "../UserAvatar";
@@ -22,6 +22,7 @@ const MainHomePage = () => {
   const mainState = useAuthState(); //read user details from context
   const { newPostState, setNewPostState } = useContext(NewPostModalContext);
   const { userUni } = useContext(UserExtraInfoContext);
+  
   console.log("home mainstate:", mainState.user);
 
   const handleLogout = () => {
@@ -38,19 +39,21 @@ const MainHomePage = () => {
         <div className={classes.leftSideInner}>
           <UserAvatar
             id={mainState.user.id}
+            profileImgId={mainState.user.profileImgId}
           />
           <Typography variant="body1" className={classes.UserName}>
             {mainState.user.name} {mainState.user.surname}
           </Typography>
           <Divider />
-          <Typography variant="body1" className={classes.UserUni}>
-            {mainState.user.email}
-          </Typography>
+
           <Typography variant="body1" className={classes.UserUni}>
             {userUni.name}
           </Typography>
           <Typography variant="body1" className={classes.UserDept}>
             {mainState.user.type}
+          </Typography>
+          <Typography variant="body1" className={classes.UserDept}>
+            {mainState.user.description}
           </Typography>
           <div className={classes.LeftSideButtonWrapper}>
             <Button

@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import GroupSettingsModalStyles from "./GroupSettingsModalStyles";
+import ClubSettingsModalStyles from "./ClubSettingsModalStyles";
 import IconButton from "@mui/material/IconButton";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import ClearIcon from "@mui/icons-material/Clear";
@@ -12,12 +12,14 @@ import {
   validateFileSize,
   validateFileExtension,
 } from "./ValidationFunctions";
-import GroupSettingsAlert from "./GroupSettingsAlert";
+import ClubSettingsAlert from "./ClubSettingsAlert";
 import { useState } from "react";
 import { save } from "./actions";
 import CropEasy from "./crop/CropEasy";
 import { Avatar } from "@mui/material";
 import SaveAsIcon from "@mui/icons-material/SaveAs";
+import { blankavatarurl,URL_FILES } from "../../../Contexts/Paths";
+// import { useNavigate } from "react-router-dom";
 const style = {
   position: "absolute",
 
@@ -30,10 +32,19 @@ const style = {
   p: 4,
 };
 
-export default function GroupSettingsModal({ settings, setSettings }) {
+export default function ClubSettingsModal({ settings, setSettings,clubState,setClubState }) {
+  //let navigate = useNavigate();
+  console.log(settings)
+
+  const [avatar,setAvatar]=useState(clubState.clubInfo.profileImgId?
+    URL_FILES+"/"+clubState.clubInfo.profileImgId : blankavatarurl)
+
   const handleSend = async () => {
     if (validate()) {
-      save(settings);
+      save(settings, clubState, setClubState);
+      setSettings({...settings,isopen:false})
+      // window.location.href="/clubs/"+clubState.clubInfo.id
+      
     } else {
       window.scrollTo(0, 0);
     }
@@ -59,7 +70,7 @@ export default function GroupSettingsModal({ settings, setSettings }) {
 
   const [alertState, setAlert] = useState({ msg: "", isOpen: false });
 
-  const classes = GroupSettingsModalStyles();
+  const classes = ClubSettingsModalStyles();
 
   return (
     <div>
@@ -73,7 +84,7 @@ export default function GroupSettingsModal({ settings, setSettings }) {
       >
         <Box sx={style} className={classes.modalBox}>
           <div className={classes.innerGlobal}>
-            <GroupSettingsAlert alertState={alertState} setAlert={setAlert} />
+            <ClubSettingsAlert alertState={alertState} setAlert={setAlert} />
             <IconButton
               aria-label="back"
               onClick={() => {
@@ -120,19 +131,30 @@ export default function GroupSettingsModal({ settings, setSettings }) {
                   />
                   <Avatar
                     alt="Remy Sharp"
-                    src={
-                      settings.selectedFile
-                        ? settings.selectedFile
-                        : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqjYWb_kZ7jZ_aCJJdFjLqxS-DBaGsJGxopg&usqp=CAU"
-                    }
+                    src={avatar}
                     sx={{ width: 100, height: 100, cursor: "pointer" }}
                   />
                 </label>
                 
                 {
-                settings.selectedFile!==undefined && settings.selectedFile!==null
-                && <div className={classes.RemovePhotoText} onClick={()=>setSettings({...settings,selectedFile:null})}>Remove Photo</div>
-                }
+                  avatar!==blankavatarurl &&
+               
+                  (
+                    <div
+                      className={classes.RemovePhotoText}
+                      onClick={() => {
+                        setSettings({
+                          ...settings,
+                          originalFile:null,
+                          selectedFile: null,
+                          cropModalOpen: false,
+                        });
+                        setAvatar(blankavatarurl)
+                      }}
+                    >
+                      Remove Photo
+                    </div>
+                  )}
                 
                 </div>
               
@@ -147,7 +169,7 @@ export default function GroupSettingsModal({ settings, setSettings }) {
 
                   <div>
                     {settings.cropModalOpen && (
-                      <CropEasy {...{ settings, setSettings }} />
+                      <CropEasy {...{ settings, setSettings,setAvatar }} />
                     )}
                   </div>
                 </div>
@@ -155,12 +177,14 @@ export default function GroupSettingsModal({ settings, setSettings }) {
               <div className={classes.inputAreaWrapper}>
                 <TextField
                   id="multiline-static"
-                  placeholder="Club Name"
+                  value={settings.name}
+                  placeholder={settings.name}
                   className={classes.text}
                   onChange={(e) => {
                     setSettings({ ...settings, name: e.target.value });
                   }}
                 />
+                {/*
                 <TextField
                   id="multiline-static"
                   placeholder="About Club"
@@ -169,6 +193,8 @@ export default function GroupSettingsModal({ settings, setSettings }) {
                     setSettings({ ...settings, about: e.target.value });
                   }}
                 />
+                */
+              }
               </div>
             </div>
             <div className={classes.bottom}>

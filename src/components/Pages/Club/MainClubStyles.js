@@ -1,6 +1,6 @@
 import { makeStyles } from "@mui/styles";
 
-const MainGroupStyles = makeStyles((theme) => ({
+const MainClubStyles = makeStyles((theme) => ({
   HomeContainer: {
     padding: theme.spacing(12, 0, 0, 0),
     [theme.breakpoints.down("sm")]: {
@@ -100,7 +100,7 @@ const MainGroupStyles = makeStyles((theme) => ({
     },
   },
   LeftSideFollowWrapper: {
-    display: "flex",
+
     justifyContent: "space-between",
   },
   mytabs: {
@@ -268,4 +268,4 @@ const MainGroupStyles = makeStyles((theme) => ({
   },
 }));
 
-export default MainGroupStyles;
+export default MainClubStyles;

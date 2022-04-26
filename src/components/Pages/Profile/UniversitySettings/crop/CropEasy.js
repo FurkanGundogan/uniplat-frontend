@@ -13,7 +13,7 @@ import React, { useState, useEffect } from "react";
 import Cropper from "react-easy-crop";
 import getCroppedImg from "./utils/cropImage";
 
-const CropEasy = ({ settings, setSettings }) => {
+const CropEasy = ({ settings, setSettings,setAvatar }) => {
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [aspect, setAspect] = useState(1 / 1);
@@ -41,9 +41,12 @@ const CropEasy = ({ settings, setSettings }) => {
       );
       setSettings({
         ...settings,
+        originalFile:file,
         selectedFile: URL.createObjectURL(file),
         cropModalOpen: false,
       });
+      setAvatar(URL.createObjectURL(file))
+
     } catch (error) {
       console.log(error);
     }

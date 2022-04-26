@@ -5,7 +5,7 @@ import SignInPage from "./components/LoginRegister/SignInPage";
 import SignUpPage from "./components/LoginRegister/SignUpPage";
 import ParentHomePage from "./components/Pages/Home/ParentHomePage";
 import ParentProfilePage from "./components/Pages/Profile/ParentProfilePage";
-import ParentGroupPage from "./components/Pages/Group/ParentGroupPage";
+import ParentClubPage from "./components/Pages/Club/ParentClubPage";
 import { useAuthState } from "./components/Contexts";
 
 import ScrollToTop from "./components/Contexts/ScrollToTop";
@@ -16,7 +16,7 @@ import ParentNotificationPage from "./components/Pages/Notifications/ParentNotif
 
 import PostOriginalSizeImagePage from "./components/Pages/PostOriginalSizeImage/PostOriginalSizeImagePage";
 import ParenSocialPage from "./components/Pages/Social/ParentSocialPage";
-import { GroupContextProvider } from "./components/Pages/Group/GroupContext";
+import { ClubContextProvider } from "./components/Pages/Club/ClubContext";
 import { NewUniPostModalContextProvider } from "./components/Contexts/NewUniPostModalContext";
 import { NewClubPostModalContextProvider } from "./components/Contexts/NewClubPostModalContext";
 
@@ -136,14 +136,14 @@ function AppWrapper() {
           exact
         />
         <Route
-          path="/groups/:groupID"
+          path="/clubs/:clubID"
           element={
             <HomeRoute>
-              <GroupContextProvider>
+              <ClubContextProvider>
                 <NewClubPostModalContextProvider>
-                  <ParentGroupPage />
+                  <ParentClubPage />
                 </NewClubPostModalContextProvider>
-              </GroupContextProvider>
+              </ClubContextProvider>
             </HomeRoute>
           }
           exact

@@ -8,7 +8,7 @@ import { useLocation } from "react-router-dom";
 
 function GroupArea() {
   
-  const {profileState,setProfileState} = useContext(ProfileContext)
+  const {profileState} = useContext(ProfileContext)
     const classes= MainProfileStyles();
     const locstate = useLocation();
     const owner=locstate.pathname.split('/')[1]

@@ -2,21 +2,26 @@ import React, { createContext, useEffect } from "react";
 import { useState } from "react";
 import axios from "axios";
 import { useAuthState } from ".";
+import { URL_FILES,URL_UNIVERSITIES,URL_USER_CLUBS_BY_USERID } from "./Paths";
+
 export const UserExtraInfoContext = createContext();
 
 export const UserExtraInfoContextProvider = ({ children }) => {
   const [userUni, setUserUni] = useState({ name: "" });
   const [userImg, setUserImg] = useState();
+  const [userClubs, setUserClubs] = useState();
   const mainState = useAuthState(); //read user details from context
-
+  
   const value = {
     userUni,
     setUserUni,
     userImg,
-    setUserImg
+    setUserImg,
+    userClubs,
+    setUserClubs,
   };
 //mainstate'de uni adı bilgisi yok. ek bir context ekledik
-  const URL_UNIVERSITIES = "http://localhost:8080/universities";
+ 
   useEffect(() => {
     const getuni = async () => {
       await axios
@@ -37,21 +42,39 @@ export const UserExtraInfoContextProvider = ({ children }) => {
 
 
   //mainstate'de img url bilgisi yok. ek bir context ekledik
-  const URL_FILES = "http://localhost:8080/files";
+  
   useEffect(() => {
-    const getImgUrl = async () => {
-      await axios
-        .get(URL_FILES + "/" + mainState.user.profileImgId)
-        .then((response) => {
-          
-          setUserImg(response.data);
-        })
-        .catch((e) => {
-          console.log("user-img-url-context-info-get-error");
-        });
+    
+    const getImgUrl = () => {
+      if(mainState.user.profileImgId === ""){
+        setUserImg(null);
+        return
+      }
+      setUserImg(URL_FILES+"/"+mainState.user.profileImgId);
     };
     if (mainState.user.profileImgId !== undefined) {
       getImgUrl();
+    }
+    // burada dependency mainstate olunca ilk loginde de çalışıyor
+  }, [mainState]);
+
+
+  useEffect(() => {
+    const getUserClubs = async () => {
+      console.log("adres:",URL_USER_CLUBS_BY_USERID+ mainState.user.id)
+      await axios
+        .get(URL_USER_CLUBS_BY_USERID+ mainState.user.id)
+        .then((response) => {
+          
+          setUserClubs(response.data.content);
+        })
+        .catch((e) => {
+          console.log("user-clubs context-info-get-error");
+        });
+    };
+    if (mainState.user.id !== undefined) {
+      getUserClubs();
+      
     }
     // burada dependency mainstate olunca ilk loginde de çalışıyor
   }, [mainState]);

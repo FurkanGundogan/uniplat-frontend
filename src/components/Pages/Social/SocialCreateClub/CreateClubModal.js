@@ -18,6 +18,7 @@ import { save } from "./actions";
 import CropEasy from "./crop/CropEasy";
 import { Avatar } from "@mui/material";
 import SaveAsIcon from "@mui/icons-material/SaveAs";
+import { blankavatarurl } from "../../../Contexts/Paths";
 const style = {
   position: "absolute",
 
@@ -30,11 +31,18 @@ const style = {
   p: 4,
 };
 
-export default function CreateClubModal({ settings, setSettings }) {
+export default function CreateClubModal({
+  settings,
+  setSettings,
+  adminId,
+  profileImgId,
+  universityId,
+}) {
+
+  console.log("settings club modal:",settings)
   const handleSend = async () => {
     if (validate()) {
-      save(settings);
-      
+      save({ ...settings, adminId: adminId, universityId: universityId });
     } else {
       window.scrollTo(0, 0);
     }
@@ -124,19 +132,32 @@ export default function CreateClubModal({ settings, setSettings }) {
                     src={
                       settings.selectedFile
                         ? settings.selectedFile
-                        : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqjYWb_kZ7jZ_aCJJdFjLqxS-DBaGsJGxopg&usqp=CAU"
+                        : blankavatarurl
                     }
                     sx={{ width: 100, height: 100, cursor: "pointer" }}
                   />
                 </label>
-                
+
                 {
-                settings.selectedFile!==undefined && settings.selectedFile!==null
-                && <div className={classes.RemovePhotoText} onClick={()=>setSettings({...settings,selectedFile:null})}>Remove Photo</div>
-                }
-                
-                </div>
-              
+                settings?.selectedFile !== undefined &&
+                settings?.selectedFile !== null &&
+                  (
+                    <div
+                      className={classes.RemovePhotoText}
+                      onClick={() => {
+                        setSettings({
+                          ...settings,
+                          originalFile:null,
+                          selectedFile: null,
+                          cropModalOpen: false,
+                        });
+                      }}
+                    >
+                      Remove Photo
+                    </div>
+                  )}
+              </div>
+
               {settings.selectedFile && (
                 <div className={classes.mediaArea}>
                   <ClearIcon
@@ -162,6 +183,7 @@ export default function CreateClubModal({ settings, setSettings }) {
                     setSettings({ ...settings, name: e.target.value });
                   }}
                 />
+                {/*
                 <TextField
                   id="multiline-static"
                   placeholder="About Club"
@@ -170,6 +192,7 @@ export default function CreateClubModal({ settings, setSettings }) {
                     setSettings({ ...settings, about: e.target.value });
                   }}
                 />
+                  */}
               </div>
             </div>
             <div className={classes.bottom}>

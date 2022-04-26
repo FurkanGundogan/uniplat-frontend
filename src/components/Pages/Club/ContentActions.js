@@ -1,5 +1,5 @@
-import GroupPostArea from './GroupPostArea'
-import GroupEventArea from './GroupEventArea'
+import ClubPostArea from './ClubPostArea'
+import ClubEventArea from './ClubEventArea'
 import Members from './Members';
 
 export const getContent = (index) => {
@@ -7,10 +7,10 @@ export const getContent = (index) => {
   
   switch (index) {
     case 0:
-      return <GroupPostArea/>;
+      return <ClubPostArea/>;
       
     case 1:
-      return <GroupEventArea/>;
+      return <ClubEventArea/>;
       
     case 2:
       return "SURVEYS"

@@ -1,6 +1,7 @@
 import axios from "axios";
-const URL_USERS = "http://localhost:8080/users";
-const URL_FILES = "http://localhost:8080/files";
+import { URL_USERS,URL_FILES,URL_UNIVERSITIES } from "../../../Contexts/Paths";
+
+// buradaki edit, uni ve club ile aynı işi yapıyor. Ama kod benzer şekilde düzenlenmedi
 export const save = (
   settings,
   mainState,
@@ -8,30 +9,33 @@ export const save = (
   profileState,
   setProfileState
 ) => {
-  const { name, surname, description, selectedFile } = settings;
-  const bodyFormData = getFile(selectedFile);
+  const { name, surname,profileImgId,universityId, description,originalFile } = settings;
+  const bodyFormData = getFile(originalFile);
   if (bodyFormData === null) {
     // görselsiz
-    console.log({ name, surname, description });
     editReq({
       mainState,
       dispatch,
+      profileImgId,
       profileState,
       setProfileState,
       name,
+      universityId,
       surname,
       description,
     });
   } else {
     // görselli
-    console.log({ name, surname, description, selectedFile, bodyFormData });
+ 
     editReq({
       mainState,
       dispatch,
       profileState,
       setProfileState,
+      profileImgId,
       name,
       surname,
+      universityId,
       description,
       bodyFormData,
     });
@@ -45,6 +49,8 @@ export const editReq = ({
   setProfileState,
   name,
   surname,
+  universityId,
+  profileImgId,
   description,
   bodyFormData,
 }) => {
@@ -52,43 +58,39 @@ export const editReq = ({
     ...mainState.user,
     name: name,
     surname: surname,
+    profileImgId:profileImgId,
     description: description,
+    universityId:universityId,
     version: mainState.user.version,
     password: "123123",
   };
-  console.log("uu:", updateduser);
 
-  
 
   if (bodyFormData !== undefined) {
     // varsa önce file'ı yükle sonra user'ı update et
-    let fileid=""
-    console.log("formdata:",bodyFormData)
+
+    console.log("uu:", updateduser);
+    console.log("gonderilen formdata:", bodyFormData);
     axios(URL_FILES, {
-        method: "POST",
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-        data:bodyFormData,
-        
-      })
+      method: "POST",
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+      data: bodyFormData,
+    })
       .then((fileresponse) => {
-        console.log("file created", fileresponse);
         axios(URL_USERS + "/" + mainState.user.id, {
           method: "PATCH",
           header: { "Content-type": "application/json" },
-          data: {...updateduser,profileImgId:fileresponse.data.id},
+          data: { ...updateduser, profileImgId: fileresponse.data.id },
         })
           .then((response) => {
-           // console.log("user update edildi 1 ",response)
-           // console.log("asd:",fileresponse.id.data.id)
-            //console.log("User Update Response:", response);
+    
             dispatch({ type: "UPDATE", payload: response.data });
-            //console.log("user update edildi dispatch oldu 2")
+      
             localStorage.setItem("currentUser", JSON.stringify(response.data));
-            //console.log("user update edildi locale kayıt oldu 3")
+            
             setProfileState({ ...profileState, userInfo: response.data });
-            console.log("user update edildi state setlendi 4")
            
           })
           .catch((userupdateerror) => {
@@ -99,17 +101,19 @@ export const editReq = ({
         console.log("file create error");
       });
   } else {
-      // file yoksa direkt user'ı update et
+    // file yoksa direkt user'ı update et
+    console.log("uu:", updateduser);
     axios(URL_USERS + "/" + mainState.user.id, {
       method: "PATCH",
       header: { "Content-type": "application/json" },
       data: updateduser,
     })
       .then((response) => {
-        console.log("User Update Response:", response);
+        
         dispatch({ type: "UPDATE", payload: response.data });
         localStorage.setItem("currentUser", JSON.stringify(response.data));
         setProfileState({ ...profileState, userInfo: response.data });
+        console.log("User Update Response:", response);
       })
       .catch((error) => {
         console.log("User Update Error");
@@ -117,35 +121,30 @@ export const editReq = ({
   }
 };
 
-const getFile = (selectedFile) => {
+const getFile = (originalFile) => {
   // bu fonksiyonu sendPost ve sendEvent Kullaniyor
-  if (selectedFile !== undefined && selectedFile !== null) {
+  if (originalFile !== undefined && originalFile !== null) {
+    
     const bodyFormData = new FormData();
+    bodyFormData.append("file", originalFile,originalFile.name);
 
-    // daha önceden file'ı blob'a çevirmiştik.
-    // şimdi tekrar file'a çeviriyoruz
-    // sebebi, img bileşenin src'u file iken state değişirken sürekli network isteği oluşturuyordu.
-    const f = new File([selectedFile], "file_name");
-
-    bodyFormData.append("file", f, f.name);
     return bodyFormData;
   }
   return null;
 };
 
-/*
-axios({
-  method: "post",
-  url: "myurl",
-  data: bodyFormData,
-  headers: { "Content-Type": "multipart/form-data" },
-})
-  .then(function (response) {
-    //handle success
-    console.log(response);
-  })
-  .catch(function (response) {
-    //handle error
-    console.log(response);
-  });
-*/
+
+export const getUniversitiesForEdit = (setUniList) => {
+  
+  axios
+    .get(URL_UNIVERSITIES + "?page=0&size=10")
+    .then((response) => { 
+      setUniList(response.data.content);
+    })
+    .catch((e) => {
+      console.log("useredit-getall-uni-error");
+    });
+ 
+};
+
+

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Grid from "@mui/material/Grid";
-import MainGroupStyles from "./MainGroupStyles";
+import MainClubStyles from "./MainClubStyles";
 import UserAvatar from "../UserAvatar";
 import Divider from "@mui/material/Divider";
 import Typography from "@mui/material/Typography";
@@ -14,9 +14,8 @@ import { NewPostModalContext } from "../../Contexts/NewPostModalContext";
 import MyTabs from "./MyTabs";
 import Avatar from "@mui/material/Avatar";
 import Content from "./Content";
-import { useParams } from "react-router-dom";
 import "react-awesome-lightbox/build/style.css";
-import GroupSettingsModal from "./GroupSettings/GroupSettingsModal";
+import ClubSettingsModal from "./ClubSettings/ClubSettingsModal";
 import StarIcon from "@mui/icons-material/Star";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -25,25 +24,43 @@ import Acciordion from "./Accordion/Accordion";
 import AdminListModal from "./AdminListModal";
 import RequestListModal from "./RequestListModal";
 import { NewClubPostModalContext } from "../../Contexts/NewClubPostModalContext";
-const MainGroupPage = () => {
+import { ClubContext } from "./ClubContext";
+import { join,leave } from "./PanelActions";
+const MainClubPage = () => {
   // const navigate = useNavigate();
   const [tab, setTab] = React.useState(0);
   const mainState = useAuthState(); //read user details from context
+  const { clubState, setClubState } = useContext(ClubContext);
   const { newPostState, setNewPostState } = useContext(NewPostModalContext);
   const { newClubPostState, setNewClubPostState } = useContext(NewClubPostModalContext);
-  const { groupID } = useParams();
 
-  console.log("groupid:", groupID);
+ 
+
   // bu follow bilgisi bilgilerle kontrol edilecek
   const [follow, setFollow] = useState(false);
   const [settings, setSettings] = useState();
 
-  const isAdmin = groupID === "1";
-  // const isMember = groupID === "2";
+  const isAdmin = mainState.user.id === clubState.clubInfo.adminId;
+  const isMember = clubState.isMember
+  console.log("Club Admin?: ",isAdmin)
+  console.log("Club Member?: ",isMember,clubState.memberShip)
+  // const isMember = clubID === "2";
   // const [joinReq, setJoinReq] = useState(false);
-  const classes = MainGroupStyles();
+  const classes = MainClubStyles();
   const [showAdminList, setShowAdminList] = React.useState(false);
   const [showJoinReqList, setJoinReqList] = React.useState(false);
+
+  const handleJoin = async () => {
+   join(mainState.user.id,clubState.clubInfo.id,clubState,setClubState)
+  
+  }
+  const handleLeave = () => {
+     // join(mainState.user.id,clubState.clubInfo.id)
+     leave(clubState.memberShip,clubState,setClubState)
+  }
+
+
+  console.log("state:",clubState)
   return (
     <Grid id={"xyz"} container className={classes.HomeContainer}>
       <AdminListModal
@@ -60,7 +77,7 @@ const MainGroupPage = () => {
             <div className={classes.editButtonWrapper}>
               <IconButton
                 aria-label="delete"
-                onClick={() => setSettings({ isopen: true })}
+                onClick={() => setSettings({  ...clubState.clubInfo,isopen: true })}
               >
                 <EditIcon />
               </IconButton>
@@ -71,22 +88,27 @@ const MainGroupPage = () => {
             surname={mainState.user.surname}
           />
           <Typography variant="body1" className={classes.UserName}>
-            {"Club Title"}
+            {clubState.clubInfo.name}
           </Typography>
           <Divider />
           <Typography variant="body1" className={classes.UserName}>
-            {"Related Uni Name"}
+          {clubState.clubUniInfo.name}
           </Typography>
           <Divider />
           <div className={classes.LeftSideFollowWrapper}>
             <Typography variant="body2" className={classes.UserDept}>
-              {"2 Members"}
             </Typography>
             <Typography variant="body2" className={classes.UserDept}>
-              {"44 Followers"}
+              {clubState.clubUsers?.length + " Members"}
             </Typography>
+            <Divider />
           </div>
           <div className={classes.LeftSideButtonWrapper}>
+            {
+              isMember && <Typography variant="body2" className={classes.UserDept}>
+              {"Member"}
+            </Typography>
+            }
             {/*
             isAdmin === false && isMember === false && (
               <Button
@@ -98,18 +120,18 @@ const MainGroupPage = () => {
             )
             */
             }
-            {isAdmin === false  && follow === false && (
+            {isAdmin === false  && isMember === false && (
               <Button
                 className={classes.LeftSideButton}
-                onClick={() => setFollow(!follow)}
+                onClick={handleJoin}
               >
                 Join
               </Button>
             )}
-            {isAdmin === false  && follow === true && (
+            {isAdmin === false  && isMember === true && (
               <Button
                 className={classes.LeftSideButton}
-                onClick={() => setFollow(!follow)}
+                onClick={handleLeave}
               >
                 Leave
               </Button>
@@ -165,7 +187,12 @@ const MainGroupPage = () => {
           <NewPostModal modalState={newClubPostState} setModal={setNewClubPostState} />
         )}
         {settings && (
-          <GroupSettingsModal settings={settings} setSettings={setSettings} />
+          <ClubSettingsModal 
+          settings={settings}
+          setSettings={setSettings}
+          clubState={clubState}
+          setClubState={setClubState} 
+          />
         )}
 
         <div className={classes.CenterTopUserInfoWrapper}>
@@ -207,7 +234,7 @@ const MainGroupPage = () => {
               {
                 /*
               isAdmin === false && isMember === true && (
-                <Button color="error" onClick={() => console.log("leave group")}>
+                <Button color="error" onClick={() => console.log("leave club")}>
                   Leave
                 </Button>
               )
@@ -276,4 +303,4 @@ const MainGroupPage = () => {
   );
 };
 
-export default MainGroupPage;
+export default MainClubPage;

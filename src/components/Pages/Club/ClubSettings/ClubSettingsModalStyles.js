@@ -1,6 +1,6 @@
 import { makeStyles } from "@mui/styles";
 
-const GroupSettingsModalStyles = makeStyles((theme) => ({
+const ClubSettingsModalStyles = makeStyles((theme) => ({
   modalBox: {
     overflowY: "auto",
     height: "75%",
@@ -239,4 +239,4 @@ const GroupSettingsModalStyles = makeStyles((theme) => ({
   }
 }));
 
-export default GroupSettingsModalStyles;
+export default ClubSettingsModalStyles;

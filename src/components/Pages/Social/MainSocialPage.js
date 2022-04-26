@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useContext } from "react";
 import Grid from "@mui/material/Grid";
 import MainSocialPageStyles from "./MainSocialPageStyles";
 import Divider from "@mui/material/Divider";
@@ -11,14 +11,15 @@ import CreateUniModal from "./SocialCreateUni/CreateUniModal";
 import Acciordion from "./Accordion/Accordion";
 import Box from "@mui/material/Box";
 import GroupCard from "./GroupCard/GroupCard";
-
+import { blankavatar } from "../../Contexts/Paths";
+import {UserExtraInfoContext} from "../../Contexts/UserExtraInfoContext"
 const MainSocialPage = () => {
   const mainState = useAuthState(); //read user details from context
-
-  console.log(mainState.user);
+  const { userClubs } = useContext(UserExtraInfoContext);
+  
   const [createUniState, setCreateUniState] = useState();
   const [createClubState, setCreateClubState] = useState();
-  const [isTeacher, setTeacher] = useState(mainState.user.type==="TEACHER");
+  const [isTeacher] = useState(mainState.user.type==="TEACHER");
   const classes = MainSocialPageStyles();
   return (
     <Grid container className={classes.HomeContainer}>
@@ -62,15 +63,20 @@ const MainSocialPage = () => {
         )}
         {createUniState && (
           <CreateUniModal
-            user={mainState.user}
+           
             settings={createUniState}
             setSettings={setCreateUniState}
+            adminId={mainState.user.id}
+           
           />
         )}
         {createClubState && (
           <CreateClubModal
             settings={createClubState}
             setSettings={setCreateClubState}
+            adminId={mainState.user.id}
+            universityId={mainState.user.universityId}
+            profileImgId={blankavatar}
           />
         )}
         <div className={classes.SocialCenterInner}>
@@ -83,15 +89,14 @@ const MainSocialPage = () => {
           </Typography>
           <Box sx={{ flexGrow: 1 }}>
             <Grid container className={classes.mygridcontainer} spacing={3}>
-              <Grid item xs={6} className={classes.mygrid}>
-                <GroupCard />
-              </Grid>
-              <Grid item xs={6} className={classes.mygrid}>
-                <GroupCard />
-              </Grid>
-              <Grid item xs={6} className={classes.mygrid}>
-                <GroupCard />
-              </Grid>
+              {
+                userClubs!==undefined &&
+                userClubs.map((userClub,index)=>
+                  <Grid key={index} item xs={6}  className={classes.mygrid}>
+                    <GroupCard clubId={userClub.clubId}/>
+                  </Grid>
+                )
+              }
             </Grid>
           </Box>
         </div>

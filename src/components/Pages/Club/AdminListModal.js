@@ -12,7 +12,7 @@ import ListItemText from "@mui/material/ListItemText";
 import { blue } from "@mui/material/colors";
 import PersonIcon from "@mui/icons-material/Person";
 import CloseIcon from '@mui/icons-material/Close';
-import MainGroupStyles from "./MainGroupStyles";
+import MainClubStyles from "./MainClubStyles";
 import Divider from '@mui/material/Divider';
 import { IconButton, Typography } from "@mui/material";
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
@@ -20,7 +20,7 @@ import TextField from "@mui/material/TextField";
 import SendIcon from '@mui/icons-material/Send';
 import { useState } from "react";
 export default function AdminListModal({ showAdminList, setShowAdminList }) {
-    const classes = MainGroupStyles();
+    const classes = MainClubStyles();
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const likeUserList = ["username@gmail.com", "user02@gmail.com"];

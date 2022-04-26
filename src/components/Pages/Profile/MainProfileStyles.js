@@ -97,7 +97,7 @@ const MainProfileStyles = makeStyles((theme) => ({
     },
   },
   LeftSideFollowWrapper: {
-    display: "flex",
+
     justifyContent: "space-between",
   },
   mytabs: {

@@ -1,15 +1,18 @@
-import React, { createContext } from "react";
-import { useState,useEffect } from "react";
+import React, { useState, createContext, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios"
-import { URL_UNIVERSITIES,URL_USERS,URL_USER_UNIVERSITIES_BY_UNIVERSITYID } from "../../Contexts/Paths";
+import axios from "axios";
 import { useAuthState } from "../../Contexts";
+import {
+  URL_CLUBS,
+  URL_UNIVERSITIES,
+  URL_USER_CLUBS_BY_CLUBID,
+} from "../../Contexts/Paths";
 // burada ve PostContext'de aynı data var
 export const data = [
   {
     id: "postid1",
     type: "Post",
-    owner: "1346fd43-e551-4eed-807a-0904c786393f",
+    owner: "furkangundogan",
     owner_name: "Furkan Gundogan",
     createdAt: "2022-02-19T12:25:00.000Z",
     img: "https://www.casper.com.tr/uploads/2021/02/wallpaper-3.jpg",
@@ -59,7 +62,7 @@ export const data = [
   {
     id: "postid3",
     type: "Event",
-    owner: "b45bbe98-178f-4fd1-b49d-3663c1fce92e",
+    owner: "fatihsultanmehmetvakifuniversitesi",
     owner_name: "Fatih Sultan Mehmet Vakıf Üniversitesi",
     createdAt: "2022-03-01T07:25:00.000Z",
     img: "https://skitguys.com/media/images/video/Light_Flares_Upcoming_Still_LSM-HD.jpg",
@@ -80,7 +83,7 @@ export const data = [
   {
     id: "postid4",
     type: "Post",
-    owner: "b45bbe98-178f-4fd1-b49d-3663c1fce92e",
+    owner: "fatihsultanmehmetvakifuniversitesi",
     owner_name: "Fatih Sultan Mehmet Vakıf Üniversitesi",
     createdAt: "2022-03-01T07:25:00.000Z",
     img: "https://mobilehd.blob.core.windows.net/main/2016/09/berries-food-table-wallpaper.jpg",
@@ -111,7 +114,7 @@ export const data = [
     innerPost: {
       id: "postid1",
       type: "Post",
-      owner: "1346fd43-e551-4eed-807a-0904c786393f",
+      owner: "furkangundogan",
       owner_name: "Furkan Gundogan",
       createdAt: "2022-02-19T12:25:00.000Z",
       img: "https://www.casper.com.tr/uploads/2021/02/wallpaper-3.jpg",
@@ -139,178 +142,115 @@ export const data = [
   },
 ];
 
-export const groups = [
-  {
-    id: "1",
-    name: "Test Group",
-    uni: "fatihsultanmehmetvakifuniversitesi",
-  },
-  {
-    id: "2",
-    name: "XYZ Group",
-    uni: "fatihsultanmehmetvakifuniversitesi",
-  },
-];
-
-export const userInfo = {
+export const clubInfo = {
   id: "",
   name: "",
-  surname: "",
-  gender: "",
-  birthDate: "2022-04-15T11:44:30.204Z",
   universityId: "",
-  type: "",
-  description: "",
-  profileImgId: "",
-  messageAccessed: true,
+  adminId: "",
   version: 0,
 };
 
-export const userUniInfo = {
+export const clubUniInfo = {
   id: "",
   name: "",
 };
 
-export const followers = []
+export const clubUsers = []
 
-export const ProfileContext = createContext();
+export const ClubContext = createContext();
 
-export const ProfileContextProvider = ({ children }) => {
-  const [profileState, setProfileState] = useState({
-    userInfo: userInfo,
-    userUniInfo:userUniInfo,
+export const ClubContextProvider = ({ children }) => {
+  const [clubState, setClubState] = useState({
+    clubInfo: clubInfo,
+    clubUniInfo: clubUniInfo,
     posts: data,
-    groups: groups,
-    followers:followers,
-    isFollow:false,
+    clubUsers: clubUsers,
+    isMember: false,
   });
-
+  const { clubID } = useParams();
   const value = {
-    profileState,
-    setProfileState,
+    clubState,
+    setClubState,
   };
-
-  // user bilgileri için istek
-  const { userid } = useParams();
-  const { uniid } = useParams();
-
   const mainState = useAuthState(); //read user details from context
-  
+
   useEffect(() => {
-    const setUserInfo = async () => {
-    
+    const setClubInfo = async () => {
       await axios
-        .get(URL_USERS + "/" + userid)
+        .get(URL_CLUBS + "/" + clubID)
         .then((response) => {
-          
-          setProfileState({...profileState,userInfo:response.data});
+          console.log("setclubinfo: ",response.data)
+          setClubState({ ...clubState, clubInfo: response.data });
         })
         .catch((e) => {
-          console.log("profile-user-info-get-error");
-
+          console.log("club-info-get-error");
         });
     };
-    if (userid !== undefined) {
-     
-      setUserInfo();
+    
+    if (clubID !== undefined) {
+    
+      setClubInfo();
     }
-   
-  }, [userid]); //eslint-disable-line 
+  }, [clubID]); //eslint-disable-line
 
   // user uni bilgisi için istek
- 
+
   useEffect(() => {
-    const setUserUniInfo = async () => {
-      
+    const setClubUniInfo = async () => {
       await axios
-        .get(URL_UNIVERSITIES + "/" + profileState.userInfo.universityId)
+        .get(URL_UNIVERSITIES + "/" + clubState.clubInfo.universityId)
         .then((response) => {
-         
-          setProfileState({...profileState,userUniInfo:response.data});
+          console.log("setClubUniInfo: ",response.data)
+          setClubState({ ...clubState, clubUniInfo: response.data });
         })
         .catch((e) => {
           console.log("profile-user-Uni-info-get-error");
         });
     };
-    if (userid !== undefined && profileState.userInfo.universityId !== "") {
-     
-      setUserUniInfo();
-    }
-    
-  }, [profileState.userInfo]); //eslint-disable-line 
-
-
-
-  // uni/id   uni profil sayfasi ise veri getirme
- 
-
-  useEffect(() => {
-    const setInfoAsUni = async () => {
-      await axios
-        .get(URL_UNIVERSITIES + "/" +uniid)
-        .then((response) => {
-          
-          setProfileState({...profileState,userInfo:response.data});
-        })
-        .catch((e) => {
-          console.log("Uni-profil-get-error");
-        });
-    };
-    if (uniid !== undefined ) {
-    
-      setInfoAsUni();
-   
-    }
-    
-  }, [uniid]); //eslint-disable-line 
-
-
-  // get followers
-  useEffect(() => {
-    
-    const setFollowers = async () => {
+    if (clubID !== undefined && clubState.clubInfo.universityId !== "") {
       
-      let target=userid?userid:uniid
-      console.log("istek: ", URL_USER_UNIVERSITIES_BY_UNIVERSITYID+target);
-      // profil user ise user followers, uni ise user universities'den veri çek
-      // user followers henuz bitmedi
+      setClubUniInfo();
+    }
+  }, [clubState.clubInfo]); //eslint-disable-line
+
+  
+  // club users
+  useEffect(() => {
+    const setClubUsers = async () => {
+      console.log("istek: ", URL_USER_CLUBS_BY_CLUBID + clubID);
       await axios
-        .get(URL_USER_UNIVERSITIES_BY_UNIVERSITYID+target)
+        .get(URL_USER_CLUBS_BY_CLUBID + clubID)
         .then((response) => {
-          console.log("setFollowers: ",response.data.content)
-          setProfileState({ ...profileState, followers: response.data.content });
+          console.log("setClubUsers: ",response.data.content)
+          setClubState({ ...clubState, clubUsers: response.data.content });
         })
         .catch((e) => {
-          console.log("profile-followers-get-error");
+          console.log("club-users-get-error");
         });
     };
-    if (profileState.userInfo.id!=="") {
-
-      setFollowers();
+    if (clubID !== undefined && clubState.clubUniInfo.id!=="") {
+     
+      setClubUsers();
     }
-  }, [profileState.userInfo]); //eslint-disable-line
-
-    
+  }, [clubState.clubUniInfo]); //eslint-disable-line
+  
+  
   useEffect(() => {
-    const setIsFollow = () => {
-      let item = profileState.followers.filter((element) => {
+    const setIsMember = () => {
+      let item = clubState.clubUsers.filter((element) => {
         return element.userId === mainState.user.id;
       });
       if (item.length===1) {
         console.log("item: ",item)
-        setProfileState({ ...profileState, isFollow:true,followShip: item });
+        setClubState({ ...clubState, isMember:true,memberShip: item });
       }
       
     };
-    if (profileState.followers!==[]) {
+    if (clubID !== undefined && clubState.clubUsers!==[]) {
       
-      setIsFollow();
+      setIsMember();
     }
-  }, [profileState.followers]); //eslint-disable-line
+  }, [clubState.clubUsers]); //eslint-disable-line
 
-
-
-  return (
-    <ProfileContext.Provider value={value}>{children}</ProfileContext.Provider>
-  );
+  return <ClubContext.Provider value={value}>{children}</ClubContext.Provider>;
 };

@@ -3,7 +3,7 @@ import Snackbar from '@mui/material/Snackbar';
 import IconButton from "@mui/material/IconButton";
 import CloseTwoToneIcon from '@mui/icons-material/CloseTwoTone';
 import {useState} from 'react'
-export default function GroupSettingsAlert(props) {
+export default function ClubSettingsAlert(props) {
 
   const [state] = useState({
     open: true,

@@ -1,67 +1,103 @@
-import axios from "axios"
-export const save = (user,settings) => {
-  const { name,about, selectedFile } = settings;
-  const bodyFormData = getFile(selectedFile);
-  if (bodyFormData === null) {
-    // görselsiz    
-    console.log({ name,about });
-  } else {
-    // görselli
-    console.log({ name,about, selectedFile, bodyFormData });
-  }
+import axios from "axios";
+import { URL_FILES,URL_UNIVERSITIES,URL_USER_UNIVERSITIES } from "../../../Contexts/Paths";
 
-  axios("http://localhost:8080/universities", {
-    method: "POST",
-    header: { "Content-type": "application/json" },
-    data: {
-      name:name,
-      adminId:user.id
-    },
-  })
-    .then((response) => {
-      console.log("new uni response:", response);
-      
-      //setAlert(true);
-      //window.scrollTo(0, 0);
-    })
-    .catch((error) => {
-      console.log(error)
-      //setAlertType("error");
-      //setAlertMsg(error.response.data.message);
-      //setAlert(true);
-    });
+export const save = (settings) => {
+  const { name, adminId, originalFile } = settings;
+
+  const bodyFormData = getFile(originalFile);
+
+  if (bodyFormData !== null) {
+    // varsa önce file'ı yükle sonra  update et
+    createWithUploadedImageId(name, adminId, bodyFormData);
+  } else {
+    // file yoksa direkt  update et
+    createWithBlankImageId(name, adminId);
+  }
 
 };
 
-const getFile = (selectedFile) => {
-    // bu fonksiyonu sendPost ve sendEvent Kullaniyor
-  if (selectedFile !== undefined && selectedFile!==null) {
+const getFile = (originalFile) => {
+  // bu fonksiyonu sendPost ve sendEvent Kullaniyor
+  if (originalFile !== undefined && originalFile !== null) {
     const bodyFormData = new FormData();
+    bodyFormData.append("file", originalFile, originalFile.name);
 
-    // daha önceden file'ı blob'a çevirmiştik.
-    // şimdi tekrar file'a çeviriyoruz
-    // sebebi, img bileşenin src'u file iken state değişirken sürekli network isteği oluşturuyordu.
-    const f= new File([selectedFile],"file_name")
-    
-    bodyFormData.append("uploaded_file", f, f.name);
     return bodyFormData;
   }
   return null;
 };
 
-/*
-axios({
-  method: "post",
-  url: "myurl",
-  data: bodyFormData,
-  headers: { "Content-Type": "multipart/form-data" },
-})
-  .then(function (response) {
-    //handle success
-    console.log(response);
+const createWithUploadedImageId = (name, adminId, bodyFormData) => {
+  axios(URL_FILES, {
+    method: "POST",
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+    data: bodyFormData,
   })
-  .catch(function (response) {
-    //handle error
-    console.log(response);
+    .then((fileresponse) => {
+      console.log("Create Uni data:", {
+        name,
+        adminId,
+        profileImgId: fileresponse.data.id,
+      });
+      axios(URL_UNIVERSITIES, {
+        method: "POST",
+        header: { "Content-type": "application/json" },
+        data: {
+          name,
+          adminId,
+          profileImgId: fileresponse.data.id,
+        },
+      })
+        .then((response) => {
+          console.log("Uni Created w file ", response);
+          // admin uni usersa eklenen ilk kişi
+          PostToUserUniversity(response.data.id,adminId)
+        })
+        .catch((userupdateerror) => {
+          console.log("Uni Update w file Error");
+        });
+    })
+    .catch((error) => {
+      console.log("file create error at Uni image");
+    });
+};
+
+const createWithBlankImageId = (name, adminId) => {
+  console.log("Create uni standart data:", {
+    name,
+    adminId,
   });
-*/
+  axios(URL_UNIVERSITIES, {
+    method: "POST",
+    header: { "Content-type": "application/json" },
+    data: { name, adminId },
+  })
+    .then((response) => {
+      console.log("Uni Created Response:", response);
+      // admin uni usersa eklenen ilk kişi
+      PostToUserUniversity(response.data.id,adminId)
+    })
+    .catch((error) => {
+      console.log("Uni Create Error");
+    });
+};
+
+const PostToUserUniversity = (universityId,userId) => {
+  axios(URL_USER_UNIVERSITIES, {
+    method: "POST",
+    header: { "Content-type": "application/json" },
+    data: {
+      universityId,
+      userId
+    },
+  }).then((response) => {
+    console.log("Posted Succes To Uniusers ", response);
+    goToNewUniPage(universityId)
+  });
+};
+
+const goToNewUniPage = (id) =>{
+  window.location.href="/uni/"+id
+}

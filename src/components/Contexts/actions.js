@@ -1,5 +1,6 @@
 import axios from "axios";
-const ROOT_URL_LOGIN = "http://localhost:8080/login";
+import { ROOT_URL_LOGIN } from "./Paths";
+
 export async function loginUser(dispatch, loginPayload) {
   dispatch({ type: "REQUEST_LOGIN" });
 

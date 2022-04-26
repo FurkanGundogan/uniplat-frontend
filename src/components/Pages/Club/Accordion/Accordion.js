@@ -9,7 +9,7 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
-import MainGroupStyles from "../MainGroupStyles";
+import MainGroupStyles from "../MainClubStyles";
 import { useAuthState } from "../../../Contexts";
 
 const Accordion = styled((props) => (

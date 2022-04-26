@@ -26,6 +26,7 @@ import InputStyles from "./InputStyles";
 import axios from "axios";
 import RegisterSuccessAlert from "./RegisterSuccessAlert";
 import { useEffect } from "react";
+import {URL_USER_UNIVERSITIES,URL_USERS,URL_UNIVERSITIES} from "../Contexts/Paths"
 //theme için makeStyles,classess yapılarını kullanıyoruz
 // globalden body'i style verdiğimiz için classess şimdilik kullanılmadı
 const useStyles = makeStyles((theme) => ({
@@ -158,7 +159,7 @@ const SignUpPage = () => {
       // yeniKayit nesnesi gönderilecek
       window.scrollTo(0, 0);
       //post işlemi:
-      axios("http://localhost:8080/users", {
+      axios(URL_USERS, {
         method: "POST",
         header: { "Content-type": "application/json" },
         data: yeniKayit,
@@ -184,7 +185,7 @@ const SignUpPage = () => {
       setAlertType("success");
       setAlertMsg("Register Sucess");
       // olusturulan kullaniciyi uniye ekleme
-      axios("http://localhost:8080/university-users", {
+      axios(URL_USER_UNIVERSITIES, {
         method: "POST",
         header: { "Content-type": "application/json" },
         data: {
@@ -251,7 +252,7 @@ const SignUpPage = () => {
     },
   ]);
   useEffect(() => {
-    const URL_UNIVERSITIES = "http://localhost:8080/universities";
+    
     axios
       .get(URL_UNIVERSITIES + "?page=0&size=10")
       .then((response) => {

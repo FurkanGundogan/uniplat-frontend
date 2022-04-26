@@ -11,6 +11,7 @@ import InputStyles from "./InputStyles";
 export default function MySelect(props) {
   const classes = InputStyles();
   const { name, label, value, error = null, onChange, options } = props;
+  /*eslint-disable */
 console.log("opt",options)
   return (
     <FormControl
@@ -30,4 +31,5 @@ console.log("opt",options)
       {error && <FormHelperText>{error}</FormHelperText>}
     </FormControl>
   );
-}
+  
+} 

@@ -8,7 +8,7 @@ import { blue } from "@mui/material/colors";
 import PersonIcon from "@mui/icons-material/Person";
 import { IconButton, Typography } from "@mui/material";
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
-import MainGroupStyles from './MainGroupStyles'
+import MainGroupStyles from './MainClubStyles'
 import { useParams } from "react-router-dom";
 
 function Members() {

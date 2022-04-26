@@ -12,7 +12,7 @@ import ListItemText from "@mui/material/ListItemText";
 import { blue } from "@mui/material/colors";
 import PersonIcon from "@mui/icons-material/Person";
 import CloseIcon from '@mui/icons-material/Close';
-import MainGroupStyles from "./MainGroupStyles";
+import MainGroupStyles from "./MainClubStyles";
 import Divider from '@mui/material/Divider';
 import { IconButton, Typography } from "@mui/material";
 

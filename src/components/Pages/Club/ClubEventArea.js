@@ -1,16 +1,16 @@
 import React from 'react'
 import PostCard from '../HomePosts/PostCard'
-import MainGroupStyles from './MainGroupStyles'
-import {GroupContext} from "./GroupContext"
+import MainClubStyles from './MainClubStyles'
+import {ClubContext} from "./ClubContext"
 import {useContext} from "react"
 
 import { useLocation } from "react-router-dom";
 // statik post verileri, postdetailaction'da bir tanesi seçilip kullanılıyor
 
-function GroupPostArea() {
+function ClubEventArea() {
   
-  const {groupState,setGroupState} = useContext(GroupContext)
-    const classes= MainGroupStyles();
+  const {clubState,setClubState} = useContext(ClubContext)
+    const classes= MainClubStyles();
     const locstate = useLocation();
     const owner=locstate.pathname.split('/')[1]
    
@@ -18,9 +18,9 @@ function GroupPostArea() {
   return (
     <div className={classes.PostAreaWrapper}>
       {
-        groupState.posts.filter(p=>p.owner===owner).map((p,i) => 
+        clubState.posts.filter(p=>p.owner===owner && p.type==="Event").map((p,i) => 
 
-        <PostCard groupState={groupState} setGroupState={setGroupState} key={i} post={p}/>
+        <PostCard clubState={clubState} setClubState={setClubState} key={i} post={p}/>
         
         )
       }
@@ -28,4 +28,4 @@ function GroupPostArea() {
   )
 }
 
-export default GroupPostArea
+export default ClubEventArea

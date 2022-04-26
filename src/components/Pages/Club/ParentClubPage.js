@@ -1,16 +1,16 @@
 import React from "react";
-import MainGroupPage from "./MainGroupPage";
+import MainClubPage from "./MainClubPage";
 import Navbar from "../../Navbar/Navbar";
 import NavbarBottom from "../../Navbar/NavbarBottom";
-const ParentGroupPage = () => {
+const ParentClubPage = () => {
 
   return (
     <div>
       <Navbar />
-      <MainGroupPage />
+      <MainClubPage />
       <NavbarBottom />
     </div>
   );
 };
 
-export default ParentGroupPage;
+export default ParentClubPage;

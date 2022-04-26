@@ -18,6 +18,7 @@ import { save } from "./actions";
 import CropEasy from "./crop/CropEasy";
 import { Avatar } from "@mui/material";
 import SaveAsIcon from "@mui/icons-material/SaveAs";
+import { blankavatarurl } from "../../../Contexts/Paths";
 const style = {
   position: "absolute",
 
@@ -30,10 +31,11 @@ const style = {
   p: 4,
 };
 
-export default function CreateUniModal({ user,settings, setSettings }) {
+export default function CreateUniModal({settings, setSettings,  adminId}) {
+  console.log("settings cre uni :",settings)
   const handleSend = async () => {
     if (validate()) {
-      save(user,settings);
+      save({ ...settings, adminId: adminId });
       
     } else {
       window.scrollTo(0, 0);
@@ -124,16 +126,30 @@ export default function CreateUniModal({ user,settings, setSettings }) {
                     src={
                       settings.selectedFile
                         ? settings.selectedFile
-                        : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqjYWb_kZ7jZ_aCJJdFjLqxS-DBaGsJGxopg&usqp=CAU"
+                        : blankavatarurl
                     }
                     sx={{ width: 100, height: 100, cursor: "pointer" }}
                   />
                 </label>
                 
                 {
-                settings.selectedFile!==undefined && settings.selectedFile!==null
-                && <div className={classes.RemovePhotoText} onClick={()=>setSettings({...settings,selectedFile:null})}>Remove Photo</div>
-                }
+                settings?.selectedFile !== undefined &&
+                settings?.selectedFile !== null &&
+                  (
+                    <div
+                      className={classes.RemovePhotoText}
+                      onClick={() => {
+                        setSettings({
+                          ...settings,
+                          originalFile:null,
+                          selectedFile: null,
+                          cropModalOpen: false,
+                        });
+                      }}
+                    >
+                      Remove Photo
+                    </div>
+                  )}
                 
                 </div>
               

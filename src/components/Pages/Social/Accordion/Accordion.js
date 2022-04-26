@@ -2,7 +2,6 @@ import * as React from "react";
 import { styled } from "@mui/material/styles";
 import ArrowForwardIosSharpIcon from "@mui/icons-material/ArrowForwardIosSharp";
 import MuiAccordion from "@mui/material/Accordion";
-import { useAuthState } from "../../../Contexts";
 import MuiAccordionSummary from "@mui/material/AccordionSummary";
 import MuiAccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
@@ -49,7 +48,7 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
 
 export default function CustomizedAccordions({setCreateUniState,setCreateClubState}) {
   const [expanded, setExpanded] = React.useState(false);
-  const mainState = useAuthState(); 
+  // import { useAuthState } from "../../../Contexts"; const mainState = useAuthState(); 
   const handleChange =()=> {
     setExpanded(!expanded);
   };

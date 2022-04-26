@@ -2,7 +2,7 @@ import * as React from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
-import MainGroupStyles from "./MainGroupStyles";
+import MainGroupStyles from "./MainClubStyles";
 export default function MyTabs({tab,setTab}) {
  
   const classes = MainGroupStyles();

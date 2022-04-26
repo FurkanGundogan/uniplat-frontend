@@ -14,14 +14,15 @@ import {
 } from "./ValidationFunctions";
 import ProfileSettingsAlert from "./ProfileSettingsAlert";
 import { useState } from "react";
-import { save } from "./actions";
+import { save,getUniversitiesForEdit } from "./actions";
 import CropEasy from "./crop/CropEasy";
 import { Avatar } from "@mui/material";
 import SaveAsIcon from "@mui/icons-material/SaveAs";
 import { useNavigate } from "react-router-dom";
-import { useAuthState,useAuthDispatch } from "../../../Contexts";
-import { useContext } from "react";
-import { UserExtraInfoContext } from "../../../Contexts/UserExtraInfoContext";
+import { useAuthDispatch } from "../../../Contexts";
+import { useEffect } from "react";
+import MySelect from "../../../LoginRegister/Select";
+import { blankavatarurl,URL_FILES } from "../../../Contexts/Paths";
 const style = {
   position: "absolute",
 
@@ -37,12 +38,18 @@ const style = {
 export default function ProfileSettingsModal({ settings, setSettings,mainState,profileState,setProfileState }) {
   const dispatch = useAuthDispatch(); // read dispatch method from context
   let navigate = useNavigate();
-  const { userImg } = useContext(UserExtraInfoContext);
+
+  const [avatar,setAvatar]=useState(profileState.userInfo.profileImgId?
+    URL_FILES+"/"+profileState.userInfo.profileImgId : blankavatarurl)
+
+
+  
+  const [uniList,setUniList]=useState([])
   const handleSend = async () => {
     if (validate()) {
       save(settings,mainState,dispatch,profileState,setProfileState);
       setSettings({...settings,isopen:false})
-      navigate("/"+mainState.user.id)
+       navigate("/"+mainState.user.id)
     } else {
       window.scrollTo(0, 0);
     }
@@ -71,9 +78,13 @@ export default function ProfileSettingsModal({ settings, setSettings,mainState,p
   };
 
   const [alertState, setAlert] = useState({ msg: "", isOpen: false });
+  useEffect(() => {
+    getUniversitiesForEdit(setUniList)
+  }, [])
+  
 
   const classes = ProfileSettingsModalStyles();
-
+  console.log("ss:",settings)
   return (
     <div>
       <Modal
@@ -128,24 +139,39 @@ export default function ProfileSettingsModal({ settings, setSettings,mainState,p
                         selectedFile: URL.createObjectURL(e.target.files[0]),
                         cropModalOpen: true,
                       });
+                      setAvatar(URL.createObjectURL(e.target.files[0]))
                     }}
                     value=""
                   />
                   <Avatar
                     alt="Remy Sharp"
-                    src={
-                      settings.selectedFile
-                        ? settings.selectedFile
-                        : userImg
-                    }
+                    src={avatar}
                     sx={{ width: 100, height: 100, cursor: "pointer" }}
                   />
                 </label>
                 
                 {
-                settings.selectedFile!==undefined && settings.selectedFile!==null
-                && <div className={classes.RemovePhotoText} onClick={()=>setSettings({...settings,selectedFile:null})}>Remove Photo</div>
-                }
+                  avatar!==blankavatarurl &&
+               
+                  (
+                    <div
+                      className={classes.RemovePhotoText}
+                      onClick={() => {
+                        setSettings({
+                          ...settings,
+                          originalFile:null,
+                          selectedFile: null,
+                          cropModalOpen: false,
+                        });
+                        setAvatar(blankavatarurl)
+                      }}
+                    >
+                      Remove Photo
+                    </div>
+                  )}
+
+
+                
                 
                 </div>
               
@@ -160,7 +186,7 @@ export default function ProfileSettingsModal({ settings, setSettings,mainState,p
 
                   <div>
                     {settings.cropModalOpen && (
-                      <CropEasy {...{ settings, setSettings }} />
+                      <CropEasy {...{ settings, setSettings,setAvatar }} />
                     )}
                   </div>
                 </div>
@@ -184,6 +210,20 @@ export default function ProfileSettingsModal({ settings, setSettings,mainState,p
                     setSettings({ ...settings, surname: e.target.value });
                   }}
                 />
+                <Box sx={{margin:"4px 0px 4px 0px"}}>
+                <MySelect 
+                  name="universityId"
+                  label="University"
+                  defaultValue=''
+                  value={settings.universityId?settings.universityId:'' }  
+                  onChange={(e)=>{
+                    setSettings({...settings,universityId: e.target.value,})
+                  }}
+                  options={uniList}
+                  
+                >
+                </MySelect>
+              </Box> 
                 <TextField
                   id="multiline-static"
                   placeholder={settings.description!==null?settings.description:"About You"}

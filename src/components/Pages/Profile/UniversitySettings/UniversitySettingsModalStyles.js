@@ -1,6 +1,6 @@
 import { makeStyles } from "@mui/styles";
 
-const ProfileSettingsModalStyles = makeStyles((theme) => ({
+const UniversitySettingsModalStyles = makeStyles((theme) => ({
   modalBox: {
     overflowY: "auto",
     height: "80%",
@@ -239,4 +239,4 @@ const ProfileSettingsModalStyles = makeStyles((theme) => ({
   }
 }));
 
-export default ProfileSettingsModalStyles;
+export default UniversitySettingsModalStyles;

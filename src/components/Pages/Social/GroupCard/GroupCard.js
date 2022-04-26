@@ -2,20 +2,32 @@ import * as React from "react";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import Avatar from "@mui/material/Avatar";
-import IconButton from "@mui/material/IconButton";
 import { red } from "@mui/material/colors";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useNavigate } from "react-router-dom";
-export default function RecipeReviewCard() {
+import { useState,useEffect } from "react";
+import { getClubInfos } from "./GroupCardActions";
+export default function RecipeReviewCard({clubId}) {
   const navigate = useNavigate();
+
+
+  const [clubInfo,setClubInfo]=useState()
+  const [clubUniInfo,setClubUniInfo]=useState()
+
+  useEffect(() => {
+    if (clubId !== undefined) {
+      getClubInfos(clubId,setClubInfo,setClubUniInfo);
+    }
+  }, [clubId]);
+
+
 
   return (
     <Card
-      sx={{ maxWidth: 345, cursor:"pointer" }}
+      sx={{ maxWidth: 345, cursor:"pointer",background:"#ffe27fa6" }}
       onClick={() => {
-        navigate("/groups/1");
+        navigate("/clubs/"+clubId);
       }}
     >
       <CardHeader
@@ -24,13 +36,9 @@ export default function RecipeReviewCard() {
             R
           </Avatar>
         }
-        action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
-          </IconButton>
-        }
-        title="Club Name"
-        subheader="University"
+  
+        title={clubInfo?clubInfo.name:"Title"}
+        subheader={clubUniInfo?clubUniInfo.name:"University"}
       />
       <CardContent>
         <Typography variant="body2" color="text.secondary">

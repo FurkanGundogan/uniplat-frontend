@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import CreateClubModalStyles from "./CreateClubModalStyles";
+import UniversitySettingsModalStyles from "./UniversitySettingsModalStyles";
 import IconButton from "@mui/material/IconButton";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import ClearIcon from "@mui/icons-material/Clear";
@@ -12,13 +12,14 @@ import {
   validateFileSize,
   validateFileExtension,
 } from "./ValidationFunctions";
-import CreateClubModalAlert from "./CreateClubModalAlert";
+import UniversitySettingsAlert from "./UniversitySettingsAlert";
 import { useState } from "react";
 import { save } from "./actions";
 import CropEasy from "./crop/CropEasy";
 import { Avatar } from "@mui/material";
 import SaveAsIcon from "@mui/icons-material/SaveAs";
-import { blankavatarurl } from "../../../Contexts/Paths";
+// import { useNavigate } from "react-router-dom";
+import { blankavatarurl,URL_FILES } from "../../../Contexts/Paths";
 const style = {
   position: "absolute",
 
@@ -31,18 +32,22 @@ const style = {
   p: 4,
 };
 
-export default function CreateClubModal({
-  settings,
-  setSettings,
-  adminId,
-  profileImgId,
-  universityId,
-}) {
+export default function UniversitySettingsModal({ settings, setSettings,profileState,setProfileState }) {
+ 
+  // let navigate = useNavigate();
+ 
+ console.log("uni edit settings:",settings)
+  // Edit sayfalarında ek olarak avatar state'i mevcut
+  // mevcut görsel var ve yeni görsel yüklenirken karşılaşılan Cropeasy componenti hatasından ötürü kullanıldı
+  const [avatar,setAvatar]=useState(profileState.userInfo.profileImgId?
+    URL_FILES+"/"+profileState.userInfo.profileImgId : blankavatarurl)
 
-  console.log("settings club modal:",settings)
   const handleSend = async () => {
     if (validate()) {
-      save({ ...settings, adminId: adminId, universityId: universityId });
+      
+      save(settings,profileState,setProfileState);
+      setSettings({...settings,isopen:false})
+      // window.location.href="/uni/"+profileState.userInfo.id
     } else {
       window.scrollTo(0, 0);
     }
@@ -54,21 +59,16 @@ export default function CreateClubModal({
     }
 
     if (!validateNames(settings.name)) {
-      setAlert({ msg: "Enter Club Name", isOpen: true });
+      setAlert({ msg: "Enter University Name", isOpen: true });
       return false;
     }
-    /*
-    if (!validateAbout(settings.about)) {
-      setAlert({ msg: "Fill the About", isOpen: true });
-      return false;
-    }
-    */
+
     return true;
   };
 
   const [alertState, setAlert] = useState({ msg: "", isOpen: false });
-
-  const classes = CreateClubModalStyles();
+ 
+  const classes = UniversitySettingsModalStyles();
 
   return (
     <div>
@@ -82,7 +82,7 @@ export default function CreateClubModal({
       >
         <Box sx={style} className={classes.modalBox}>
           <div className={classes.innerGlobal}>
-            <CreateClubModalAlert alertState={alertState} setAlert={setAlert} />
+            <UniversitySettingsAlert alertState={alertState} setAlert={setAlert} />
             <IconButton
               aria-label="back"
               onClick={() => {
@@ -91,7 +91,7 @@ export default function CreateClubModal({
             >
               <KeyboardBackspaceIcon />
             </IconButton>
-            <div className={classes.title}>Create New Club {settings.type}</div>
+            <div className={classes.title}>Your Account</div>
             <div className={classes.middleArea}>
               <div className={classes.avatarWrapper}>
                 <label htmlFor="icon-button-file">
@@ -117,30 +117,27 @@ export default function CreateClubModal({
                         });
                         return;
                       }
-                      console.log("w:" + e.target.files[0].width);
+                      
                       setSettings({
                         ...settings,
                         originalFile: e.target.files[0],
                         selectedFile: URL.createObjectURL(e.target.files[0]),
                         cropModalOpen: true,
                       });
+                      setAvatar(URL.createObjectURL(e.target.files[0]))
                     }}
                     value=""
                   />
                   <Avatar
                     alt="Remy Sharp"
-                    src={
-                      settings.selectedFile
-                        ? settings.selectedFile
-                        : blankavatarurl
-                    }
+                    src={avatar}
                     sx={{ width: 100, height: 100, cursor: "pointer" }}
                   />
                 </label>
-
+                
                 {
-                settings?.selectedFile !== undefined &&
-                settings?.selectedFile !== null &&
+                  avatar!==blankavatarurl &&
+               
                   (
                     <div
                       className={classes.RemovePhotoText}
@@ -151,13 +148,14 @@ export default function CreateClubModal({
                           selectedFile: null,
                           cropModalOpen: false,
                         });
+                        setAvatar(blankavatarurl)
                       }}
                     >
                       Remove Photo
                     </div>
                   )}
-              </div>
-
+                </div>
+              
               {settings.selectedFile && (
                 <div className={classes.mediaArea}>
                   <ClearIcon
@@ -169,7 +167,7 @@ export default function CreateClubModal({
 
                   <div>
                     {settings.cropModalOpen && (
-                      <CropEasy {...{ settings, setSettings }} />
+                      <CropEasy {...{ settings, setSettings,setAvatar }} />
                     )}
                   </div>
                 </div>
@@ -177,22 +175,13 @@ export default function CreateClubModal({
               <div className={classes.inputAreaWrapper}>
                 <TextField
                   id="multiline-static"
-                  placeholder="Name"
+                  placeholder={settings.name}
+                  value={settings.name}
                   className={classes.text}
                   onChange={(e) => {
                     setSettings({ ...settings, name: e.target.value });
                   }}
                 />
-                {/*
-                <TextField
-                  id="multiline-static"
-                  placeholder="About Club"
-                  className={classes.text}
-                  onChange={(e) => {
-                    setSettings({ ...settings, about: e.target.value });
-                  }}
-                />
-                  */}
               </div>
             </div>
             <div className={classes.bottom}>
@@ -203,7 +192,7 @@ export default function CreateClubModal({
                   endIcon={<SaveAsIcon />}
                   onClick={handleSend}
                 >
-                  Create
+                  Save
                 </Button>
               </div>
             </div>
