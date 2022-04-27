@@ -77,10 +77,16 @@ export default function CustomizedAccordions({
             </ListItem>
             */}
             <Divider />
-            <ListItem onClick={() => setShowAdminList(true)} button>
-              <ListItemText primary="Show Admins" />
-            </ListItem>
+            {
+              /**
+               * Admin list disabled
+               <ListItem onClick={() => setShowAdminList(true)} button>
+                  <ListItemText primary="Show Admins" />
+                </ListItem>
             <Divider />
+               */
+            }
+           
             <ListItem
               onClick={() =>
                 setNewClubPostState({

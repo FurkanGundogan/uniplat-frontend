@@ -91,7 +91,7 @@ export default function UniversitySettingsModal({ settings, setSettings,profileS
             >
               <KeyboardBackspaceIcon />
             </IconButton>
-            <div className={classes.title}>Your Account</div>
+            <div className={classes.title}>University Informations</div>
             <div className={classes.middleArea}>
               <div className={classes.avatarWrapper}>
                 <label htmlFor="icon-button-file">

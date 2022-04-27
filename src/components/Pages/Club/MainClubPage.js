@@ -12,7 +12,6 @@ import { useContext } from "react";
 import NewPostModal from "../Post/NewPostModal";
 import { NewPostModalContext } from "../../Contexts/NewPostModalContext";
 import MyTabs from "./MyTabs";
-import Avatar from "@mui/material/Avatar";
 import Content from "./Content";
 import "react-awesome-lightbox/build/style.css";
 import ClubSettingsModal from "./ClubSettings/ClubSettingsModal";
@@ -26,6 +25,7 @@ import RequestListModal from "./RequestListModal";
 import { NewClubPostModalContext } from "../../Contexts/NewClubPostModalContext";
 import { ClubContext } from "./ClubContext";
 import { join,leave } from "./PanelActions";
+import UserAvatarResponsive from "./UserAvatarResponsive"
 const MainClubPage = () => {
   // const navigate = useNavigate();
   const [tab, setTab] = React.useState(0);
@@ -34,10 +34,7 @@ const MainClubPage = () => {
   const { newPostState, setNewPostState } = useContext(NewPostModalContext);
   const { newClubPostState, setNewClubPostState } = useContext(NewClubPostModalContext);
 
- 
 
-  // bu follow bilgisi bilgilerle kontrol edilecek
-  const [follow, setFollow] = useState(false);
   const [settings, setSettings] = useState();
 
   const isAdmin = mainState.user.id === clubState.clubInfo.adminId;
@@ -84,15 +81,14 @@ const MainClubPage = () => {
             </div>
           )}
           <UserAvatar
-            name={mainState.user.name}
-            surname={mainState.user.surname}
+            profileImgId={clubState.clubInfo?.profileImgId}
           />
           <Typography variant="body1" className={classes.UserName}>
-            {clubState.clubInfo.name}
+            {clubState.clubInfo?.name}
           </Typography>
           <Divider />
           <Typography variant="body1" className={classes.UserName}>
-          {clubState.clubUniInfo.name}
+          {clubState.clubUniInfo?.name}
           </Typography>
           <Divider />
           <div className={classes.LeftSideFollowWrapper}>
@@ -105,21 +101,11 @@ const MainClubPage = () => {
           </div>
           <div className={classes.LeftSideButtonWrapper}>
             {
-              isMember && <Typography variant="body2" className={classes.UserDept}>
+              (isAdmin===false && isMember===true) && <Typography variant="body2" className={classes.UserDept}>
               {"Member"}
             </Typography>
             }
-            {/*
-            isAdmin === false && isMember === false && (
-              <Button
-                className={classes.LeftSideButton}
-                onClick={() => setJoinReq(!joinReq)}
-              >
-                {joinReq ? "Send Join Request" : "Waiting..."}
-              </Button>
-            )
-            */
-            }
+
             {isAdmin === false  && isMember === false && (
               <Button
                 className={classes.LeftSideButton}
@@ -136,14 +122,7 @@ const MainClubPage = () => {
                 Leave
               </Button>
             )}
-            {/*
-            isAdmin === false && isMember === true && (
-              <Button color="error" onClick={() => console.log("leave group")}>
-                Leave
-              </Button>
-            )
-            */
-          }
+
 
             {isAdmin && (
               <div className={classes.AdminAreaWrapper}>
@@ -154,17 +133,17 @@ const MainClubPage = () => {
                 </div>
                 <List component="nav" aria-label="mailbox folders">
                   <Divider />
+                  {
+                    /**
+                     * Show admins disabled
                   <ListItem onClick={() => setShowAdminList(true)} button>
                     <ListItemText primary="Show Admins" />
                   </ListItem>
                   <Divider />
-                  {
-                    /*
-                  <ListItem onClick={() => setJoinReqList(true)} button>
-                    <ListItemText primary="Show Join Requests" />
-                  </ListItem>
-                  */
+                     */
                   }
+                 
+  
                   <ListItem onClick={()=> setNewClubPostState({ type: "Post", 
                   isOpen: true,
                   from:mainState.user.email,
@@ -195,19 +174,18 @@ const MainClubPage = () => {
           />
         )}
 
+          {/**
+           responsive club menu
+           */}
         <div className={classes.CenterTopUserInfoWrapper}>
           <div className={classes.CenterTopUserInfoLeftSide}>
             <div className={classes.CenterTopUserInfoLeftSideAvatarWrapper}>
-              <Avatar
-                alt="Remy Sharp"
-                src="/static/images/avatar/1.jpg"
-                sx={{ width: 64, height: 64 }}
-              />
+              <UserAvatarResponsive profileImgId={clubState.clubInfo?.profileImgId}/>
             </div>
             <div className={classes.CenterTopButtonWrapper}>
               {isAdmin && (
                 <Button
-                  onClick={() => setSettings({ isopen: true })}
+                  onClick={() => setSettings({  ...clubState.clubInfo,isopen: true })}
                   className={classes.CenterTopButton}
                   endIcon={<EditIcon className={classes.CenterTopEditIcon} />}
                 >
@@ -215,18 +193,18 @@ const MainClubPage = () => {
                 </Button>
               )}
 
-              {isAdmin === false && follow === false && (
+              {isAdmin === false  && isMember === false && (
                 <Button
                   className={classes.CenterTopButton}
-                  onClick={() => setFollow(!follow)}
+                  onClick={handleJoin}
                 >
                   Join
                 </Button>
               )}
-              {isAdmin === false  && follow === true && (
+              {isAdmin === false  && isMember === true && (
                 <Button
                   className={classes.CenterTopButton}
-                  onClick={() => setFollow(!follow)}
+                  onClick={handleLeave}
                 >
                   Leave
                 </Button>
@@ -242,20 +220,18 @@ const MainClubPage = () => {
               }
             </div>
           </div>
+          
           <div className={classes.CenterTopUserInfoRightSide}>
             <div className={classes.CenterTopUserInfoRightSideUserName}>
-              {"Club Title"}
+              {clubState.clubInfo?.name}
             </div>
             <div className={classes.CenterTopUserInfoRightSideUniversityName}>
-              {"Related Uni Name"}
+              {clubState.clubUniInfo?.name}
             </div>
 
             <div className={classes.CenterTopUserInfoRightSideFollowWrapper}>
               <div className={classes.CenterTopUserInfoRightSideFollowInfo}>
-                {"2 Members"}
-              </div>
-              <div className={classes.CenterTopUserInfoRightSideFollowInfo}>
-                {"44 Followers"}
+              {clubState.clubUsers?.length + " Members"}
               </div>
             </div>
             {/*

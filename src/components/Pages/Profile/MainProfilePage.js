@@ -60,7 +60,7 @@ const MainProfilePage = () => {
   const isUni = userid === "fatihsultanmehmetvakifuniversitesi";
   // buradaki durum bilgisi istekle yönetilecek
   const isFollow = profileState.isFollow;
- 
+
   console.log("isFollow:", isFollow);
   console.log("followShip:", profileState.followShip);
   const classes = MainProfileStyles();
@@ -119,7 +119,7 @@ const MainProfilePage = () => {
           </Typography>
           <Divider />
           <Typography variant="body1" className={classes.UserName}>
-            {profileState.userUniInfo.name}
+            {profileState.userUniInfo?.name}
           </Typography>
 
           <Typography variant="body1" className={classes.UserDept}>
@@ -129,7 +129,7 @@ const MainProfilePage = () => {
             {profileState.userInfo.description}
           </Typography>
           <Divider />
-          <div className={classes.LeftSideFollowWrapper} >
+          <div className={classes.LeftSideFollowWrapper}>
             <Typography variant="body2" className={classes.UserDept}>
               {userid && "123 Follows"}
             </Typography>
@@ -139,7 +139,8 @@ const MainProfilePage = () => {
           </div>
 
           <div className={classes.LeftSideButtonWrapper}>
-            {isAdmin === false && isYourProfile === false &&
+            {isAdmin === false &&
+              isYourProfile === false &&
               (isFollow ? (
                 <Button
                   className={classes.LeftSideButton}
@@ -171,6 +172,7 @@ const MainProfilePage = () => {
                     <ListItemText primary="Create Club" />
                   </ListItem>
                   <Divider />
+                  {/* admin list is disable
                   <ListItem
                     onClick={() => setShowAdminList(true)}
                     button
@@ -179,6 +181,8 @@ const MainProfilePage = () => {
                     <ListItemText primary="Show Admins" />
                   </ListItem>
                   <Divider />
+                    */}
+
                   <ListItem
                     onClick={() =>
                       setNewUniPostState({
@@ -235,7 +239,9 @@ const MainProfilePage = () => {
             universityId={profileState.userInfo.id}
           />
         )}
-
+        {
+          // responsive - profile menu
+        }
         <div className={classes.CenterTopUserInfoWrapper}>
           <div className={classes.CenterTopUserInfoLeftSide}>
             <div className={classes.CenterTopUserInfoLeftSideAvatarWrapper}>
@@ -244,7 +250,7 @@ const MainProfilePage = () => {
               />
             </div>
             <div className={classes.CenterTopButtonWrapper}>
-              {isYourProfile ? (
+              {isYourProfile && (
                 <Button
                   onClick={() =>
                     setSettings({ ...profileState.userInfo, isopen: true })
@@ -254,31 +260,55 @@ const MainProfilePage = () => {
                 >
                   Edit
                 </Button>
-              ) : follow ? (
-                <Button className={classes.CenterTopButton}>UnFollow</Button>
-              ) : (
-                <Button className={classes.CenterTopButton}>Follow</Button>
               )}
+              {isAdmin && (
+                <Button
+                  onClick={() =>
+                    setSettingsUni({ ...profileState.userInfo, isopen: true })
+                  }
+                  className={classes.CenterTopButton}
+                  endIcon={<EditIcon className={classes.CenterTopEditIcon} />}
+                >
+                  Edit
+                </Button>
+              )}
+              {isYourProfile === false &&
+                isAdmin === false &&
+                (isFollow ? (
+                  <Button
+                    onClick={handleUnfollow}
+                    className={classes.CenterTopButton}
+                  >
+                    UnFollow
+                  </Button>
+                ) : (
+                  <Button
+                    onClick={handleFollow}
+                    className={classes.CenterTopButton}
+                  >
+                    Follow
+                  </Button>
+                ))}
             </div>
           </div>
           <div className={classes.CenterTopUserInfoRightSide}>
             <div className={classes.CenterTopUserInfoRightSideUserName}>
-              {profileState.userInfo.name} {profileState.userInfo.surname}
+              {profileState.userInfo?.name} {profileState.userInfo?.surname}
             </div>
             <div className={classes.CenterTopUserInfoRightSideUniversityName}>
-              {profileState.userUniInfo.name}
+              {profileState.userUniInfo?.name}
             </div>
 
             <div className={classes.CenterTopUserInfoRightSideUserType}>
-              {profileState.userInfo.type}
+              {profileState.userInfo?.type}
             </div>
 
             <div className={classes.CenterTopUserInfoRightSideFollowWrapper}>
               <div className={classes.CenterTopUserInfoRightSideFollowInfo}>
-                {"120 Follows"}
+                {userid && "123 Follows"}
               </div>
               <div className={classes.CenterTopUserInfoRightSideFollowInfo}>
-                {"200 Followers"}
+                {profileState.followers?.length + " Followers"}
               </div>
             </div>
           </div>

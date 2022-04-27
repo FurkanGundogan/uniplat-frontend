@@ -78,6 +78,7 @@ const MainClubStyles = makeStyles((theme) => ({
     display:"block",
     textAlign: "-webkit-center",
     marginBottom: "8px",
+    marginTop:"8px",
   },
   LeftSideButton: {
     border: "1px solid black !important",

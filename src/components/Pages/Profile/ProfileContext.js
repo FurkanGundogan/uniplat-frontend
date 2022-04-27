@@ -235,6 +235,8 @@ export const ProfileContextProvider = ({ children }) => {
     if (userid !== undefined && profileState.userInfo.universityId !== "") {
      
       setUserUniInfo();
+    }else{
+      setProfileState({...profileState,userUniInfo:null});
     }
     
   }, [profileState.userInfo]); //eslint-disable-line 
@@ -267,10 +269,10 @@ export const ProfileContextProvider = ({ children }) => {
 
   // get followers
   useEffect(() => {
-    
-    const setFollowers = async () => {
+    let target=userid?userid:uniid
+    const setUniFollowers = async () => {
       
-      let target=userid?userid:uniid
+      
       console.log("istek: ", URL_USER_UNIVERSITIES_BY_UNIVERSITYID+target);
       // profil user ise user followers, uni ise user universities'den veri çek
       // user followers henuz bitmedi
@@ -284,12 +286,13 @@ export const ProfileContextProvider = ({ children }) => {
           console.log("profile-followers-get-error");
         });
     };
-    if (profileState.userInfo.id!=="") {
+    if (profileState.userInfo.id!=="" && uniid!==undefined) {
 
-      setFollowers();
+      setUniFollowers();
     }
   }, [profileState.userInfo]); //eslint-disable-line
 
+  
     
   useEffect(() => {
     const setIsFollow = () => {

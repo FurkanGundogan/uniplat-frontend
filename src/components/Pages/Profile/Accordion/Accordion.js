@@ -47,38 +47,56 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
   borderTop: "1px solid rgba(0, 0, 0, .125)",
 }));
 
-export default function CustomizedAccordions({setShowAdminList,setCreateClubState,setNewUniPostState}) {
+export default function CustomizedAccordions({
+  setShowAdminList,
+  setCreateClubState,
+  setNewUniPostState,
+}) {
   const [expanded, setExpanded] = React.useState(false);
-  const mainState = useAuthState(); 
-  const handleChange =()=> {
+  const mainState = useAuthState();
+  const handleChange = () => {
     setExpanded(!expanded);
   };
   const classes = MainProfileStyles();
   return (
     <div className={classes.responsiveAdminArea}>
-      <Accordion
-        expanded={expanded}
-        onChange={handleChange}
-      >
+      <Accordion expanded={expanded} onChange={handleChange}>
         <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
           <Typography component="span">Admin</Typography>
         </AccordionSummary>
-        <AccordionDetails sx={{padding:"0px !important"}}>
-          <List sx={{padding:"0px !important"}} component="nav" aria-label="mailbox folders">
+        <AccordionDetails sx={{ padding: "0px !important" }}>
+          <List
+            sx={{ padding: "0px !important" }}
+            component="nav"
+            aria-label="mailbox folders"
+          >
             <ListItem button>
-              <ListItemText onClick={()=>setCreateClubState({isopen:true})} primary="Create Club" />
+              <ListItemText
+                onClick={() => setCreateClubState({ isopen: true })}
+                primary="Create Club"
+              />
             </ListItem>
             <Divider />
-            <ListItem onClick={()=>setShowAdminList(true)} button>
-              <ListItemText primary="Show Admins" />
-            </ListItem>
-            <Divider />
-            <ListItem onClick={()=> setNewUniPostState({ type: "Post", 
+            {/**
+              Admin List disabled
+              <ListItem onClick={()=>setShowAdminList(true)} button>
+                <ListItemText primary="Show Admins" />
+              </ListItem>
+              <Divider />
+               */}
+
+            <ListItem
+              onClick={() =>
+                setNewUniPostState({
+                  type: "Post",
                   isOpen: true,
-                  from:mainState.user.email,
-                  uniPost:true,
-                  uniID:"1"
-                  })} button>
+                  from: mainState.user.email,
+                  uniPost: true,
+                  uniID: "1",
+                })
+              }
+              button
+            >
               <ListItemText primary="New Post" />
             </ListItem>
           </List>
