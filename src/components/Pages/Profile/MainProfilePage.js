@@ -27,7 +27,7 @@ import { NewUniPostModalContext } from "../../Contexts/NewUniPostModalContext";
 import { ProfileContext } from "../Profile/ProfileContext";
 import UserAvatarResponsive from "./UserAvatarResponsive";
 import UniversitySettingsModal from "./UniversitySettings/UniversitySettingsModal";
-import { follow, unfollow } from "./PanelActions";
+import { follow, unfollow,followUser,unfollowUser } from "./PanelActions";
 const MainProfilePage = () => {
   // const navigate = useNavigate();
   const [tab, setTab] = React.useState(0);
@@ -51,12 +51,14 @@ const MainProfilePage = () => {
   const isYourProfile = mainState.user.id === userid;
   console.log("isYourProfile:", isYourProfile);
   const { profileState, setProfileState,
-    profileUniversities,profileClubs} = useContext(ProfileContext);
+    profileUniversities,profileClubs,profileFollowers,setProfileFollowers,
+    profileFollows} = useContext(ProfileContext);
 
   console.log("state:", profileState);
   console.log("profUnies:", profileUniversities);
   console.log("profClubs:", profileClubs);
-
+  console.log("followers:", profileFollowers);
+  console.log("follows:", profileFollows);
 
   useEffect(() => {
     setIsAdmin(profileState.userInfo.adminId === mainState.user.id);
@@ -72,16 +74,38 @@ const MainProfilePage = () => {
   const [showAdminList, setShowAdminList] = React.useState(false);
 
   const handleFollow = async () => {
-    follow(
-      mainState.user.id,
-      profileState.userInfo.id,
-      profileState,
-      setProfileState
-    );
+    if(userid!==undefined)
+    {
+      followUser(
+        profileState.userInfo.id,
+        mainState.user.id,
+        profileState,
+        setProfileState,
+        profileFollowers,
+        setProfileFollowers
+      );
+    }
+    if(uniid!==undefined){
+      follow(
+        profileState.userInfo.id,
+        mainState.user.id,
+        profileState,
+        setProfileState,
+        profileFollowers,
+        setProfileFollowers,
+      );
+    }
+
   };
   const handleUnfollow = () => {
     // join(mainState.user.id,clubState.clubInfo.id)
-    unfollow(profileState.followShip, profileState, setProfileState);
+    if(userid!==undefined){
+      unfollowUser(profileState.followShip, profileState, setProfileState,profileFollowers,setProfileFollowers);
+    }
+    if(uniid!==undefined){
+      unfollow(profileState.followShip, profileState, setProfileState,profileFollowers,setProfileFollowers);
+    }
+   
   };
 
   return (
@@ -136,13 +160,13 @@ const MainProfilePage = () => {
           <Divider />
           <div className={classes.LeftSideFollowWrapper}>
             <Typography variant="body2" className={classes.UserDept}>
-              {userid && profileUniversities && profileClubs &&
-                (profileUniversities.length+profileClubs.length) + " Follows" 
+              {userid && profileUniversities && profileClubs && profileFollows &&
+                (profileUniversities.length+profileClubs.length+profileFollows.length) + " Follows" 
               }
           
             </Typography>
             <Typography variant="body2" className={classes.UserDept}>
-              {profileState.followers?.length + " Followers"}
+              {(profileFollowers?profileFollowers.length:0) + " Followers"}
             </Typography>
           </div>
 
@@ -313,10 +337,12 @@ const MainProfilePage = () => {
 
             <div className={classes.CenterTopUserInfoRightSideFollowWrapper}>
               <div className={classes.CenterTopUserInfoRightSideFollowInfo}>
-                {userid && "123 Follows"}
+              {userid && profileUniversities && profileClubs && profileFollows &&
+                (profileUniversities.length+profileClubs.length+profileFollows.length) + " Follows" 
+              }
               </div>
               <div className={classes.CenterTopUserInfoRightSideFollowInfo}>
-                {profileState.followers?.length + " Followers"}
+                {(profileFollowers?profileFollowers.length:0) + " Followers"}
               </div>
             </div>
           </div>

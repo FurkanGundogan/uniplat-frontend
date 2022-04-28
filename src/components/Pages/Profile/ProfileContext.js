@@ -3,7 +3,8 @@ import { useState,useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios"
 import { URL_UNIVERSITIES,URL_USERS,URL_USER_UNIVERSITIES_BY_UNIVERSITYID,
-URL_USER_UNIVERSITIES_BY_USERID,URL_USER_CLUBS_BY_USERID } from "../../Contexts/Paths";
+URL_USER_UNIVERSITIES_BY_USERID,URL_USER_CLUBS_BY_USERID,
+URL_USER_FOLLOWERS_BY_USERID,URL_USER_FOLLOWERS_BY_FOLLOWERID } from "../../Contexts/Paths";
 import { useAuthState } from "../../Contexts";
 // burada ve PostContext'de aynı data var
 export const data = [
@@ -182,10 +183,11 @@ export const ProfileContextProvider = ({ children }) => {
     userUniInfo:userUniInfo,
     posts: data,
     groups: groups,
-    followers:followers,
     isFollow:false,
   });
-
+  // profil's followers seperated another state
+  const [profileFollowers,setProfileFollowers]= useState()
+  const [profileFollows,setProfileFollows]= useState()
   const [profileUniversities,setProfileUniversities]= useState()
   const [profileClubs,setProfileClubs]= useState()
 
@@ -196,6 +198,11 @@ export const ProfileContextProvider = ({ children }) => {
     setProfileUniversities,
     profileClubs,
     setProfileClubs,
+    profileFollowers,
+    setProfileFollowers,
+    profileFollows,
+    setProfileFollows,
+
   };
 
   // user bilgileri için istek
@@ -275,37 +282,38 @@ export const ProfileContextProvider = ({ children }) => {
   }, [uniid]); //eslint-disable-line 
 
 
-  // get followers
+  
+  
+  // get  followers
   useEffect(() => {
-    let target=userid?userid:uniid
+    let target=userid?URL_USER_FOLLOWERS_BY_USERID+userid
+    :URL_USER_UNIVERSITIES_BY_UNIVERSITYID+uniid
     const setUniFollowers = async () => {
-      
       
       console.log("istek: ", URL_USER_UNIVERSITIES_BY_UNIVERSITYID+target);
       // profil user ise user followers, uni ise user universities'den veri çek
-      // user followers henuz bitmedi
+      
       await axios
-        .get(URL_USER_UNIVERSITIES_BY_UNIVERSITYID+target)
+        .get(target)
         .then((response) => {
           console.log("setFollowers: ",response.data.content)
-          setProfileState({ ...profileState, followers: response.data.content });
+          setProfileFollowers(response.data.content);
         })
         .catch((e) => {
           console.log("profile-followers-get-error");
         });
     };
-    if (profileState.userInfo.id!=="" && uniid!==undefined) {
+    if (profileState.userInfo.id!=="" && uniid!==undefined  | userid!==undefined) {
 
       setUniFollowers();
     }
-  }, [profileState.userInfo]); //eslint-disable-line
+  }, [profileState.userInfo]); //eslint-disable-line  
 
-  
-    
+
   useEffect(() => {
     const setIsFollow = () => {
-      let item = profileState.followers.filter((element) => {
-        return element.userId === mainState.user.id;
+      let item = profileFollowers.filter((element) => {
+        return element.followerId === mainState.user.id;
       });
       if (item.length===1) {
         console.log("item: ",item)
@@ -313,11 +321,11 @@ export const ProfileContextProvider = ({ children }) => {
       }
       
     };
-    if (profileState.followers!==[]) {
+    if (profileFollowers!==undefined) {
       
       setIsFollow();
     }
-  }, [profileState.followers]); //eslint-disable-line
+  }, [profileFollowers]); //eslint-disable-line
 
 //
 // following universities
@@ -364,6 +372,31 @@ useEffect(() => {
   }
  
 }, [userid]); //eslint-disable-line 
+
+//// follows of user
+/// takip ettiği kulllanıcılar
+useEffect(() => {
+  const setUserFollows = async () => {
+  
+    await axios
+      .get(URL_USER_FOLLOWERS_BY_FOLLOWERID + userid)
+      .then((response) => {
+        
+        setProfileFollows(response.data.content);
+      })
+      .catch((e) => {
+        console.log("profile-user-follows-get-error");
+
+      });
+  };
+  if (userid !== undefined) {
+   
+    setUserFollows();
+  }
+ 
+}, [userid]); //eslint-disable-line 
+
+
   return (
     <ProfileContext.Provider value={value}>{children}</ProfileContext.Provider>
   );
