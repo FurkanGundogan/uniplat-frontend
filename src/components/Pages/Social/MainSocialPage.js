@@ -10,13 +10,14 @@ import "react-awesome-lightbox/build/style.css";
 import CreateUniModal from "./SocialCreateUni/CreateUniModal";
 import Acciordion from "./Accordion/Accordion";
 import Box from "@mui/material/Box";
-import GroupCard from "./GroupCard/GroupCard";
+import GroupCard from "./GroupCard/GroupCard"
+import UniversityCard from "./UniversityCard/UniversityCard";
 import { blankavatar } from "../../Contexts/Paths";
 import {UserExtraInfoContext} from "../../Contexts/UserExtraInfoContext"
 const MainSocialPage = () => {
   const mainState = useAuthState(); //read user details from context
-  const { userClubs } = useContext(UserExtraInfoContext);
-  
+  const { userClubs,userUniversities } = useContext(UserExtraInfoContext);
+  console.log("user unis:",userUniversities)
   const [createUniState, setCreateUniState] = useState();
   const [createClubState, setCreateClubState] = useState();
   const [isTeacher] = useState(mainState.user.type==="TEACHER");
@@ -80,6 +81,26 @@ const MainSocialPage = () => {
           />
         )}
         <div className={classes.SocialCenterInner}>
+        <Typography
+            variant="h5"
+            sx={{ padding: "14px" }}
+            color="text.primary"
+          >
+            UNIVERSITIES
+          </Typography>
+          <Box sx={{ flexGrow: 1 }}>
+            <Grid container className={classes.mygridcontainer} spacing={3}>
+              {
+                userUniversities!==undefined &&
+                userUniversities.map((userUni,index)=>
+                  <Grid key={index} item xs={6}  className={classes.mygrid}>
+                    <UniversityCard universityId={userUni.universityId}/>
+                  </Grid>
+                )
+              }
+            </Grid>
+          </Box>
+          
           <Typography
             variant="h5"
             sx={{ padding: "14px" }}

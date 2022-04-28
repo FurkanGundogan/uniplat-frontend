@@ -7,17 +7,24 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router-dom";
 import { useState,useEffect } from "react";
-import { getClubInfos } from "./GroupCardActions";
+import { getClubInfos,getClubUsersInfo } from "./GroupCardActions";
 export default function RecipeReviewCard({clubId}) {
   const navigate = useNavigate();
 
 
   const [clubInfo,setClubInfo]=useState()
   const [clubUniInfo,setClubUniInfo]=useState()
-
+  const [clubUsersInfo,setClubUsersInfo]=useState()
+console.log("ci:",clubUsersInfo)
   useEffect(() => {
     if (clubId !== undefined) {
       getClubInfos(clubId,setClubInfo,setClubUniInfo);
+    }
+  }, [clubId]);
+
+  useEffect(() => {
+    if (clubId !== undefined) {
+      getClubUsersInfo(clubId,setClubUsersInfo);
     }
   }, [clubId]);
 
@@ -33,7 +40,7 @@ export default function RecipeReviewCard({clubId}) {
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-            R
+            C
           </Avatar>
         }
   
@@ -42,11 +49,10 @@ export default function RecipeReviewCard({clubId}) {
       />
       <CardContent>
         <Typography variant="body2" color="text.secondary">
-          18 Members
+  
+         {clubUsersInfo && clubUsersInfo.length} Members
         </Typography>
-        <Typography variant="body2" color="text.secondary">
-          200 Followers
-        </Typography>
+
       </CardContent>
     </Card>
   );

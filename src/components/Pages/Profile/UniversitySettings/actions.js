@@ -2,7 +2,7 @@ import axios from "axios";
 import { URL_FILES,URL_UNIVERSITIES } from "../../../Contexts/Paths";
 
 export const save = (settings, profileState, setProfileState) => {
-  const { name,adminId, originalFile } = settings;
+  const { name,adminId,description, originalFile } = settings;
   const bodyFormData = getFile(originalFile);
   if (bodyFormData !== null) {
     // görselsiz
@@ -10,6 +10,7 @@ export const save = (settings, profileState, setProfileState) => {
       profileState,
       setProfileState,
       name,
+      description,
       adminId,
       bodyFormData,
     );
@@ -20,6 +21,7 @@ export const save = (settings, profileState, setProfileState) => {
       profileState,
       setProfileState,
       name,
+      description,
       adminId,
     );
   }
@@ -29,12 +31,14 @@ const editWithUploadedImageId = (
   profileState,
   setProfileState,
   name,
+  description,
   adminId,
   bodyFormData
 ) => {
   const updateduser = {
     ...profileState.userInfo,
     name: name,
+    description:description,
     adminId:adminId,
   };
 
@@ -71,11 +75,12 @@ const editWithUploadedImageId = (
     });
 };
 
-const editStandard = (profileState, setProfileState, name,adminId) => {
+const editStandard = (profileState, setProfileState, name,description,adminId) => {
   console.log("es:",name,adminId)
   const updateduser = {
     ...profileState.userInfo,
     name: name,
+    description:description,
     adminId:adminId,
   };
   console.log("Edit Uni Standard data:", updateduser);

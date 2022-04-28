@@ -63,6 +63,7 @@ export default function UniversitySettingsModal({ settings, setSettings,profileS
       return false;
     }
 
+
     return true;
   };
 
@@ -180,6 +181,15 @@ export default function UniversitySettingsModal({ settings, setSettings,profileS
                   className={classes.text}
                   onChange={(e) => {
                     setSettings({ ...settings, name: e.target.value });
+                  }}
+                />
+                 <TextField
+                  id="multiline-static"
+                  placeholder={settings.description?settings.description:"Description"}
+                  value={settings.description?settings.description:""}
+                  className={classes.text}
+                  onChange={(e) => {
+                    setSettings({ ...settings, description: e.target.value });
                   }}
                 />
               </div>

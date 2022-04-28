@@ -50,8 +50,13 @@ const MainProfilePage = () => {
   console.log("isAdmin:", isAdmin);
   const isYourProfile = mainState.user.id === userid;
   console.log("isYourProfile:", isYourProfile);
-  const { profileState, setProfileState } = useContext(ProfileContext);
+  const { profileState, setProfileState,
+    profileUniversities,profileClubs} = useContext(ProfileContext);
+
   console.log("state:", profileState);
+  console.log("profUnies:", profileUniversities);
+  console.log("profClubs:", profileClubs);
+
 
   useEffect(() => {
     setIsAdmin(profileState.userInfo.adminId === mainState.user.id);
@@ -131,7 +136,10 @@ const MainProfilePage = () => {
           <Divider />
           <div className={classes.LeftSideFollowWrapper}>
             <Typography variant="body2" className={classes.UserDept}>
-              {userid && "123 Follows"}
+              {userid && profileUniversities && profileClubs &&
+                (profileUniversities.length+profileClubs.length) + " Follows" 
+              }
+          
             </Typography>
             <Typography variant="body2" className={classes.UserDept}>
               {profileState.followers?.length + " Followers"}

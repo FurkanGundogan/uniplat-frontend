@@ -5,7 +5,7 @@ export const validateNames = (text) => {
   return true;
 };
 /*
-export const validateAbout = (text) => {
+export const validateDescription = (text) => {
   if ((text === undefined) | (text === "")) return false;
   if (/^(?! *$)[a-zA-ZıiİçÇşŞğĞÜüÖö.0-9 \W]+$/.test(text) === false) return false;
 

@@ -2,7 +2,8 @@ import React, { createContext } from "react";
 import { useState,useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios"
-import { URL_UNIVERSITIES,URL_USERS,URL_USER_UNIVERSITIES_BY_UNIVERSITYID } from "../../Contexts/Paths";
+import { URL_UNIVERSITIES,URL_USERS,URL_USER_UNIVERSITIES_BY_UNIVERSITYID,
+URL_USER_UNIVERSITIES_BY_USERID,URL_USER_CLUBS_BY_USERID } from "../../Contexts/Paths";
 import { useAuthState } from "../../Contexts";
 // burada ve PostContext'de aynı data var
 export const data = [
@@ -185,9 +186,16 @@ export const ProfileContextProvider = ({ children }) => {
     isFollow:false,
   });
 
+  const [profileUniversities,setProfileUniversities]= useState()
+  const [profileClubs,setProfileClubs]= useState()
+
   const value = {
     profileState,
     setProfileState,
+    profileUniversities,
+    setProfileUniversities,
+    profileClubs,
+    setProfileClubs,
   };
 
   // user bilgileri için istek
@@ -311,8 +319,51 @@ export const ProfileContextProvider = ({ children }) => {
     }
   }, [profileState.followers]); //eslint-disable-line
 
+//
+// following universities
+useEffect(() => {
+  const setUserUnifollows = async () => {
+  
+    await axios
+      .get(URL_USER_UNIVERSITIES_BY_USERID + userid)
+      .then((response) => {
+        
+        setProfileUniversities(response.data.content);
+      })
+      .catch((e) => {
+        console.log("profile-universities-get-error");
+
+      });
+  };
+  if (userid !== undefined) {
+   
+    setUserUnifollows();
+  }
+ 
+}, [userid]); //eslint-disable-line 
 
 
+//// following clubs
+useEffect(() => {
+  const setUserClubfollows = async () => {
+  
+    await axios
+      .get(URL_USER_CLUBS_BY_USERID + userid)
+      .then((response) => {
+        
+        setProfileClubs(response.data.content);
+      })
+      .catch((e) => {
+        console.log("profile-clubs-get-error");
+
+      });
+  };
+  if (userid !== undefined) {
+   
+    setUserClubfollows();
+  }
+ 
+}, [userid]); //eslint-disable-line 
   return (
     <ProfileContext.Provider value={value}>{children}</ProfileContext.Provider>
   );

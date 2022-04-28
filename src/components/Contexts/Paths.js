@@ -10,3 +10,4 @@ export const URL_USER_CLUBS = "http://localhost:8080/user-clubs";
 export const URL_USER_CLUBS_BY_USERID = "http://localhost:8080/user-clubs?userId=";
 export const URL_USER_CLUBS_BY_CLUBID = "http://localhost:8080/user-clubs?clubId=";
 export const URL_USER_UNIVERSITIES_BY_UNIVERSITYID ="http://localhost:8080/user-universities?universityId="
+export const URL_USER_UNIVERSITIES_BY_USERID ="http://localhost:8080/user-universities?userId="

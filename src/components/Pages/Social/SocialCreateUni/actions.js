@@ -2,16 +2,16 @@ import axios from "axios";
 import { URL_FILES,URL_UNIVERSITIES,URL_USER_UNIVERSITIES } from "../../../Contexts/Paths";
 
 export const save = (settings) => {
-  const { name, adminId, originalFile } = settings;
+  const { name,description, adminId, originalFile } = settings;
 
   const bodyFormData = getFile(originalFile);
 
   if (bodyFormData !== null) {
     // varsa önce file'ı yükle sonra  update et
-    createWithUploadedImageId(name, adminId, bodyFormData);
+    createWithUploadedImageId(name, description,adminId, bodyFormData);
   } else {
     // file yoksa direkt  update et
-    createWithBlankImageId(name, adminId);
+    createWithBlankImageId(name,description, adminId);
   }
 
 };
@@ -27,7 +27,7 @@ const getFile = (originalFile) => {
   return null;
 };
 
-const createWithUploadedImageId = (name, adminId, bodyFormData) => {
+const createWithUploadedImageId = (name,description, adminId, bodyFormData) => {
   axios(URL_FILES, {
     method: "POST",
     headers: {
@@ -38,6 +38,7 @@ const createWithUploadedImageId = (name, adminId, bodyFormData) => {
     .then((fileresponse) => {
       console.log("Create Uni data:", {
         name,
+        description,
         adminId,
         profileImgId: fileresponse.data.id,
       });
@@ -46,6 +47,7 @@ const createWithUploadedImageId = (name, adminId, bodyFormData) => {
         header: { "Content-type": "application/json" },
         data: {
           name,
+          description,
           adminId,
           profileImgId: fileresponse.data.id,
         },
@@ -64,15 +66,16 @@ const createWithUploadedImageId = (name, adminId, bodyFormData) => {
     });
 };
 
-const createWithBlankImageId = (name, adminId) => {
+const createWithBlankImageId = (name,description, adminId) => {
   console.log("Create uni standart data:", {
     name,
+    description,
     adminId,
   });
   axios(URL_UNIVERSITIES, {
     method: "POST",
     header: { "Content-type": "application/json" },
-    data: { name, adminId },
+    data: { name,description, adminId },
   })
     .then((response) => {
       console.log("Uni Created Response:", response);

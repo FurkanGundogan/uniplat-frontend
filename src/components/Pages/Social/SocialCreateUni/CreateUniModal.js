@@ -180,10 +180,10 @@ export default function CreateUniModal({settings, setSettings,  adminId}) {
                 />
                 <TextField
                   id="multiline-static"
-                  placeholder="About University"
+                  placeholder="Description"
                   className={classes.text}
                   onChange={(e) => {
-                    setSettings({ ...settings, about: e.target.value });
+                    setSettings({ ...settings, description: e.target.value });
                   }}
                 />
               </div>

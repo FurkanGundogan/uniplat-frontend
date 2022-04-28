@@ -1,5 +1,5 @@
 import axios from "axios"
-import { URL_CLUBS,URL_UNIVERSITIES } from "../../../Contexts/Paths";
+import { URL_CLUBS,URL_UNIVERSITIES,URL_USER_CLUBS_BY_CLUBID } from "../../../Contexts/Paths";
 export const getClubInfos = async (clubId,setClubInfo,setClubUniInfo) => {
     await axios
       .get(URL_CLUBS+"/"+ clubId)
@@ -23,6 +23,19 @@ export const getClubInfos = async (clubId,setClubInfo,setClubUniInfo) => {
     .then((response) => {
       
       setClubUniInfo(response.data);
+    
+    })
+    .catch((e) => {
+      console.log("club-uni-info-get-error");
+    });
+  }
+
+  export const getClubUsersInfo = async (clubId,setClubUsersInfo) => {
+    await axios
+    .get(URL_USER_CLUBS_BY_CLUBID+ clubId)
+    .then((response) => {
+      
+      setClubUsersInfo(response.data.content);
     })
     .catch((e) => {
       console.log("club-uni-info-get-error");
