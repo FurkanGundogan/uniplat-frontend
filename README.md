@@ -1,3 +1,2 @@
 # Uniplat 
-React JS
-Material UI
+React JS & Material UI
