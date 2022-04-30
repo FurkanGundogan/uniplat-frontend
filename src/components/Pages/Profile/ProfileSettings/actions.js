@@ -62,7 +62,7 @@ export const editReq = ({
     description: description,
     universityId:universityId,
     version: mainState.user.version,
-    password: "123123",
+    
   };
 
 

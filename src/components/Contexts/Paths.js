@@ -14,3 +14,4 @@ export const URL_USER_UNIVERSITIES_BY_USERID ="http://localhost:8080/user-univer
 export const URL_USER_FOLLOWS ="http://localhost:8080/user-follows"
 export const URL_USER_FOLLOWERS_BY_USERID ="http://localhost:8080/user-follows?userId="
 export const URL_USER_FOLLOWERS_BY_FOLLOWERID ="http://localhost:8080/user-follows?followerId="
+export const URL_CLUBS_BY_UNIVERSITYID = "http://localhost:8080/clubs?universityId=";

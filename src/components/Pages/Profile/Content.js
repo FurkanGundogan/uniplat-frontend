@@ -1,15 +1,15 @@
 import React, { useEffect,useState } from 'react'
 
-import {getContent} from "./ContentActions"
+import {GetContent} from "./ContentActions"
 
-function Content({tab}) {
+function Content({tab,userid,uniid}) {
 
   const [value,setValue]=useState("")
 
   useEffect(() => {
-    setValue(getContent(tab))
+    setValue(GetContent(tab,userid,uniid))
   
-  }, [tab])
+  }, [tab]) //eslint-disable-line
   
 
 

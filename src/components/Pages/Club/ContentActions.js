@@ -1,6 +1,6 @@
 import ClubPostArea from './ClubPostArea'
 import ClubEventArea from './ClubEventArea'
-import Members from './Members';
+import Members from './MembersTab/Members';
 
 export const getContent = (index) => {
   

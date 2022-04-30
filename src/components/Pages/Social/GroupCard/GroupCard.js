@@ -8,6 +8,7 @@ import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router-dom";
 import { useState,useEffect } from "react";
 import { getClubInfos,getClubUsersInfo } from "./GroupCardActions";
+import { URL_FILES } from "../../../Contexts/Paths";
 export default function RecipeReviewCard({clubId}) {
   const navigate = useNavigate();
 
@@ -39,7 +40,9 @@ console.log("ci:",clubUsersInfo)
     >
       <CardHeader
         avatar={
-          <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+          <Avatar 
+          src={clubInfo && URL_FILES+"/"+clubInfo.profileImgId }
+          sx={{ bgcolor: red[500] }} aria-label="recipe">
             C
           </Avatar>
         }

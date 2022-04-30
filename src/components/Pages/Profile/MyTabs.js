@@ -7,6 +7,7 @@ export default function MyTabs({isUni,tab,setTab}) {
  
   const classes = MainProfileStyles();
   const handleChange = (event, newValue) => {
+    console.log("event:",event.target)
     setTab(newValue);
   };
 
@@ -21,12 +22,11 @@ export default function MyTabs({isUni,tab,setTab}) {
         aria-label="scrollable prevent tabs example"
       >
         <Tab label="Posts" />
-        <Tab label="Contacts" />
+        {isUni!==undefined&&<Tab label="Followers" />}
         <Tab label="Events" />
         <Tab label="Surveys" />
-        <Tab label="Likes" />
-        {isUni&&<Tab label="Groups" />}
-        
+        {isUni!==undefined&&<Tab label="Clubs" />}
+        {isUni===undefined&&<Tab label="Memberships" />}
 
       </Tabs>
     </Box>

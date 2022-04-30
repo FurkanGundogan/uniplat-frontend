@@ -1,10 +1,16 @@
 import React, { createContext } from "react";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios"
-import { URL_UNIVERSITIES,URL_USERS,URL_USER_UNIVERSITIES_BY_UNIVERSITYID,
-URL_USER_UNIVERSITIES_BY_USERID,URL_USER_CLUBS_BY_USERID,
-URL_USER_FOLLOWERS_BY_USERID,URL_USER_FOLLOWERS_BY_FOLLOWERID } from "../../Contexts/Paths";
+import axios from "axios";
+import {
+  URL_UNIVERSITIES,
+  URL_USERS,
+  URL_USER_UNIVERSITIES_BY_UNIVERSITYID,
+  URL_USER_UNIVERSITIES_BY_USERID,
+  URL_USER_CLUBS_BY_USERID,
+  URL_USER_FOLLOWERS_BY_USERID,
+  URL_USER_FOLLOWERS_BY_FOLLOWERID,
+} from "../../Contexts/Paths";
 import { useAuthState } from "../../Contexts";
 // burada ve PostContext'de aynı data var
 export const data = [
@@ -173,23 +179,23 @@ export const userUniInfo = {
   name: "",
 };
 
-export const followers = []
+export const followers = [];
 
 export const ProfileContext = createContext();
 
 export const ProfileContextProvider = ({ children }) => {
   const [profileState, setProfileState] = useState({
     userInfo: userInfo,
-    userUniInfo:userUniInfo,
+    userUniInfo: userUniInfo,
     posts: data,
     groups: groups,
-    isFollow:false,
+    isFollow: false,
   });
   // profil's followers seperated another state
-  const [profileFollowers,setProfileFollowers]= useState()
-  const [profileFollows,setProfileFollows]= useState()
-  const [profileUniversities,setProfileUniversities]= useState()
-  const [profileClubs,setProfileClubs]= useState()
+  const [profileFollowers, setProfileFollowers] = useState();
+  const [profileFollows, setProfileFollows] = useState();
+  const [profileUniversities, setProfileUniversities] = useState();
+  const [profileClubs, setProfileClubs] = useState();
 
   const value = {
     profileState,
@@ -202,200 +208,176 @@ export const ProfileContextProvider = ({ children }) => {
     setProfileFollowers,
     profileFollows,
     setProfileFollows,
-
   };
 
   // user bilgileri için istek
   const { userid } = useParams();
   const { uniid } = useParams();
-
+  console.log("userid:",userid)
+  console.log("uniid:",uniid)
   const mainState = useAuthState(); //read user details from context
-  
+
   useEffect(() => {
     const setUserInfo = async () => {
-    
       await axios
         .get(URL_USERS + "/" + userid)
         .then((response) => {
-          
-          setProfileState({...profileState,userInfo:response.data});
+          setProfileState({...profileState,userInfo: response.data });
         })
         .catch((e) => {
           console.log("profile-user-info-get-error");
-
         });
     };
     if (userid !== undefined) {
-     
       setUserInfo();
     }
-   
-  }, [userid]); //eslint-disable-line 
+  }, [userid]); //eslint-disable-line
 
   // user uni bilgisi için istek
- 
+
   useEffect(() => {
     const setUserUniInfo = async () => {
-      
       await axios
         .get(URL_UNIVERSITIES + "/" + profileState.userInfo.universityId)
         .then((response) => {
-         
-          setProfileState({...profileState,userUniInfo:response.data});
+          setProfileState({ ...profileState, userUniInfo: response.data });
         })
         .catch((e) => {
           console.log("profile-user-Uni-info-get-error");
         });
     };
     if (userid !== undefined && profileState.userInfo.universityId !== "") {
-     
       setUserUniInfo();
-    }else{
-      setProfileState({...profileState,userUniInfo:null});
+    } else {
+      setProfileState({ ...profileState, userUniInfo: null });
     }
-    
-  }, [profileState.userInfo]); //eslint-disable-line 
-
-
+  }, [profileState.userInfo]); //eslint-disable-line
 
   // uni/id   uni profil sayfasi ise veri getirme
- 
 
   useEffect(() => {
     const setInfoAsUni = async () => {
       await axios
-        .get(URL_UNIVERSITIES + "/" +uniid)
+        .get(URL_UNIVERSITIES + "/" + uniid)
         .then((response) => {
-          
-          setProfileState({...profileState,userInfo:response.data});
+          setProfileState({ ...profileState, userInfo: response.data });
         })
         .catch((e) => {
           console.log("Uni-profil-get-error");
         });
     };
-    if (uniid !== undefined ) {
-    
+    if (uniid !== undefined) {
       setInfoAsUni();
-   
     }
-    
-  }, [uniid]); //eslint-disable-line 
+  }, [uniid]); //eslint-disable-line
 
-
-  
-  
   // get  followers
   useEffect(() => {
-    let target=userid?URL_USER_FOLLOWERS_BY_USERID+userid
-    :URL_USER_UNIVERSITIES_BY_UNIVERSITYID+uniid
+    let target = userid
+      ? URL_USER_FOLLOWERS_BY_USERID + userid
+      : URL_USER_UNIVERSITIES_BY_UNIVERSITYID + uniid;
     const setUniFollowers = async () => {
-      
-      console.log("istek: ", URL_USER_UNIVERSITIES_BY_UNIVERSITYID+target);
+      console.log("istek: ", URL_USER_UNIVERSITIES_BY_UNIVERSITYID + target);
       // profil user ise user followers, uni ise user universities'den veri çek
-      
+
       await axios
         .get(target)
         .then((response) => {
-          console.log("setFollowers: ",response.data.content)
+          console.log("setFollowers: ", response.data.content);
           setProfileFollowers(response.data.content);
         })
         .catch((e) => {
           console.log("profile-followers-get-error");
         });
     };
-    if (profileState.userInfo.id!=="" && uniid!==undefined  | userid!==undefined) {
-
+    if (
+      profileState.userInfo.id !== "" &&
+      (uniid !== undefined) | (userid !== undefined)
+    ) {
       setUniFollowers();
     }
-  }, [profileState.userInfo]); //eslint-disable-line  
-
+  }, [profileState.userInfo]); //eslint-disable-line
 
   useEffect(() => {
     const setIsFollow = () => {
-      let item = profileFollowers.filter((element) => {
-        return element.followerId === mainState.user.id;
-      });
-      if (item.length===1) {
-        console.log("item: ",item)
-        setProfileState({ ...profileState, isFollow:true,followShip: item });
+      let item;
+      if (userid!==undefined) {
+        item = profileFollowers.filter((element) => {
+          console.log("elememtn:", element);
+          return element.followerId === mainState.user.id;
+        });
       }
-      
+      if (uniid!==undefined) {
+        item = profileFollowers.filter((element) => {
+          console.log("elememtn:", element);
+          return element.userId === mainState.user.id;
+        });
+      }
+
+      if (item.length === 1) {
+        console.log("item: ", item);
+        setProfileState({ ...profileState, isFollow: true, followShip: item });
+      }else{
+        setProfileState({ ...profileState, isFollow: false, followShip: item });
+      }
     };
-    if (profileFollowers!==undefined) {
-      
+    if (profileFollowers !== undefined) {
       setIsFollow();
     }
   }, [profileFollowers]); //eslint-disable-line
 
-//
-// following universities
-useEffect(() => {
-  const setUserUnifollows = async () => {
-  
-    await axios
-      .get(URL_USER_UNIVERSITIES_BY_USERID + userid)
-      .then((response) => {
-        
-        setProfileUniversities(response.data.content);
-      })
-      .catch((e) => {
-        console.log("profile-universities-get-error");
+  //
+  // following universities
+  useEffect(() => {
+    const setUserUnifollows = async () => {
+      await axios
+        .get(URL_USER_UNIVERSITIES_BY_USERID + userid)
+        .then((response) => {
+          setProfileUniversities(response.data.content);
+        })
+        .catch((e) => {
+          console.log("profile-universities-get-error");
+        });
+    };
+    if (userid !== undefined) {
+      setUserUnifollows();
+    }
+  }, [userid]); //eslint-disable-line
 
-      });
-  };
-  if (userid !== undefined) {
-   
-    setUserUnifollows();
-  }
- 
-}, [userid]); //eslint-disable-line 
+  //// following clubs
+  useEffect(() => {
+    const setUserClubfollows = async () => {
+      await axios
+        .get(URL_USER_CLUBS_BY_USERID + userid)
+        .then((response) => {
+          setProfileClubs(response.data.content);
+        })
+        .catch((e) => {
+          console.log("profile-clubs-get-error");
+        });
+    };
+    if (userid !== undefined) {
+      setUserClubfollows();
+    }
+  }, [userid]); //eslint-disable-line
 
-
-//// following clubs
-useEffect(() => {
-  const setUserClubfollows = async () => {
-  
-    await axios
-      .get(URL_USER_CLUBS_BY_USERID + userid)
-      .then((response) => {
-        
-        setProfileClubs(response.data.content);
-      })
-      .catch((e) => {
-        console.log("profile-clubs-get-error");
-
-      });
-  };
-  if (userid !== undefined) {
-   
-    setUserClubfollows();
-  }
- 
-}, [userid]); //eslint-disable-line 
-
-//// follows of user
-/// takip ettiği kulllanıcılar
-useEffect(() => {
-  const setUserFollows = async () => {
-  
-    await axios
-      .get(URL_USER_FOLLOWERS_BY_FOLLOWERID + userid)
-      .then((response) => {
-        
-        setProfileFollows(response.data.content);
-      })
-      .catch((e) => {
-        console.log("profile-user-follows-get-error");
-
-      });
-  };
-  if (userid !== undefined) {
-   
-    setUserFollows();
-  }
- 
-}, [userid]); //eslint-disable-line 
-
+  //// follows of user
+  /// takip ettiği kulllanıcılar
+  useEffect(() => {
+    const setUserFollows = async () => {
+      await axios
+        .get(URL_USER_FOLLOWERS_BY_FOLLOWERID + userid)
+        .then((response) => {
+          setProfileFollows(response.data.content);
+        })
+        .catch((e) => {
+          console.log("profile-user-follows-get-error");
+        });
+    };
+    if (userid !== undefined) {
+      setUserFollows();
+    }
+  }, [userid]); //eslint-disable-line
 
   return (
     <ProfileContext.Provider value={value}>{children}</ProfileContext.Provider>

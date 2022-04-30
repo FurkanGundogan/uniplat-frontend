@@ -1,26 +1,62 @@
 import ProfilePostArea from "./ProfilePostArea";
 import ProfileEventArea from "./ProfileEventArea";
-import GroupArea from "./GroupArea"
-export const getContent = (index) => {
-  switch (index) {
-    case 0:
-      return <ProfilePostArea />;
 
-    case 1:
-      return "CONTACTS";
+import Clubs from "./ClubTab/Clubs";
+import Memberships from "./MembershipsTab/Memberships"
+import Followers from "./FollowersTab/Followers";
 
-    case 2:
-      return <ProfileEventArea />;
+export const alltabs={
+  ProfilePostArea:<ProfilePostArea/>,
+  Followers:<Followers/>,
+  ProfileEventArea:<ProfileEventArea/>,
+  SURVEYS:"SURVEYS",
+  Clubs:<Clubs/>,
+  Memberships:<Memberships/>
+}
 
-    case 3:
-      return "SURVEYS";
+export const GetContent = (index,useriid,uniid) => {
 
-    case 4:
-      return "LIKES";
-    case 5:
-      return <GroupArea/>;
+  if(useriid){
+    switch (index) {
+      case 0:
+        return <ProfilePostArea />;
 
-    default:
-      break;
+      case 1:
+        return <ProfileEventArea />;
+
+      case 2:
+        return "SURVEYS";
+  
+      case 3:
+        return <Memberships/>;
+  
+      default:
+        break;
+    }
   }
+
+
+  if(uniid){
+    switch (index) {
+      case 0:
+        return <ProfilePostArea />;
+  
+      case 1:
+        return <Followers/>;
+  
+      case 2:
+        return <ProfileEventArea />;
+  
+      case 3:
+        return "SURVEYS";
+  
+      case 4:
+        return (<Clubs/>);
+  
+      default:
+        break;
+    }
+  }
+
+
 };

@@ -18,7 +18,7 @@ function ProfileEventArea() {
   return (
     <div className={classes.PostAreaWrapper}>
       {
-        profileState.posts.filter(p=>p.owner===owner && p.type==="Event").map((p,i) => 
+        profileState.posts?.filter(p=>p.owner===owner && p.type==="Event").map((p,i) => 
 
         <PostCard postsState={profileState} setpostsState={setProfileState} key={i} post={p}/>
         

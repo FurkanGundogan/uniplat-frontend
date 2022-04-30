@@ -21,13 +21,14 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import Acciordion from "./Accordion/Accordion";
-import AdminListModal from "./AdminListModal";
+import FollowsListModal from "./FollowsListModal/FollowsListModal";
 import CreateClubModal from "./ProfileCreateClub/CreateClubModal";
 import { NewUniPostModalContext } from "../../Contexts/NewUniPostModalContext";
 import { ProfileContext } from "../Profile/ProfileContext";
 import UserAvatarResponsive from "./UserAvatarResponsive";
 import UniversitySettingsModal from "./UniversitySettings/UniversitySettingsModal";
 import { follow, unfollow,followUser,unfollowUser } from "./PanelActions";
+import FollowersListModal from "./FollowersListModal/FollowersListModal";
 const MainProfilePage = () => {
   // const navigate = useNavigate();
   const [tab, setTab] = React.useState(0);
@@ -64,15 +65,15 @@ const MainProfilePage = () => {
     setIsAdmin(profileState.userInfo.adminId === mainState.user.id);
   }, [profileState.userInfo]); //eslint-disable-line
 
-  const isUni = userid === "fatihsultanmehmetvakifuniversitesi";
+
   // buradaki durum bilgisi istekle yönetilecek
   const isFollow = profileState.isFollow;
 
   console.log("isFollow:", isFollow);
   console.log("followShip:", profileState.followShip);
   const classes = MainProfileStyles();
-  const [showAdminList, setShowAdminList] = React.useState(false);
-
+  const [showFollowsList, setShowFollowsList] = React.useState(false);
+  const [showFollowersList, setShowFollowersList] = React.useState(false);
   const handleFollow = async () => {
     if(userid!==undefined)
     {
@@ -87,9 +88,9 @@ const MainProfilePage = () => {
     }
     if(uniid!==undefined){
       follow(
-        profileState.userInfo.id,
         mainState.user.id,
-        profileState,
+        profileState.userInfo.id,
+        profileState, 
         setProfileState,
         profileFollowers,
         setProfileFollowers,
@@ -110,9 +111,13 @@ const MainProfilePage = () => {
 
   return (
     <Grid id={"xyz"} container className={classes.HomeContainer}>
-      <AdminListModal
-        showAdminList={showAdminList}
-        setShowAdminList={setShowAdminList}
+      <FollowsListModal
+        showFollowsList={showFollowsList}
+        setShowFollowsList={setShowFollowsList}
+      />
+      <FollowersListModal
+        showFollowersList={showFollowersList}
+        setShowFollowersList={setShowFollowersList}
       />
       <Grid item className={classes.LeftSide}>
         <div className={classes.leftSideInner}>
@@ -159,13 +164,23 @@ const MainProfilePage = () => {
           </Typography>
           <Divider />
           <div className={classes.LeftSideFollowWrapper}>
-            <Typography variant="body2" className={classes.UserDept}>
+            <Typography variant="body2" className={classes.UserDept}
+            onClick={
+              ()=>setShowFollowsList(true)
+            }
+            sx={{cursor:"pointer !important"}}
+            >
               {userid && profileUniversities && profileClubs && profileFollows &&
                 (profileUniversities.length+profileClubs.length+profileFollows.length) + " Follows" 
               }
           
             </Typography>
-            <Typography variant="body2" className={classes.UserDept}>
+            <Typography variant="body2" className={classes.UserDept}
+            sx={{cursor:"pointer !important"}}
+            onClick={
+              ()=>setShowFollowersList(true)
+            }
+            >
               {(profileFollowers?profileFollowers.length:0) + " Followers"}
             </Typography>
           </div>
@@ -336,12 +351,20 @@ const MainProfilePage = () => {
             </div>
 
             <div className={classes.CenterTopUserInfoRightSideFollowWrapper}>
-              <div className={classes.CenterTopUserInfoRightSideFollowInfo}>
+              <div className={classes.CenterTopUserInfoRightSideFollowInfo}
+              onClick={
+                ()=>setShowFollowsList(true)
+              }
+              >
               {userid && profileUniversities && profileClubs && profileFollows &&
                 (profileUniversities.length+profileClubs.length+profileFollows.length) + " Follows" 
               }
               </div>
-              <div className={classes.CenterTopUserInfoRightSideFollowInfo}>
+              <div className={classes.CenterTopUserInfoRightSideFollowInfo}
+               onClick={
+                ()=>setShowFollowersList(true)
+              }
+              >
                 {(profileFollowers?profileFollowers.length:0) + " Followers"}
               </div>
             </div>
@@ -351,14 +374,12 @@ const MainProfilePage = () => {
           <Acciordion
             createClubState={createClubState}
             setCreateClubState={setCreateClubState}
-            showAdminList={showAdminList}
-            setShowAdminList={setShowAdminList}
             setNewUniPostState={setNewUniPostState}
           />
         )}
-        <MyTabs isUni={isUni} tab={tab} setTab={setTab} />
+        <MyTabs isUni={uniid} tab={tab} setTab={setTab} />
 
-        <Content tab={tab} />
+        <Content tab={tab} userid={userid} uniid={uniid}/>
       </Grid>
       <Grid item className={classes.RightSide}>
         <div className={classes.rightSideInner}>
