@@ -1,46 +1,8 @@
+import { URL_POSTS,URL_FILES } from "../../Contexts/Paths";
+import axios from "axios";
 export const send = (modalState) => {
   const type = modalState.type;
-  console.log("gidecek obje (düzenlenecek):");
 
-  // uni
-
-  if (modalState.uniPost) {
-    switch (type) {
-      case "Post":
-        sendUniPost(modalState);
-        break;
-      case "Event":
-        sendUniEvent(modalState);
-        break;
-      case "Survey":
-        sendUniSurvey(modalState);
-        break;
-      default:
-        break;
-    }
-    return;
-  }
-
-  // club post
-  if (modalState.clubPost) {
-    switch (type) {
-      case "Post":
-        sendClubPost(modalState);
-        break;
-      case "Event":
-        sendClubEvent(modalState);
-        break;
-      case "Survey":
-        sendClubSurvey(modalState);
-        break;
-      default:
-        break;
-    }
-    return;
-  }
-
-
-  // buradan sonraki kişisel post
 
   switch (type) {
     case "Post":
@@ -58,16 +20,106 @@ export const send = (modalState) => {
 };
 
 const sendPost = (modalState) => {
-  const { type, text, selectedFile } = modalState;
-  const bodyFormData = getFile(selectedFile);
+  const { type, text,originalFile,postOwnerType,ownerId } = modalState;
+  const bodyFormData = getFile(originalFile);
   if (bodyFormData === null) {
     // görselsiz
-    console.log({ type, text });
+    console.log( "send: ",modalState );
+     createWithBlankImageId(text,postOwnerType,type.toUpperCase(),ownerId)
   } else {
     // görselli
-    console.log({ type, text, selectedFile, bodyFormData });
+    console.log({ modalState, bodyFormData });
+    createWithUploadedImageId(text,postOwnerType,type.toUpperCase(),ownerId,bodyFormData)
   }
 };
+
+const createWithBlankImageId = (
+  description,
+  postOwnerType,
+  postType,
+  ownerId,
+  sharedPostId
+) => {
+  console.log("Create post standart data:", {
+    description,
+    postOwnerType,
+    postType,
+    ownerId,
+    sharedPostId,
+  });
+  axios(URL_POSTS, {
+    method: "POST",
+    header: { "Content-type": "application/json" },
+    data: {
+      description,
+      postOwnerType,
+      postType,
+      ownerId,
+      sharedPostId,
+    },
+  })
+    .then((response) => {
+      console.log("POST Response:", response);
+      // admin uni usersa eklenen ilk kişi
+    })
+    .catch((error) => {
+      console.log("POST Create Error");
+    });
+};
+
+const createWithUploadedImageId = (  description,
+  postOwnerType,
+  postType,
+  ownerId,
+  bodyFormData,
+  sharedPostId,
+  ) => {
+
+  axios(URL_FILES, {
+    method: "POST",
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+    data: bodyFormData,
+  })
+    .then((fileresponse) => {
+      console.log("Create Uni data:", {
+        description,
+        postOwnerType,
+        postType,
+        ownerId,
+        profileImgId: fileresponse.data.id,
+        sharedPostId,
+      });
+      axios(URL_POSTS, {
+        method: "POST",
+        header: { "Content-type": "application/json" },
+        data: {
+          description,
+        postOwnerType,
+        postType,
+        ownerId,
+        imgId: fileresponse.data.id,
+        sharedPostId,
+        },
+      })
+        .then((response) => {
+          console.log("POST Created w file ", response);
+          // admin uni usersa eklenen ilk kişi
+          
+        })
+        .catch((userupdateerror) => {
+          console.log("POST  w file Error");
+        });
+    })
+    .catch((error) => {
+      console.log("file create error at POST image");
+    });
+};
+
+
+
+
 const sendEvent = (modalState) => {
   const { type, text, dateISO, eventLocation, selectedFile } = modalState;
   const bodyFormData = getFile(selectedFile);
@@ -86,17 +138,12 @@ const sendSurvey = (modalState) => {
   console.log("survey'e kaç saat süreceği eklenmedi");
 };
 
-const getFile = (selectedFile) => {
+const getFile = (originalFile) => {
   // bu fonksiyonu sendPost ve sendEvent Kullaniyor
-  if (selectedFile !== undefined && selectedFile !== null) {
+  if (originalFile !== undefined && originalFile !== null) {
     const bodyFormData = new FormData();
+    bodyFormData.append("file", originalFile, originalFile.name);
 
-    // daha önceden file'ı blob'a çevirmiştik.
-    // şimdi tekrar file'a çeviriyoruz
-    // sebebi, img bileşenin src'u file iken state değişirken sürekli network isteği oluşturuyordu.
-    const f = new File([selectedFile], "file_name");
-
-    bodyFormData.append("uploaded_file", f, f.name);
     return bodyFormData;
   }
   return null;
@@ -104,85 +151,4 @@ const getFile = (selectedFile) => {
 
 
 
-const sendUniPost = (modalState) => {
-  const { type,from,uniPost,uniID, text, selectedFile } = modalState;
-  const bodyFormData = getFile(selectedFile);
-  if (bodyFormData === null) {
-    // görselsiz
-    console.log({ type, text,from,uniPost,uniID });
-  } else {
-    // görselli
-    console.log({ type, text,from,uniPost,uniID, selectedFile, bodyFormData });
-  }
-};
 
-const sendUniEvent = (modalState) => {
-  const { type, text ,from,uniPost,uniID,dateISO, eventLocation, selectedFile } = modalState;
-  const bodyFormData = getFile(selectedFile);
-  if (bodyFormData === null) {
-    // görselsiz
-    console.log({ type, text,from,uniPost,uniID, dateISO, eventLocation });
-  } else {
-    // görselli
-    console.log({ type, text ,from,uniPost,uniID,dateISO, selectedFile, bodyFormData });
-  }
-};
-
-const sendUniSurvey = (modalState) => {
-  const { type, text,from,uniPost,uniID, surveyOptions } = modalState;
-  console.log({ type,from,uniPost,uniID, text, surveyOptions });
-  console.log("survey'e kaç saat süreceği eklenmedi");
-};
-
-///
-
-
-const sendClubPost = (modalState) => {
-  const { type,from,clubPost,clubID, text, selectedFile } = modalState;
-  const bodyFormData = getFile(selectedFile);
-  if (bodyFormData === null) {
-    // görselsiz
-    console.log({ type, text,from,clubPost,clubID });
-  } else {
-    // görselli
-    console.log({ type, text,from,clubPost,clubID, selectedFile, bodyFormData });
-  }
-};
-
-const sendClubEvent = (modalState) => {
-  const { type, text ,from,clubPost,clubID,dateISO, eventLocation, selectedFile } = modalState;
-  const bodyFormData = getFile(selectedFile);
-  if (bodyFormData === null) {
-    // görselsiz
-    console.log({ type, text,from,clubPost,clubID, dateISO, eventLocation });
-  } else {
-    // görselli
-    console.log({ type, text ,from,clubPost,clubID,dateISO, selectedFile, bodyFormData });
-  }
-};
-
-const sendClubSurvey = (modalState) => {
-  const { type, text,from,clubPost,clubID, surveyOptions } = modalState;
-  console.log({ type,from,clubPost,clubID, text, surveyOptions });
-  console.log("survey'e kaç saat süreceği eklenmedi");
-};
-
-
-
-
-/*
-axios({
-  method: "post",
-  url: "myurl",
-  data: bodyFormData,
-  headers: { "Content-Type": "multipart/form-data" },
-})
-  .then(function (response) {
-    //handle success
-    console.log(response);
-  })
-  .catch(function (response) {
-    //handle error
-    console.log(response);
-  });
-*/

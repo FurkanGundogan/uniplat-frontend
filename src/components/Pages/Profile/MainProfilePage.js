@@ -27,11 +27,14 @@ import { NewUniPostModalContext } from "../../Contexts/NewUniPostModalContext";
 import { ProfileContext } from "../Profile/ProfileContext";
 import UserAvatarResponsive from "./UserAvatarResponsive";
 import UniversitySettingsModal from "./UniversitySettings/UniversitySettingsModal";
-import { follow, unfollow,followUser,unfollowUser } from "./PanelActions";
+import { follow, unfollow, followUser, unfollowUser } from "./PanelActions";
 import FollowersListModal from "./FollowersListModal/FollowersListModal";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 const MainProfilePage = () => {
   // const navigate = useNavigate();
   const [tab, setTab] = React.useState(0);
+  console.log("tab:", tab);
+
   const mainState = useAuthState(); //read user details from context
 
   const { newPostState, setNewPostState } = useContext(NewPostModalContext);
@@ -51,9 +54,15 @@ const MainProfilePage = () => {
   console.log("isAdmin:", isAdmin);
   const isYourProfile = mainState.user.id === userid;
   console.log("isYourProfile:", isYourProfile);
-  const { profileState, setProfileState,
-    profileUniversities,profileClubs,profileFollowers,setProfileFollowers,
-    profileFollows} = useContext(ProfileContext);
+  const {
+    profileState,
+    setProfileState,
+    profileUniversities,
+    profileClubs,
+    profileFollowers,
+    setProfileFollowers,
+    profileFollows,
+  } = useContext(ProfileContext);
 
   console.log("state:", profileState);
   console.log("profUnies:", profileUniversities);
@@ -65,7 +74,6 @@ const MainProfilePage = () => {
     setIsAdmin(profileState.userInfo.adminId === mainState.user.id);
   }, [profileState.userInfo]); //eslint-disable-line
 
-
   // buradaki durum bilgisi istekle yönetilecek
   const isFollow = profileState.isFollow;
 
@@ -75,8 +83,7 @@ const MainProfilePage = () => {
   const [showFollowsList, setShowFollowsList] = React.useState(false);
   const [showFollowersList, setShowFollowersList] = React.useState(false);
   const handleFollow = async () => {
-    if(userid!==undefined)
-    {
+    if (userid !== undefined) {
       followUser(
         profileState.userInfo.id,
         mainState.user.id,
@@ -86,27 +93,37 @@ const MainProfilePage = () => {
         setProfileFollowers
       );
     }
-    if(uniid!==undefined){
+    if (uniid !== undefined) {
       follow(
         mainState.user.id,
         profileState.userInfo.id,
-        profileState, 
+        profileState,
         setProfileState,
         profileFollowers,
-        setProfileFollowers,
+        setProfileFollowers
       );
     }
-
   };
   const handleUnfollow = () => {
     // join(mainState.user.id,clubState.clubInfo.id)
-    if(userid!==undefined){
-      unfollowUser(profileState.followShip, profileState, setProfileState,profileFollowers,setProfileFollowers);
+    if (userid !== undefined) {
+      unfollowUser(
+        profileState.followShip,
+        profileState,
+        setProfileState,
+        profileFollowers,
+        setProfileFollowers
+      );
     }
-    if(uniid!==undefined){
-      unfollow(profileState.followShip, profileState, setProfileState,profileFollowers,setProfileFollowers);
+    if (uniid !== undefined) {
+      unfollow(
+        profileState.followShip,
+        profileState,
+        setProfileState,
+        profileFollowers,
+        setProfileFollowers
+      );
     }
-   
   };
 
   return (
@@ -115,10 +132,12 @@ const MainProfilePage = () => {
         showFollowsList={showFollowsList}
         setShowFollowsList={setShowFollowsList}
       />
-      <FollowersListModal
-        showFollowersList={showFollowersList}
-        setShowFollowersList={setShowFollowersList}
-      />
+      {
+        <FollowersListModal
+          showFollowersList={showFollowersList}
+          setShowFollowersList={setShowFollowersList}
+        />
+      }
       <Grid item className={classes.LeftSide}>
         <div className={classes.leftSideInner}>
           {isYourProfile && (
@@ -164,28 +183,51 @@ const MainProfilePage = () => {
           </Typography>
           <Divider />
           <div className={classes.LeftSideFollowWrapper}>
-            <Typography variant="body2" className={classes.UserDept}
-            onClick={
-              ()=>setShowFollowsList(true)
-            }
-            sx={{cursor:"pointer !important"}}
+            <Typography
+              variant="body2"
+              className={classes.UserDept}
+              onClick={() => setShowFollowsList(true)}
+              sx={{ cursor: "pointer !important" }}
             >
-              {userid && profileUniversities && profileClubs && profileFollows &&
-                (profileUniversities.length+profileClubs.length+profileFollows.length) + " Follows" 
-              }
-          
+              {userid &&
+                profileUniversities &&
+                profileClubs &&
+                profileFollows &&
+                profileUniversities.length +
+                  profileClubs.length +
+                  profileFollows.length +
+                  " Follows"}
             </Typography>
-            <Typography variant="body2" className={classes.UserDept}
-            sx={{cursor:"pointer !important"}}
-            onClick={
-              ()=>setShowFollowersList(true)
-            }
+            <Typography
+              variant="body2"
+              className={classes.UserDept}
+              sx={{  cursor: userid?"pointer !important":"auto" }}
+              onClick={() => {
+                if (userid) setShowFollowersList(true);
+              }}
             >
-              {(profileFollowers?profileFollowers.length:0) + " Followers"}
+              {(profileFollowers ? profileFollowers.length : 0) + " Followers"}
             </Typography>
           </div>
 
           <div className={classes.LeftSideButtonWrapper}>
+            {isYourProfile && (
+              <Button
+                className={classes.LeftSideButton}
+                startIcon={<AddCircleOutlineIcon />}
+                onClick={() => {
+                  setNewPostState({
+                    type: "Post",
+                    isOpen: true,
+                    ownerId: profileState.userInfo.id,
+                    postOwnerType: isYourProfile ? "USER" : "UNIVERSITY",
+                  });
+                }}
+              >
+                New Post
+              </Button>
+            )}
+
             {isAdmin === false &&
               isYourProfile === false &&
               (isFollow ? (
@@ -231,15 +273,14 @@ const MainProfilePage = () => {
                     */}
 
                   <ListItem
-                    onClick={() =>
-                      setNewUniPostState({
+                    onClick={() => {
+                      setNewPostState({
                         type: "Post",
                         isOpen: true,
-                        from: mainState.user.email,
-                        uniPost: true,
-                        uniID: "1",
-                      })
-                    }
+                        ownerId: profileState.userInfo.id,
+                        postOwnerType: isYourProfile ? "USER" : "UNIVERSITY",
+                      });
+                    }}
                     button
                     divider
                   >
@@ -351,21 +392,27 @@ const MainProfilePage = () => {
             </div>
 
             <div className={classes.CenterTopUserInfoRightSideFollowWrapper}>
-              <div className={classes.CenterTopUserInfoRightSideFollowInfo}
-              onClick={
-                ()=>setShowFollowsList(true)
-              }
+              <div
+                className={classes.CenterTopUserInfoRightSideFollowInfo}
+                onClick={() => setShowFollowsList(true)}
               >
-              {userid && profileUniversities && profileClubs && profileFollows &&
-                (profileUniversities.length+profileClubs.length+profileFollows.length) + " Follows" 
-              }
+                {userid &&
+                  profileUniversities &&
+                  profileClubs &&
+                  profileFollows &&
+                  profileUniversities.length +
+                    profileClubs.length +
+                    profileFollows.length +
+                    " Follows"}
               </div>
-              <div className={classes.CenterTopUserInfoRightSideFollowInfo}
-               onClick={
-                ()=>setShowFollowersList(true)
-              }
+              <div
+                className={classes.CenterTopUserInfoRightSideFollowInfo}
+                onClick={() => {
+                  if (userid) setShowFollowersList(true);
+                }}
               >
-                {(profileFollowers?profileFollowers.length:0) + " Followers"}
+                {(profileFollowers ? profileFollowers.length : 0) +
+                  " Followers"}
               </div>
             </div>
           </div>
@@ -377,9 +424,10 @@ const MainProfilePage = () => {
             setNewUniPostState={setNewUniPostState}
           />
         )}
+
         <MyTabs isUni={uniid} tab={tab} setTab={setTab} />
 
-        <Content tab={tab} userid={userid} uniid={uniid}/>
+        <Content tab={tab} userid={userid} uniid={uniid} />
       </Grid>
       <Grid item className={classes.RightSide}>
         <div className={classes.rightSideInner}>

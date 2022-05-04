@@ -44,6 +44,7 @@ const CropEasy = ({ modalState, setModal }) => {
       );
       setModal({
         ...modalState,
+        originalFile:file,
         selectedFile: URL.createObjectURL(file),
         cropModalOpen: false,
       });

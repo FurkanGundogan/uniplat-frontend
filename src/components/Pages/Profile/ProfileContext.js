@@ -213,8 +213,7 @@ export const ProfileContextProvider = ({ children }) => {
   // user bilgileri için istek
   const { userid } = useParams();
   const { uniid } = useParams();
-  console.log("userid:",userid)
-  console.log("uniid:",uniid)
+
   const mainState = useAuthState(); //read user details from context
 
   useEffect(() => {
@@ -222,7 +221,7 @@ export const ProfileContextProvider = ({ children }) => {
       await axios
         .get(URL_USERS + "/" + userid)
         .then((response) => {
-          setProfileState({...profileState,userInfo: response.data });
+          setProfileState({profileState,userInfo: response.data });
         })
         .catch((e) => {
           console.log("profile-user-info-get-error");

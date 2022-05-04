@@ -3,11 +3,13 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import MainProfileStyles from "./MainProfileStyles";
+
 export default function MyTabs({isUni,tab,setTab}) {
- 
+  
+
+
   const classes = MainProfileStyles();
   const handleChange = (event, newValue) => {
-    console.log("event:",event.target)
     setTab(newValue);
   };
 

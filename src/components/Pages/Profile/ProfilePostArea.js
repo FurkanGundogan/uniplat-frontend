@@ -1,31 +1,94 @@
-import React from 'react'
-import PostCard from '../HomePosts/PostCard'
-import MainProfileStyles from './MainProfileStyles'
-import {ProfileContext} from "./ProfileContext"
-import {useContext} from "react"
-
-import { useLocation } from "react-router-dom";
+import React from "react";
+import PostCard from "../HomePosts/PostCard";
+import MainProfileStyles from "./MainProfileStyles";
+import { ProfileContext } from "./ProfileContext";
+import { useContext,useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { TYPE_USER, TYPE_UNI } from "../../Contexts/Paths";
+import useGetPost from "./useGetPost";
+import { useState, useRef, useCallback } from "react";
+import CircularProgressForTabs from "./CircularProgressForTabs";
+import EndOfPosts from "./EndOfPosts";
 // statik post verileri, postdetailaction'da bir tanesi seçilip kullanılıyor
 
 function ProfilePostArea() {
-  
-  const {profileState,setProfileState} = useContext(ProfileContext)
-    const classes= MainProfileStyles();
-    const locstate = useLocation();
-    const owner=locstate.pathname.split('/')[1]
-   
-   
+  const { profileState } = useContext(ProfileContext);
+  //
+  const { userid, uniid } = useParams();
+  const usertype = userid ? TYPE_USER : TYPE_UNI;
+
+  const [owner, setOwner] = useState();
+
+  const [pageNumber, setPageNumber] = useState(0);
+
+  useEffect(() => {
+    setOwner(userid ? userid : uniid);
+  }, [userid, uniid]);
+
+  useEffect(() => {
+    
+        // profil degisikliginde tab yeniden render, tab indexi degismez
+        // index degisikligi ile veri cekimi tetiklenmesi saglanmaktaydi
+        // bu sebeple eski veriler temizlenmiyordu, bu sekilde bir cozum bulduk
+        // dizi sıfırlama kısmı da profilepost area'da
+    setPageNumber(0);
+  }, [owner]);
+
+  const { posts, hasMore, loading } = useGetPost(
+    owner,
+    usertype,
+    pageNumber
+  );
+
+  const observer = useRef();
+  const lastPostElementRef = useCallback(
+    (node) => {
+      if (loading) return;
+      if (observer.current) observer.current.disconnect();
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasMore) {
+          setPageNumber((prevPageNumber) => prevPageNumber + 1);
+        }
+      });
+      if (node) observer.current.observe(node);
+    },
+    [userid, loading, hasMore] //eslint-disable-line
+  );
+
+  //const getPostsUrl=URL_POSTS_OWNER+profileState.userInfo.id+URL_POSTS_TYPE+usertype
+  // console.log("getPostsUrl:",getPostsUrl)
+  //
+
+  const classes = MainProfileStyles();
+
   return (
     <div className={classes.PostAreaWrapper}>
-      {
-        profileState.posts?.filter(p=>p.owner===owner).map((p,i) => 
-
-        <PostCard postsState={profileState} setpostsState={setProfileState} key={i} post={p}/>
-        
-        )
-      }
+      {posts.map((p, index) => {
+        if (posts.length === index + 1) {
+          return (
+            <div ref={lastPostElementRef} key={p.id} className="div">
+              <PostCard
+                post={p}
+                owner={profileState.userInfo}
+                usertype={usertype}
+              />
+            </div>
+          );
+        } else {
+          return (
+            <PostCard
+              key={p.id}
+              post={p}
+              owner={profileState.userInfo}
+              usertype={usertype}
+            />
+          );
+        }
+      })}
+      {loading && <CircularProgressForTabs />}
+      {!loading && !hasMore && <EndOfPosts />}
     </div>
-  )
+  );
 }
 
-export default ProfilePostArea
+export default ProfilePostArea;

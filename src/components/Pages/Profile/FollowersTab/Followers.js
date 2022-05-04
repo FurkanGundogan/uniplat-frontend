@@ -24,7 +24,7 @@ function Followers() {
   return (
     <div className={classes.PostAreaWrapper}>
       <List sx={{ pt: 0 }}>
-        {profileFollowers!==null ? (
+        {(profileFollowers!==null && profileFollowers!==undefined) ? (
           profileFollowers.map((follower, i) => (
             <ListItem button key={i}  onClick={() => {
               navigate("/" + follower?.userId);

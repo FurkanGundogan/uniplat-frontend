@@ -13,33 +13,35 @@ import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
 import CommentIcon from "@mui/icons-material/Comment";
 import Divider from "@mui/material/Divider";
-import EventArea from "./EventArea";
+//import EventArea from "./EventArea";
 import Collapse from "@mui/material/Collapse";
 import WriteCommentComponent from "./WriteCommentComponent";
 import LikesModal from "./LikesModal";
 import { useNavigate, useLocation } from "react-router-dom";
-import { LikePost } from "./HomePostActions";
+//import { LikePost } from "./HomePostActions";
 import CardMedia from "@mui/material/CardMedia";
-import NestedPostCard from "./NestedPostCard";
-import Comment from "../PostDetails/Comment";
+//import NestedPostCard from "./NestedPostCard";
+//import Comment from "../PostDetails/Comment";
 import Chip from "@mui/material/Chip";
+import { URL_FILES } from "../../Contexts/Paths";
 export default function PostCard(props) {
+ 
   const {
     id,
-    owner,
-    owner_name,
+    imgId,
     createdAt,
-    img,
-    text,
-    type,
-    likeCount,
-    comments,
-    commentCount,
-    shareCount,
-    eventDetails,
-    isLiked,
+    description,
+    likeCounter,
+    ownerId,
+    // postOwnerType,
+    // postType,
+    // sharedPostId,
+    // lastModifiedAt
   } = props.post;
-  const { postsState, setpostsState } = props;
+
+
+ 
+  const isLiked=false
 
   const [expanded, setExpanded] = React.useState(false);
   const handleExpandClick = (e) => {
@@ -53,14 +55,14 @@ export default function PostCard(props) {
   const [showLikes, setShowLikes] = React.useState(false);
   const navigate = useNavigate();
   const locState = useLocation();
-
+ 
   return (
     <>
       <LikesModal showLikes={showLikes} setShowLikes={setShowLikes} />
       <Card
         className={classes.CardWrapper}
         onClick={() =>
-          navigate("/" + owner + "/posts/" + id, {
+          navigate("/" + ownerId + "/posts/" + id, {
             state: { prevPath: locState.pathname, scrollY: window.pageYOffset },
           })
         }
@@ -70,12 +72,13 @@ export default function PostCard(props) {
             <Avatar
               sx={{ bgcolor: red[500] }}
               aria-label="recipe"
+             
               onClick={(e) => {
                 e.stopPropagation();
-                navigate("/" + owner);
+                navigate("/" + ownerId);
               }}
             >
-              {owner[0]}
+              F
             </Avatar>
           }
           action={
@@ -83,7 +86,7 @@ export default function PostCard(props) {
               <MoreVertIcon />
             </IconButton>
           }
-          title={owner_name}
+          title={props?.owner?.name+" "+(props?.owner?.surname?props?.owner?.surname:"")}
           subheader={
             new Date(createdAt).toLocaleDateString() +
             " - " +
@@ -93,18 +96,21 @@ export default function PostCard(props) {
             })
           }
         />
-        {type === "Event" && <EventArea eventDetails={eventDetails} />}
+        {/*
+        type === "Event" && <EventArea eventDetails={eventDetails} />
+        */
+        }
 
         <div
           onClick={(e) => {
             e.stopPropagation();
             //setFullSize({ isOpen: true, img: img });
-            navigate("/" + owner + "/posts/" + id + "/media", {
+            navigate("/" + ownerId + "/posts/" + id + "/media", {
               state: { ...locState, backgroundLocation: locState },
             });
           }}
         >
-          <CardMedia component="img" image={img} alt="" />
+          <CardMedia component="img" image={""} alt=""  src={imgId && URL_FILES+"/"+imgId} />
         </div>
 
         <CardContent
@@ -114,10 +120,11 @@ export default function PostCard(props) {
         >
           {" "}
           <Typography variant="body2" color="black">
-            {text}
+            {description}
           </Typography>
         </CardContent>
-        {props.post.innerPost && (
+        {/*
+        sharedPostId!==null && (
           <div className={classes.innerPostCardWrapper}>
             <NestedPostCard
               postsState={postsState}
@@ -125,7 +132,8 @@ export default function PostCard(props) {
               post={props.post.innerPost}
             />
           </div>
-        )}
+        )*/
+        }
         <div className={classes.LCSInfoWrapper}>
           <div
             onClick={(e) => {
@@ -134,13 +142,13 @@ export default function PostCard(props) {
             }}
             className={classes.LikeInfo}
           >
-            <span className={classes.LCSInfoText}>{likeCount} Likes</span>
+            <span className={classes.LCSInfoText}>{likeCounter} Likes</span>
           </div>
           <div className={classes.CommentInfo}>
-            <span className={classes.LCSInfoText}>{commentCount} Comments</span>
+            <span className={classes.LCSInfoText}>{0} Comments</span>
           </div>
           <div className={classes.ShareInfo}>
-            <span className={classes.LCSInfoText}>{shareCount} Shares</span>
+            <span className={classes.LCSInfoText}>{0} Shares</span>
           </div>
         </div>
         <Divider />
@@ -150,8 +158,9 @@ export default function PostCard(props) {
             className={classes.LikebuttonWrapper}
             onClick={(e) => {
               e.stopPropagation();
-
+              /*
               LikePost(postsState, setpostsState, id);
+              */
             }}
           >
             <ThumbUpAltIcon
@@ -178,10 +187,12 @@ export default function PostCard(props) {
           <Divider sx={{marginBottom:"8px !important"}}>
             <Chip label="Top Comments" />
           </Divider>
-            {comments.length > 0 &&
+            {/*
+            comments.length > 0 &&
               comments.map((comment, i) => (
                 <Comment key={i} comment={comment} />
-              ))}
+              ))
+              */}
               <Divider/>
           </div>
         </Collapse>

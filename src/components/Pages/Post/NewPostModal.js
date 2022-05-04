@@ -43,10 +43,10 @@ const style = {
   p: 4,
 };
 
-export default function NewPostModal({ modalState, setModal }) {
+export default function NewPostModal({ modalState, setModal,owner,postOwnerType }) {
   const handleSend = async () => {
     if (validate()) {
-      send(modalState);
+      send(modalState,owner,postOwnerType);
     } else {
       window.scrollTo(0, 0);
     }

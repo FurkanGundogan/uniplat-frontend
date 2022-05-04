@@ -26,9 +26,8 @@ export default function FollowersListModal({
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const navigate = useNavigate();
-  const { profileFollowers } =
-    useContext(ProfileContext);
-
+  const { profileFollowers } = useContext(ProfileContext);
+  
 
   return (
     <div>

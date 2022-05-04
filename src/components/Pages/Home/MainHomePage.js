@@ -23,7 +23,7 @@ const MainHomePage = () => {
   const { newPostState, setNewPostState } = useContext(NewPostModalContext);
   const { userUni } = useContext(UserExtraInfoContext);
   
-  console.log("home mainstate:", mainState.user);
+  // console.log("home mainstate:", mainState.user);
 
   const handleLogout = () => {
     logout(dispatch);
@@ -58,12 +58,12 @@ const MainHomePage = () => {
           <div className={classes.LeftSideButtonWrapper}>
             <Button
               className={classes.LeftSideButton}
-              startIcon={<AddCircleOutlineIcon />}
+              startIcon={<AddCircleOutlineIcon />}F
               onClick={() => {
-                setNewPostState({ type: "Post", isOpen: true });
+                setNewPostState({ type: "Post", isOpen: true,ownerId:mainState.user.id,postOwnerType:"USER"});
               }}
             >
-              Yeni Gönderi
+              New Post
             </Button>
           </div>
           <div className={classes.LeftSideButtonWrapper}>

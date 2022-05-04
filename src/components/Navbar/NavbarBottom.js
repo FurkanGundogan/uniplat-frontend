@@ -11,10 +11,12 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import {useContext} from "react"
 import { NewPostModalContext } from '../Contexts/NewPostModalContext';
 import { useNavigate,useLocation } from "react-router-dom";
+import { useAuthState } from '../Contexts';
+
 export default function NavbarBottom() {
   const navigate = useNavigate();
   const classes=NavbarStyles();
- 
+  const mainState = useAuthState(); //read user details from context
   const {setNewPostState} = useContext(NewPostModalContext)
   const location=useLocation()
   const index=location.state?location.state.bottomindex:0
@@ -42,7 +44,7 @@ export default function NavbarBottom() {
         <BottomNavigationAction 
         icon={<AddCircleOutlineIcon fontSize='large'/>}
         onClick={()=>{
-          setNewPostState({type:"Post",isOpen:true})
+          setNewPostState({ type: "Post", isOpen: true,ownerId:mainState.user.id,postOwnerType:"USER"});
         }}
         />
         <BottomNavigationAction 
