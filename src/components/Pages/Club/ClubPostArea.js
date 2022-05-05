@@ -1,28 +1,85 @@
 import React from 'react'
+import { TYPE_CLUB } from '../../Contexts/Paths';
 import MainClubStyles from './MainClubStyles'
-// import {ClubContext} from "./ClubContext"
-// import {useContext} from "react"
-//import { useLocation } from "react-router-dom";
-// statik post verileri, postdetailaction'da bir tanesi seçilip kullanılıyor
+import PostCard from "../HomePosts/PostCard";
+import { useContext,useEffect } from "react";
+import { useParams } from "react-router-dom";
+import useGetPost from "./useGetPost";
+import { useState, useRef, useCallback } from "react";
+import CircularProgressForTabs from "./CircularProgressForTabs";
+import EndOfPosts from "../Profile/EndOfPosts";
+
+ import {ClubContext} from "./ClubContext"
 
 function ClubPostArea() {
-  
-  // const {clubState,setClubState} = useContext(ClubContext)
+  const { clubID } = useParams();
+  const usertype = TYPE_CLUB;
+  const [owner, setOwner] = useState();
+  const [pageNumber, setPageNumber] = useState(0);
+ const {clubState} = useContext(ClubContext)
     const classes= MainClubStyles();
-   // const locstate = useLocation();
-  //  const owner=locstate.pathname.split('/')[1]
-   
+    useEffect(() => {
+      setOwner(clubID);
+    }, [clubID]);
+
+  useEffect(() => {
+    
+    // profil degisikliginde tab yeniden render, tab indexi degismez
+    // index degisikligi ile veri cekimi tetiklenmesi saglanmaktaydi
+    // bu sebeple eski veriler temizlenmiyordu, bu sekilde bir cozum bulduk
+    // dizi sıfırlama kısmı da profilepost area'da
+setPageNumber(0);
+}, [owner]);
+
+const { posts, hasMore, loading } = useGetPost(
+  owner,
+  usertype,
+  pageNumber
+);
+
+const observer = useRef();
+const lastPostElementRef = useCallback(
+  (node) => {
+    if (loading) return;
+    if (observer.current) observer.current.disconnect();
+    observer.current = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting && hasMore) {
+        setPageNumber((prevPageNumber) => prevPageNumber + 1);
+      }
+    });
+    if (node) observer.current.observe(node);
+  },
+  [clubID, loading, hasMore] //eslint-disable-line
+);
    
   return (
     <div className={classes.PostAreaWrapper}>
-      {/*
-        clubState.posts.filter(p=>p.owner===owner).map((p,i) => 
-
-        <PostCard clubState={clubState} setClubState={setClubState} key={i} post={p}/>
-        
-        )
-        */
-      }
+      {
+        posts.map((p, index) => {
+          if (posts.length === index + 1) {
+            return (
+              <div ref={lastPostElementRef} key={p.id} className="div">
+                <PostCard
+                  post={p}
+                  owner={clubState.clubInfo}
+                  usertype={usertype}
+                />
+              </div>
+            );
+          } else {
+            return (
+              <PostCard
+                key={p.id}
+                post={p}
+                owner={clubState.clubInfo}
+                usertype={usertype}
+              />
+            );
+          }
+        })}
+        {loading && <CircularProgressForTabs />}
+        {!loading && !hasMore && <EndOfPosts />}
+      
     </div>
   )
 }

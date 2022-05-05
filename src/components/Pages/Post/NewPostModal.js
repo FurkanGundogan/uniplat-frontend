@@ -22,6 +22,7 @@ import {
   validateEventLocation,
   validateFileSize,
   validateFileExtension,
+  validateEventTitle,
 } from "./ValidationFunctions";
 import NewPostAlert from "./NewPostAlert";
 import { useState } from "react";
@@ -43,10 +44,11 @@ const style = {
   p: 4,
 };
 
-export default function NewPostModal({ modalState, setModal,owner,postOwnerType }) {
+export default function NewPostModal({ modalState, setModal,owner,ownerType }) {
   const handleSend = async () => {
     if (validate()) {
-      send(modalState,owner,postOwnerType);
+      send(modalState,owner,ownerType);
+      
     } else {
       window.scrollTo(0, 0);
     }
@@ -68,9 +70,13 @@ export default function NewPostModal({ modalState, setModal,owner,postOwnerType 
         return false;
       }
     }
-    if (modalState.type === "Event") {
+    if (modalState.type === "Activity") {
       if (!validateEventLocation(modalState.eventLocation)) {
         setAlert({ msg: "Please Define Location", isOpen: true });
+        return false;
+      }
+      if (!validateEventTitle(modalState.activityTitle)) {
+        setAlert({ msg: "Please Define Title", isOpen: true });
         return false;
       }
 
@@ -169,7 +175,7 @@ export default function NewPostModal({ modalState, setModal,owner,postOwnerType 
               <div className={classes.bottomLeft}>
                 <ToggleButton
                   value="check"
-                  selected={modalState.type === "Event"}
+                  selected={modalState.type === "Activity"}
                   size="small"
                   onChange={(e) => {
                     let d = new Date(new Date(moment().toISOString()));
@@ -182,7 +188,7 @@ export default function NewPostModal({ modalState, setModal,owner,postOwnerType 
 
                     setModal({
                       ...modalState,
-                      type: modalState.type === "Event" ? "Post" : "Event",
+                      type: modalState.type === "Activity" ? "Post" : "Activity",
                       initialDate: new Date(moment().toISOString()),
                       eventDate: new Date(moment().toISOString()),
                       dateISO: dateISOstring,
@@ -191,7 +197,7 @@ export default function NewPostModal({ modalState, setModal,owner,postOwnerType 
                     });
                   }}
                 >
-                  {modalState.type === "Event" ? (
+                  {modalState.type === "Activity" ? (
                     <EventAvailableIcon />
                   ) : (
                     <EventBusyIcon />
@@ -279,7 +285,7 @@ export default function NewPostModal({ modalState, setModal,owner,postOwnerType 
                 <NewSurvey modalState={modalState} setModal={setModal} />
               </div>
             )}
-            {modalState.type === "Event" && (
+            {modalState.type === "Activity" && (
               <NewEventDetails modalState={modalState} setModal={setModal} />
             )}
           </div>

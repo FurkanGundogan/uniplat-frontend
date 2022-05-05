@@ -44,7 +44,7 @@ export default function NavbarBottom() {
         <BottomNavigationAction 
         icon={<AddCircleOutlineIcon fontSize='large'/>}
         onClick={()=>{
-          setNewPostState({ type: "Post", isOpen: true,ownerId:mainState.user.id,postOwnerType:"USER"});
+          setNewPostState({ type: "Post", isOpen: true,ownerId:mainState.user.id,ownerType:"USER"});
         }}
         />
         <BottomNavigationAction 

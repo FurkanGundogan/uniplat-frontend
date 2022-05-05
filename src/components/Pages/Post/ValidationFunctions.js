@@ -58,6 +58,14 @@ export const validateEventLocation = (loc) => {
   return true;
 };
 
+export const validateEventTitle = (loc) => {
+
+  if ((loc === undefined) | (loc === "")) return false;
+  if (/^(?! *$)[a-zA-ZıiİçÇşŞğĞÜüÖö.+ '-]+$/.test(loc) === false) return false;
+
+  return true;
+};
+
 export const validateFileSize = (size) => {
   if (size >= 5242880) return false;
   return true;

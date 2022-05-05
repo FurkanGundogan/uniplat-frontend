@@ -26,6 +26,7 @@ import { NewClubPostModalContext } from "../../Contexts/NewClubPostModalContext"
 import { ClubContext } from "./ClubContext";
 import { join,leave } from "./PanelActions";
 import UserAvatarResponsive from "./UserAvatarResponsive"
+import { TYPE_CLUB } from "../../Contexts/Paths";
 const MainClubPage = () => {
   // const navigate = useNavigate();
   const [tab, setTab] = React.useState(0);
@@ -144,12 +145,13 @@ const MainClubPage = () => {
                   }
                  
   
-                  <ListItem onClick={()=> setNewClubPostState({ type: "Post", 
-                  isOpen: true,
-                  from:mainState.user.email,
-                  clubPost:true,
-                  clubID:"1"
-                  })} button divider>
+                  <ListItem onClick={()=> setNewPostState({
+                    type: "Post",
+                    isOpen: true,
+                    ownerId: clubState.clubInfo.id,
+                    ownerType: TYPE_CLUB,
+                  })
+                  } button divider>
                     <ListItemText primary="New Post" />
                   </ListItem>
                 </List>
@@ -255,7 +257,8 @@ const MainClubPage = () => {
             setShowAdminList={setShowAdminList}
             showJoinReqList={showJoinReqList}
             setJoinReqList={setJoinReqList}
-            setNewClubPostState={setNewClubPostState}
+            setNewPostState={setNewPostState}
+            ownerId={clubState.clubInfo.id}
           />
         )}
         <MyTabs tab={tab} setTab={setTab} />

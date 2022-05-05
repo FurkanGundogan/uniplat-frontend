@@ -34,7 +34,7 @@ function ClubItem({member}) {
     <>
       <ListItemAvatar>
         <Avatar 
-        src={URL_FILES+"/"+memberDetails?.profileImgId}
+        src={memberDetails && URL_FILES+"/"+memberDetails?.profileImgId}
         sx={{ bgcolor: blue[100], color: blue[600] }}>
           <PersonIcon />
         </Avatar>

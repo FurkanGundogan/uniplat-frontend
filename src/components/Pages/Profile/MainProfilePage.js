@@ -199,7 +199,7 @@ const MainProfilePage = () => {
                     type: "Post",
                     isOpen: true,
                     ownerId: profileState.userInfo.id,
-                    postOwnerType: isYourProfile ? "USER" : "UNIVERSITY",
+                    ownerType: isYourProfile ? "USER" : "UNIVERSITY",
                   });
                 }}
               >
@@ -257,7 +257,7 @@ const MainProfilePage = () => {
                         type: "Post",
                         isOpen: true,
                         ownerId: profileState.userInfo.id,
-                        postOwnerType: isYourProfile ? "USER" : "UNIVERSITY",
+                        ownerType: isYourProfile ? "USER" : "UNIVERSITY",
                       });
                     }}
                     button
@@ -399,7 +399,8 @@ const MainProfilePage = () => {
           <Acciordion
             createClubState={createClubState}
             setCreateClubState={setCreateClubState}
-            setNewUniPostState={setNewUniPostState}
+            setNewPostState={setNewPostState}
+            ownerId={uniid&&uniid}
           />
         )}
 

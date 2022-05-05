@@ -2,7 +2,6 @@ import * as React from "react";
 import { styled } from "@mui/material/styles";
 import ArrowForwardIosSharpIcon from "@mui/icons-material/ArrowForwardIosSharp";
 import MuiAccordion from "@mui/material/Accordion";
-import { useAuthState } from "../../../Contexts";
 import MuiAccordionSummary from "@mui/material/AccordionSummary";
 import MuiAccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
@@ -11,6 +10,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
 import MainProfileStyles from "../MainProfileStyles";
+import { TYPE_UNI } from "../../../Contexts/Paths";
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
 ))(({ theme }) => ({
@@ -50,10 +50,11 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
 export default function CustomizedAccordions({
   setShowAdminList,
   setCreateClubState,
-  setNewUniPostState,
+  setNewPostState,
+  ownerId
 }) {
   const [expanded, setExpanded] = React.useState(false);
-  const mainState = useAuthState();
+
   const handleChange = () => {
     setExpanded(!expanded);
   };
@@ -86,15 +87,14 @@ export default function CustomizedAccordions({
                */}
 
             <ListItem
-              onClick={() =>
-                setNewUniPostState({
+              onClick={() => {
+                setNewPostState({
                   type: "Post",
                   isOpen: true,
-                  from: mainState.user.email,
-                  uniPost: true,
-                  uniID: "1",
-                })
-              }
+                  ownerId: ownerId,
+                  ownerType: TYPE_UNI,
+                });
+              }}
               button
             >
               <ListItemText primary="New Post" />

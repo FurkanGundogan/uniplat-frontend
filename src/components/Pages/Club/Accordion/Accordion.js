@@ -10,7 +10,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
 import MainGroupStyles from "../MainClubStyles";
-import { useAuthState } from "../../../Contexts";
+import { TYPE_CLUB } from "../../../Contexts/Paths";
 
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -51,10 +51,11 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
 export default function CustomizedAccordions({
   setShowAdminList,
   setJoinReqList,
-  setNewClubPostState,
+  setNewPostState,
+  ownerId,
 }) {
   const [expanded, setExpanded] = React.useState(false);
-  const mainState = useAuthState(); //read user details from context
+
   const handleChange = () => {
     setExpanded(!expanded);
   };
@@ -88,15 +89,14 @@ export default function CustomizedAccordions({
             }
            
             <ListItem
-              onClick={() =>
-                setNewClubPostState({
+              onClick={() => {
+                setNewPostState({
                   type: "Post",
                   isOpen: true,
-                  from: mainState.user.email,
-                  clubPost: true,
-                  clubID: "1",
-                })
-              }
+                  ownerId: ownerId,
+                  ownerType: TYPE_CLUB,
+                });
+              }}
               button
             >
               <ListItemText primary="New Post" />

@@ -240,6 +240,14 @@ const NewPostModalStyles = makeStyles((theme) => ({
     textAlign: "center",
     marginBottom: "12px",
   },
+  titleAreaWrapper:{
+    maxWidth:"50%",
+    marginLeft:"25%",
+    [theme.breakpoints.down("sm")]: {
+      maxWidth:"100%",
+    marginLeft:"0%",
+    },
+  }
 }));
 
 export default NewPostModalStyles;

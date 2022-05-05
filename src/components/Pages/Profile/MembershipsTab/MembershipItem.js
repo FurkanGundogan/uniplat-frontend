@@ -12,7 +12,7 @@ function MembershipItem({membership}) {
     const [club, setclub] = useState();
     const [clubUsers,setClubUsers]=useState();
    
-    console.log(club?.name," - CLUB :",club,clubUsers)
+    console.log("membership :",membership)
     useEffect(() => {
       
         const setClubDetail = async () => {

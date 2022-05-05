@@ -8,7 +8,7 @@ export const send = (modalState) => {
     case "Post":
       sendPost(modalState);
       break;
-    case "Event":
+    case "Activity":
       sendEvent(modalState);
       break;
     case "Survey":
@@ -20,42 +20,49 @@ export const send = (modalState) => {
 };
 
 const sendPost = (modalState) => {
-  const { type, text,originalFile,postOwnerType,ownerId } = modalState;
+  const { type, text,originalFile,ownerType,ownerId } = modalState;
   const bodyFormData = getFile(originalFile);
   if (bodyFormData === null) {
     // görselsiz
-    console.log( "send: ",modalState );
-     createWithBlankImageId(text,postOwnerType,type.toUpperCase(),ownerId)
+    console.log( "send: ",{text,ownerType,type,ownerId} );
+     createWithBlankImageId(text,ownerType,type.toUpperCase(),ownerId)
   } else {
     // görselli
-    console.log({ modalState, bodyFormData });
-    createWithUploadedImageId(text,postOwnerType,type.toUpperCase(),ownerId,bodyFormData)
+    console.log("send: ",{text,ownerType,type,ownerId,bodyFormData});
+    createWithUploadedImageId(text,ownerType,type.toUpperCase(),ownerId,bodyFormData)
   }
 };
 
 const createWithBlankImageId = (
   description,
-  postOwnerType,
+  ownerType,
   postType,
   ownerId,
-  sharedPostId
+  activityTitle,
+  activityStartAt,
+
+
 ) => {
   console.log("Create post standart data:", {
     description,
-    postOwnerType,
+    ownerType,
     postType,
     ownerId,
-    sharedPostId,
+    activityTitle,
+    activityStartAt,
+
   });
   axios(URL_POSTS, {
     method: "POST",
     header: { "Content-type": "application/json" },
     data: {
       description,
-      postOwnerType,
+      ownerType,
       postType,
       ownerId,
-      sharedPostId,
+      activityTitle,
+      activityStartAt,
+    
     },
   })
     .then((response) => {
@@ -68,11 +75,13 @@ const createWithBlankImageId = (
 };
 
 const createWithUploadedImageId = (  description,
-  postOwnerType,
+  ownerType,
   postType,
   ownerId,
   bodyFormData,
-  sharedPostId,
+  activityTitle,
+  activityStartAt,
+
   ) => {
 
   axios(URL_FILES, {
@@ -85,22 +94,26 @@ const createWithUploadedImageId = (  description,
     .then((fileresponse) => {
       console.log("Create Uni data:", {
         description,
-        postOwnerType,
+        ownerType,
         postType,
         ownerId,
-        profileImgId: fileresponse.data.id,
-        sharedPostId,
+        activityTitle,
+        activityStartAt,
+        imgId: fileresponse.data.id,
+     
       });
       axios(URL_POSTS, {
         method: "POST",
         header: { "Content-type": "application/json" },
         data: {
-          description,
-        postOwnerType,
+        description,
+        ownerType,
         postType,
         ownerId,
+        activityTitle,
+        activityStartAt,
         imgId: fileresponse.data.id,
-        sharedPostId,
+       
         },
       })
         .then((response) => {
@@ -121,14 +134,18 @@ const createWithUploadedImageId = (  description,
 
 
 const sendEvent = (modalState) => {
-  const { type, text, dateISO, eventLocation, selectedFile } = modalState;
-  const bodyFormData = getFile(selectedFile);
+
+  const { type, text,originalFile,ownerType,ownerId,dateISO,eventLocation } = modalState;
+  const bodyFormData = getFile(originalFile);
   if (bodyFormData === null) {
     // görselsiz
-    console.log({ type, text, dateISO, eventLocation });
+    // title ve location eklenecek
+    console.log({ type, text,ownerType,ownerId,dateISO,eventLocation  });
+    createWithBlankImageId(text,ownerType,type.toUpperCase(),ownerId,"activityTitle",dateISO)
   } else {
     // görselli
-    console.log({ type, text, dateISO, selectedFile, bodyFormData });
+    console.log({ type, text,ownerType,ownerId,dateISO,eventLocation,bodyFormData  });
+    createWithUploadedImageId(text,ownerType,type.toUpperCase(),ownerId,bodyFormData,"activityTitle",dateISO)
   }
 };
 
