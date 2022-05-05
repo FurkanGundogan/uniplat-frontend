@@ -14,7 +14,7 @@ function FollowerUserItem({ follower }) {
   useEffect(() => {
     const setDetails = async () => {
       await axios
-        .get(URL_USERS + "/" + follower?.followerId)
+        .get(URL_USERS + "/" + follower?.userId)
         .then((response) => {
           setUserDetails(response.data);
         })

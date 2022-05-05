@@ -162,6 +162,7 @@ export default function ProfileSettingsModal({ settings, setSettings,mainState,p
                           originalFile:null,
                           selectedFile: null,
                           cropModalOpen: false,
+                          profileImgId:null,
                         });
                         setAvatar(blankavatarurl)
                       }}

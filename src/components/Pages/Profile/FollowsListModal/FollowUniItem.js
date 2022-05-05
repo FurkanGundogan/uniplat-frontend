@@ -14,7 +14,7 @@ import {
     useEffect(() => {
       const setDetails = async () => {
         await axios
-          .get(URL_UNIVERSITIES + "/" + follow?.universityId)
+          .get(URL_UNIVERSITIES + "/" + follow?.followId)
           .then((response) => {
             setUniDetails(response.data);
           })

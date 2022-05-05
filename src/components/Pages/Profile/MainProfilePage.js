@@ -27,9 +27,10 @@ import { NewUniPostModalContext } from "../../Contexts/NewUniPostModalContext";
 import { ProfileContext } from "../Profile/ProfileContext";
 import UserAvatarResponsive from "./UserAvatarResponsive";
 import UniversitySettingsModal from "./UniversitySettings/UniversitySettingsModal";
-import { follow, unfollow, followUser, unfollowUser } from "./PanelActions";
+import { follow, unfollow } from "./PanelActions";
 import FollowersListModal from "./FollowersListModal/FollowersListModal";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import {TYPE_USER,TYPE_UNI} from "../../Contexts/Paths"
 const MainProfilePage = () => {
   // const navigate = useNavigate();
   const [tab, setTab] = React.useState(0);
@@ -57,16 +58,12 @@ const MainProfilePage = () => {
   const {
     profileState,
     setProfileState,
-    profileUniversities,
-    profileClubs,
     profileFollowers,
     setProfileFollowers,
     profileFollows,
   } = useContext(ProfileContext);
 
   console.log("state:", profileState);
-  console.log("profUnies:", profileUniversities);
-  console.log("profClubs:", profileClubs);
   console.log("followers:", profileFollowers);
   console.log("follows:", profileFollows);
 
@@ -83,39 +80,24 @@ const MainProfilePage = () => {
   const [showFollowsList, setShowFollowsList] = React.useState(false);
   const [showFollowersList, setShowFollowersList] = React.useState(false);
   const handleFollow = async () => {
-    if (userid !== undefined) {
-      followUser(
-        profileState.userInfo.id,
-        mainState.user.id,
-        profileState,
-        setProfileState,
-        profileFollowers,
-        setProfileFollowers
-      );
-    }
-    if (uniid !== undefined) {
+    let type=""
+    if (userid) type=TYPE_USER
+    if (uniid) type=TYPE_UNI
+
       follow(
         mainState.user.id,
         profileState.userInfo.id,
+        type,
         profileState,
         setProfileState,
         profileFollowers,
         setProfileFollowers
       );
-    }
+    
+
   };
   const handleUnfollow = () => {
-    // join(mainState.user.id,clubState.clubInfo.id)
-    if (userid !== undefined) {
-      unfollowUser(
-        profileState.followShip,
-        profileState,
-        setProfileState,
-        profileFollowers,
-        setProfileFollowers
-      );
-    }
-    if (uniid !== undefined) {
+
       unfollow(
         profileState.followShip,
         profileState,
@@ -123,7 +105,8 @@ const MainProfilePage = () => {
         profileFollowers,
         setProfileFollowers
       );
-    }
+    
+
   };
 
   return (
@@ -190,11 +173,7 @@ const MainProfilePage = () => {
               sx={{ cursor: "pointer !important" }}
             >
               {userid &&
-                profileUniversities &&
-                profileClubs &&
                 profileFollows &&
-                profileUniversities.length +
-                  profileClubs.length +
                   profileFollows.length +
                   " Follows"}
             </Typography>
@@ -397,11 +376,10 @@ const MainProfilePage = () => {
                 onClick={() => setShowFollowsList(true)}
               >
                 {userid &&
-                  profileUniversities &&
-                  profileClubs &&
+                 
+   
                   profileFollows &&
-                  profileUniversities.length +
-                    profileClubs.length +
+
                     profileFollows.length +
                     " Follows"}
               </div>

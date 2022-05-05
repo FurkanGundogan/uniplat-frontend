@@ -62,7 +62,7 @@ export const editReq = ({
     description: description,
     universityId:universityId,
     version: mainState.user.version,
-    
+    password:"123123"
   };
 
 
@@ -80,8 +80,9 @@ export const editReq = ({
     })
       .then((fileresponse) => {
         axios(URL_USERS + "/" + mainState.user.id, {
-          method: "PATCH",
-          header: { "Content-type": "application/json" },
+          method: "PUT",
+          header: { "Content-type": "application/json",
+                    "userId":mainState.user.id  },
           data: { ...updateduser, profileImgId: fileresponse.data.id },
         })
           .then((response) => {
@@ -104,8 +105,9 @@ export const editReq = ({
     // file yoksa direkt user'ı update et
     console.log("uu:", updateduser);
     axios(URL_USERS + "/" + mainState.user.id, {
-      method: "PATCH",
-      header: { "Content-type": "application/json" },
+      method: "PUT",
+      header: { "Content-type": "application/json",
+                "userId":mainState.user.id },
       data: updateduser,
     })
       .then((response) => {

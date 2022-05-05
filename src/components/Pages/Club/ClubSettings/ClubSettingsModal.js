@@ -148,6 +148,7 @@ export default function ClubSettingsModal({ settings, setSettings,clubState,setC
                           originalFile:null,
                           selectedFile: null,
                           cropModalOpen: false,
+                          profileImgId:null,
                         });
                         setAvatar(blankavatarurl)
                       }}

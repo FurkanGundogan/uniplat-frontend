@@ -2,7 +2,7 @@ import axios from "axios";
 import { URL_FILES,URL_UNIVERSITIES } from "../../../Contexts/Paths";
 
 export const save = (settings, profileState, setProfileState) => {
-  const { name,adminId,description, originalFile } = settings;
+  const { name,adminId,description,profileImgId, originalFile } = settings;
   const bodyFormData = getFile(originalFile);
   if (bodyFormData !== null) {
     // görselsiz
@@ -23,6 +23,7 @@ export const save = (settings, profileState, setProfileState) => {
       name,
       description,
       adminId,
+      profileImgId,
     );
   }
 };
@@ -58,7 +59,7 @@ const editWithUploadedImageId = (
       });
 
       axios(URL_UNIVERSITIES + "/" + updateduser.id, {
-        method: "PATCH",
+        method: "PUT",
         header: { "Content-type": "application/json" },
         data: { ...updateduser, profileImgId: fileresponse.data.id },
       })
@@ -75,19 +76,21 @@ const editWithUploadedImageId = (
     });
 };
 
-const editStandard = (profileState, setProfileState, name,description,adminId) => {
+const editStandard = (profileState, setProfileState, name,description,adminId,profileImgId) => {
   console.log("es:",name,adminId)
   const updateduser = {
     ...profileState.userInfo,
     name: name,
     description:description,
     adminId:adminId,
+    profileImgId:profileImgId
+   
   };
   console.log("Edit Uni Standard data:", updateduser);
   // file yoksa direkt  update et
 
   axios(URL_UNIVERSITIES + "/" + updateduser.id, {
-    method: "PATCH",
+    method: "PUT",
     header: { "Content-type": "application/json" },
     data: updateduser,
   })

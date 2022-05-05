@@ -26,7 +26,7 @@ import InputStyles from "./InputStyles";
 import axios from "axios";
 import RegisterSuccessAlert from "./RegisterSuccessAlert";
 import { useEffect } from "react";
-import {URL_USER_UNIVERSITIES,URL_USERS,URL_UNIVERSITIES} from "../Contexts/Paths"
+import {URL_USERS,URL_UNIVERSITIES,URL_USERFOLLOWS,TYPE_UNI} from "../Contexts/Paths"
 //theme için makeStyles,classess yapılarını kullanıyoruz
 // globalden body'i style verdiğimiz için classess şimdilik kullanılmadı
 const useStyles = makeStyles((theme) => ({
@@ -184,13 +184,14 @@ const SignUpPage = () => {
     if (status === 200) {
       setAlertType("success");
       setAlertMsg("Register Sucess");
-      // olusturulan kullaniciyi uniye ekleme
-      axios(URL_USER_UNIVERSITIES, {
+      // olusturulan kullaniciya universitesini takip ettirme
+      axios(URL_USERFOLLOWS, {
         method: "POST",
         header: { "Content-type": "application/json" },
         data: {
-          universityId:values.universityId,
-          userId:response.data.id
+          followId:values.universityId,
+          userId:response.data.id,
+          followType:TYPE_UNI
         },
       }).then((response) => {
         console.log("Uni Ekleme Response:", response);

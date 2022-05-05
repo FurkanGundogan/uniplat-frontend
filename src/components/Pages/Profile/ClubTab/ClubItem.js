@@ -4,7 +4,7 @@ import ListItemText from "@mui/material/ListItemText";
 import { blue } from "@mui/material/colors";
 import PersonIcon from "@mui/icons-material/Person";
 import { useState,useEffect } from "react";
-import {URL_USER_CLUBS_BY_CLUBID,URL_FILES} from "../../../Contexts/Paths"
+import {URL_FILES, URL_USERFOLLOWS} from "../../../Contexts/Paths"
 
 import axios from "axios"
 
@@ -15,9 +15,13 @@ function ClubItem({club}) {
     useEffect(() => {
       
         const setClubsDetail = async () => {
-          await axios
-            .get(URL_USER_CLUBS_BY_CLUBID + club.id)
-            .then((response) => {
+            await axios({
+              method: "GET",
+              url: URL_USERFOLLOWS,
+              params: {
+                followId: club.id,
+              },
+            }).then((response) => {
               setUniClubsMembers(response.data.content);
             })
             .catch((e) => {

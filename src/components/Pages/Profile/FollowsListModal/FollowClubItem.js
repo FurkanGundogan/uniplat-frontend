@@ -15,7 +15,7 @@ import {
     useEffect(() => {
       const setDetails = async () => {
         await axios
-          .get(URL_CLUBS + "/" + follow?.clubId)
+          .get(URL_CLUBS + "/" + follow?.followId)
           .then((response) => {
             setClubDetails(response.data);
           })

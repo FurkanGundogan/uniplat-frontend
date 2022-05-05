@@ -4,7 +4,7 @@ import ListItemText from "@mui/material/ListItemText";
 import { blue } from "@mui/material/colors";
 import PersonIcon from "@mui/icons-material/Person";
 import { useState,useEffect } from "react";
-import {URL_CLUBS,URL_USER_CLUBS_BY_CLUBID,URL_FILES} from "../../../Contexts/Paths"
+import {URL_CLUBS,URL_FILES, URL_USERFOLLOWS, TYPE_CLUB} from "../../../Contexts/Paths"
 
 import axios from "axios"
 
@@ -17,7 +17,7 @@ function MembershipItem({membership}) {
       
         const setClubDetail = async () => {
           await axios
-            .get(URL_CLUBS +"/"+ membership?.clubId)
+            .get(URL_CLUBS +"/"+ membership?.followId)
             .then((response) => {
               setclub(response.data);
               setUsers(response.data.id)
@@ -33,9 +33,15 @@ function MembershipItem({membership}) {
 
 
         const setUsers = async (id) => {
-          await axios
-            .get(URL_USER_CLUBS_BY_CLUBID + id)
-            .then((response) => {
+          // Count gelince burayi kaldirabiliriz
+          await axios({
+            method:"GET",
+            url:URL_USERFOLLOWS,
+            params:{
+                followId:id,
+                followType:TYPE_CLUB,
+            }
+        }).then((response) => {
               console.log("res:",response)
               setClubUsers(response.data.content);
             })

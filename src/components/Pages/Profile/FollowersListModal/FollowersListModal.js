@@ -62,7 +62,7 @@ export default function FollowersListModal({
                   key={i}
                   onClick={() => {
                     setShowFollowersList(false);
-                    navigate("/" + follower?.followerId);
+                    navigate("/" + follower?.userId);
                   }}
                 >
                   <FollowerUserItem follower={follower} />

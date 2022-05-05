@@ -5,7 +5,7 @@ import { useAuthState } from "../../Contexts";
 import {
   URL_CLUBS,
   URL_UNIVERSITIES,
-  URL_USER_CLUBS_BY_CLUBID,
+  URL_USERFOLLOWS,
 } from "../../Contexts/Paths";
 // burada ve PostContext'de aynı data var
 export const data = [
@@ -155,7 +155,7 @@ export const clubUniInfo = {
   name: "",
 };
 
-export const clubUsers = []
+export const clubUsers = [];
 
 export const ClubContext = createContext();
 
@@ -179,16 +179,15 @@ export const ClubContextProvider = ({ children }) => {
       await axios
         .get(URL_CLUBS + "/" + clubID)
         .then((response) => {
-          console.log("setclubinfo: ",response.data)
+          console.log("setclubinfo: ", response.data);
           setClubState({ ...clubState, clubInfo: response.data });
         })
         .catch((e) => {
           console.log("club-info-get-error");
         });
     };
-    
+
     if (clubID !== undefined) {
-    
       setClubInfo();
     }
   }, [clubID]); //eslint-disable-line
@@ -200,7 +199,7 @@ export const ClubContextProvider = ({ children }) => {
       await axios
         .get(URL_UNIVERSITIES + "/" + clubState.clubInfo.universityId)
         .then((response) => {
-          console.log("setClubUniInfo: ",response.data)
+          console.log("setClubUniInfo: ", response.data);
           setClubState({ ...clubState, clubUniInfo: response.data });
         })
         .catch((e) => {
@@ -208,46 +207,46 @@ export const ClubContextProvider = ({ children }) => {
         });
     };
     if (clubID !== undefined && clubState.clubInfo.universityId !== "") {
-      
       setClubUniInfo();
     }
   }, [clubState.clubInfo]); //eslint-disable-line
 
-  
   // club users
+  // count gelince burada memberları çekmeye gerek kalmayacak
+  // memberlar taba geçince zaten getiriliyor
   useEffect(() => {
     const setClubUsers = async () => {
-      console.log("istek: ", URL_USER_CLUBS_BY_CLUBID + clubID);
-      await axios
-        .get(URL_USER_CLUBS_BY_CLUBID + clubID)
+      await axios({
+        method: "GET",
+        url: URL_USERFOLLOWS,
+        params: {
+          followId: clubID,
+        },
+      })
         .then((response) => {
-          console.log("setClubUsers: ",response.data.content)
+          console.log("setClubUsers: ", response.data.content);
           setClubState({ ...clubState, clubUsers: response.data.content });
         })
         .catch((e) => {
           console.log("club-users-get-error");
         });
     };
-    if (clubID !== undefined && clubState.clubUniInfo.id!=="") {
-     
+    if (clubID !== undefined && clubState.clubUniInfo.id !== "") {
       setClubUsers();
     }
   }, [clubState.clubUniInfo]); //eslint-disable-line
-  
-  
+
   useEffect(() => {
     const setIsMember = () => {
       let item = clubState.clubUsers.filter((element) => {
         return element.userId === mainState.user.id;
       });
-      if (item.length===1) {
-        console.log("item: ",item)
-        setClubState({ ...clubState, isMember:true,memberShip: item });
+      if (item.length === 1) {
+        console.log("item: ", item);
+        setClubState({ ...clubState, isMember: true, memberShip: item });
       }
-      
     };
-    if (clubID !== undefined && clubState.clubUsers!==[]) {
-      
+    if (clubID !== undefined && clubState.clubUsers !== []) {
       setIsMember();
     }
   }, [clubState.clubUsers]); //eslint-disable-line

@@ -5,11 +5,7 @@ import axios from "axios";
 import {
   URL_UNIVERSITIES,
   URL_USERS,
-  URL_USER_UNIVERSITIES_BY_UNIVERSITYID,
-  URL_USER_UNIVERSITIES_BY_USERID,
-  URL_USER_CLUBS_BY_USERID,
-  URL_USER_FOLLOWERS_BY_USERID,
-  URL_USER_FOLLOWERS_BY_FOLLOWERID,
+  URL_USERFOLLOWS,
 } from "../../Contexts/Paths";
 import { useAuthState } from "../../Contexts";
 // burada ve PostContext'de aynı data var
@@ -194,16 +190,11 @@ export const ProfileContextProvider = ({ children }) => {
   // profil's followers seperated another state
   const [profileFollowers, setProfileFollowers] = useState();
   const [profileFollows, setProfileFollows] = useState();
-  const [profileUniversities, setProfileUniversities] = useState();
-  const [profileClubs, setProfileClubs] = useState();
+
 
   const value = {
     profileState,
     setProfileState,
-    profileUniversities,
-    setProfileUniversities,
-    profileClubs,
-    setProfileClubs,
     profileFollowers,
     setProfileFollowers,
     profileFollows,
@@ -272,16 +263,17 @@ export const ProfileContextProvider = ({ children }) => {
 
   // get  followers
   useEffect(() => {
-    let target = userid
-      ? URL_USER_FOLLOWERS_BY_USERID + userid
-      : URL_USER_UNIVERSITIES_BY_UNIVERSITYID + uniid;
-    const setUniFollowers = async () => {
-      console.log("istek: ", URL_USER_UNIVERSITIES_BY_UNIVERSITYID + target);
-      // profil user ise user followers, uni ise user universities'den veri çek
 
-      await axios
-        .get(target)
-        .then((response) => {
+    const setUniFollowers = async () => {
+      
+      // get followers
+        await axios({
+          method:"GET",
+          url:URL_USERFOLLOWS,
+          params:{
+              followId:(userid?userid:uniid),
+          }
+      }).then((response) => {
           console.log("setFollowers: ", response.data.content);
           setProfileFollowers(response.data.content);
         })
@@ -303,7 +295,7 @@ export const ProfileContextProvider = ({ children }) => {
       if (userid!==undefined) {
         item = profileFollowers.filter((element) => {
           console.log("elememtn:", element);
-          return element.followerId === mainState.user.id;
+          return element.userId === mainState.user.id;
         });
       }
       if (uniid!==undefined) {
@@ -326,47 +318,19 @@ export const ProfileContextProvider = ({ children }) => {
   }, [profileFollowers]); //eslint-disable-line
 
   //
-  // following universities
-  useEffect(() => {
-    const setUserUnifollows = async () => {
-      await axios
-        .get(URL_USER_UNIVERSITIES_BY_USERID + userid)
-        .then((response) => {
-          setProfileUniversities(response.data.content);
-        })
-        .catch((e) => {
-          console.log("profile-universities-get-error");
-        });
-    };
-    if (userid !== undefined) {
-      setUserUnifollows();
-    }
-  }, [userid]); //eslint-disable-line
-
-  //// following clubs
-  useEffect(() => {
-    const setUserClubfollows = async () => {
-      await axios
-        .get(URL_USER_CLUBS_BY_USERID + userid)
-        .then((response) => {
-          setProfileClubs(response.data.content);
-        })
-        .catch((e) => {
-          console.log("profile-clubs-get-error");
-        });
-    };
-    if (userid !== undefined) {
-      setUserClubfollows();
-    }
-  }, [userid]); //eslint-disable-line
 
   //// follows of user
   /// takip ettiği kulllanıcılar
+  // üsttekiler silinebilir
   useEffect(() => {
     const setUserFollows = async () => {
-      await axios
-        .get(URL_USER_FOLLOWERS_BY_FOLLOWERID + userid)
-        .then((response) => {
+        await axios({
+          method:"GET",
+          url:URL_USERFOLLOWS,
+          params:{
+              userId:userid,
+          }
+      }).then((response) => {
           setProfileFollows(response.data.content);
         })
         .catch((e) => {

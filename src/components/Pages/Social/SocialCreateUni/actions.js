@@ -1,5 +1,5 @@
 import axios from "axios";
-import { URL_FILES,URL_UNIVERSITIES,URL_USER_UNIVERSITIES } from "../../../Contexts/Paths";
+import { URL_FILES,URL_UNIVERSITIES,URL_USERFOLLOWS,TYPE_UNI } from "../../../Contexts/Paths";
 
 export const save = (settings) => {
   const { name,description, adminId, originalFile } = settings;
@@ -55,7 +55,7 @@ const createWithUploadedImageId = (name,description, adminId, bodyFormData) => {
         .then((response) => {
           console.log("Uni Created w file ", response);
           // admin uni usersa eklenen ilk kişi
-          PostToUserUniversity(response.data.id,adminId)
+          PostToUserFollow(response.data.id,adminId)
         })
         .catch((userupdateerror) => {
           console.log("Uni Update w file Error");
@@ -80,20 +80,21 @@ const createWithBlankImageId = (name,description, adminId) => {
     .then((response) => {
       console.log("Uni Created Response:", response);
       // admin uni usersa eklenen ilk kişi
-      PostToUserUniversity(response.data.id,adminId)
+      PostToUserFollow(response.data.id,adminId)
     })
     .catch((error) => {
       console.log("Uni Create Error");
     });
 };
 
-const PostToUserUniversity = (universityId,userId) => {
-  axios(URL_USER_UNIVERSITIES, {
+const PostToUserFollow= (universityId,userId) => {
+  axios(URL_USERFOLLOWS, {
     method: "POST",
     header: { "Content-type": "application/json" },
     data: {
-      universityId,
-      userId
+      followId:universityId,
+      userId,
+      followType:TYPE_UNI
     },
   }).then((response) => {
     console.log("Posted Succes To Uniusers ", response);

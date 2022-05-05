@@ -148,6 +148,7 @@ export default function UniversitySettingsModal({ settings, setSettings,profileS
                           originalFile:null,
                           selectedFile: null,
                           cropModalOpen: false,
+                          profileImgId:null,
                         });
                         setAvatar(blankavatarurl)
                       }}

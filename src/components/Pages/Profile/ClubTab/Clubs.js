@@ -8,7 +8,7 @@ import { useState, useEffect } from "react";
 import CircularProgressForTabs from "../CircularProgressForTabs";
 import {
   URL_CLUBS_BY_UNIVERSITYID,
- 
+
 } from "../../../Contexts/Paths";
 import axios from "axios";
 import ClubItem from "./ClubItem";

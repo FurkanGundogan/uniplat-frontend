@@ -1,7 +1,7 @@
 import axios from "axios";
 import {
   URL_UNIVERSITIES,
-  URL_USER_UNIVERSITIES_BY_UNIVERSITYID,
+  URL_USERFOLLOWS,
 } from "../../../Contexts/Paths";
 export const getUniversityInfo = async (universityId, setUniversityInfo) => {
   await axios
@@ -15,8 +15,14 @@ export const getUniversityInfo = async (universityId, setUniversityInfo) => {
 };
 
 export const getUniversityUsersInfo = async (universityId,setUniversityUsersInfo) => {
-  await axios
-    .get(URL_USER_UNIVERSITIES_BY_UNIVERSITYID + universityId)
+
+    await axios({
+      method: "GET",
+      url: URL_USERFOLLOWS,
+      params: {
+        followId: universityId,
+      },
+    })
     .then((response) => {
       setUniversityUsersInfo(response.data.content);
     })

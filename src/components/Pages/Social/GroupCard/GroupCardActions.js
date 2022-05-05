@@ -1,5 +1,5 @@
 import axios from "axios"
-import { URL_CLUBS,URL_UNIVERSITIES,URL_USER_CLUBS_BY_CLUBID } from "../../../Contexts/Paths";
+import { URL_CLUBS,URL_UNIVERSITIES,URL_USERFOLLOWS} from "../../../Contexts/Paths";
 export const getClubInfos = async (clubId,setClubInfo,setClubUniInfo) => {
     await axios
       .get(URL_CLUBS+"/"+ clubId)
@@ -31,9 +31,14 @@ export const getClubInfos = async (clubId,setClubInfo,setClubUniInfo) => {
   }
 
   export const getClubUsersInfo = async (clubId,setClubUsersInfo) => {
-    await axios
-    .get(URL_USER_CLUBS_BY_CLUBID+ clubId)
-    .then((response) => {
+
+    await axios({
+      method: "GET",
+      url: URL_USERFOLLOWS,
+      params: {
+        followId: clubId,
+      },
+    }).then((response) => {
       
       setClubUsersInfo(response.data.content);
     })

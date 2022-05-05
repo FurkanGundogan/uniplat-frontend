@@ -1,5 +1,5 @@
 import axios from "axios";
-import { URL_FILES,URL_CLUBS,URL_USER_CLUBS } from "../../../Contexts/Paths";
+import { URL_FILES,URL_CLUBS, URL_USERFOLLOWS, TYPE_CLUB } from "../../../Contexts/Paths";
 
 
 export const save = (settings) => {
@@ -102,15 +102,16 @@ const createWithBlankImageId = (name, universityId, adminId) => {
 
 
 const PostToUserClub= (clubId,userId) => {
-  axios(URL_USER_CLUBS, {
+  axios(URL_USERFOLLOWS, {
     method: "POST",
     header: { "Content-type": "application/json" },
     data: {
-      clubId,
-      userId
+      followId:clubId,
+      userId,
+      followType:TYPE_CLUB
     },
   }).then((response) => {
-    console.log("Posted Succes To Clubusers ", response);
+    console.log("Posted Succes To User Follows ", response);
     goToNewUniPage(clubId)
   });
 };

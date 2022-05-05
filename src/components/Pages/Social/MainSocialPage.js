@@ -1,4 +1,4 @@
-import React, { useState,useContext } from "react";
+import React, { useState, useEffect } from "react";
 import Grid from "@mui/material/Grid";
 import MainSocialPageStyles from "./MainSocialPageStyles";
 import Divider from "@mui/material/Divider";
@@ -13,11 +13,19 @@ import Box from "@mui/material/Box";
 import GroupCard from "./GroupCard/GroupCard"
 import UniversityCard from "./UniversityCard/UniversityCard";
 import { blankavatar } from "../../Contexts/Paths";
-import {UserExtraInfoContext} from "../../Contexts/UserExtraInfoContext"
+
+import {getUserClubs,getUserUniversities} from "./SocialInfoActions"
 const MainSocialPage = () => {
   const mainState = useAuthState(); //read user details from context
-  const { userClubs,userUniversities } = useContext(UserExtraInfoContext);
-  console.log("user unis:",userUniversities)
+ 
+  const [clubs,setClubs]=useState()
+  const [universities,setUniversities]=useState()
+  useEffect(()=>{
+    getUserClubs(mainState.user.id,setClubs)
+    getUserUniversities(mainState.user.id,setUniversities)
+  },[mainState.user.id])
+
+
   const [createUniState, setCreateUniState] = useState();
   const [createClubState, setCreateClubState] = useState();
   const [isTeacher] = useState(mainState.user.type==="TEACHER");
@@ -91,10 +99,10 @@ const MainSocialPage = () => {
           <Box sx={{ flexGrow: 1 }}>
             <Grid container className={classes.mygridcontainer} spacing={3}>
               {
-                userUniversities!==undefined &&
-                userUniversities.map((userUni,index)=>
+                universities!==undefined &&
+                universities.map((userUni,index)=>
                   <Grid key={index} item xs={6}  className={classes.mygrid}>
-                    <UniversityCard universityId={userUni.universityId}/>
+                    <UniversityCard universityId={userUni.followId}/>
                   </Grid>
                 )
               }
@@ -111,10 +119,10 @@ const MainSocialPage = () => {
           <Box sx={{ flexGrow: 1 }}>
             <Grid container className={classes.mygridcontainer} spacing={3}>
               {
-                userClubs!==undefined &&
-                userClubs.map((userClub,index)=>
+                clubs!==undefined &&
+                clubs.map((userClub,index)=>
                   <Grid key={index} item xs={6}  className={classes.mygrid}>
-                    <GroupCard clubId={userClub.clubId}/>
+                    <GroupCard clubId={userClub.followId}/>
                   </Grid>
                 )
               }

@@ -28,7 +28,7 @@ function Memberships() {
         {profileClubs!==null ? (
           profileClubs.map((membership, i) => (
             <ListItem button key={i}  onClick={() => {
-              navigate("/clubs/" + membership?.clubId);
+              navigate("/clubs/" + membership?.followId);
             }}>
               <MembershipItem
                 membership={membership}

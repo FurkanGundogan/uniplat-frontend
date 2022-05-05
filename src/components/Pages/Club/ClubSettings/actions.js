@@ -3,7 +3,7 @@ import { URL_FILES,URL_CLUBS } from "../../../Contexts/Paths";
 
 export const save = (settings, clubState, setClubState) => {
   
-  const { name,adminId, originalFile } = settings;
+  const { name,adminId, profileImgId,originalFile } = settings;
   
   const bodyFormData = getFile(originalFile);
   if (bodyFormData !== null) {
@@ -23,6 +23,7 @@ export const save = (settings, clubState, setClubState) => {
       setClubState,
       name,
       adminId,
+      profileImgId,
     );
   }
 };
@@ -38,6 +39,7 @@ const editWithUploadedImageId = (
     ...clubState.clubInfo,
     name: name,
     adminId:adminId,
+    profileImgId:null,
   };
 
   // varsa önce file'ı yükle sonra  update et
@@ -56,7 +58,7 @@ const editWithUploadedImageId = (
       });
 
       axios(URL_CLUBS + "/" + updatedClub.id, {
-        method: "PATCH",
+        method: "PUT",
         header: { "Content-type": "application/json" },
         data: { ...updatedClub, profileImgId: fileresponse.data.id },
       })
@@ -72,18 +74,19 @@ const editWithUploadedImageId = (
     });
 };
 
-const editStandard = (clubState, setClubState, name,adminId) => {
+const editStandard = (clubState, setClubState, name,adminId,profileImgId) => {
   console.log("es:",name,adminId)
   const updatedClub = {
     ...clubState.clubInfo,
     name: name,
     adminId:adminId,
+    profileImgId:profileImgId
   };
   console.log("Edit Club Standard data:", updatedClub);
   // file yoksa direkt  update et
 
   axios(URL_CLUBS + "/" + updatedClub.id, {
-    method: "PATCH",
+    method: "PUT",
     header: { "Content-type": "application/json" },
     data: updatedClub,
   })

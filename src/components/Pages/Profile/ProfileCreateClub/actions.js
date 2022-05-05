@@ -1,5 +1,5 @@
 import axios from "axios";
-import { URL_FILES,URL_CLUBS,URL_USER_CLUBS } from "../../../Contexts/Paths";
+import { URL_FILES,URL_CLUBS, TYPE_CLUB, URL_USERFOLLOWS } from "../../../Contexts/Paths";
 
 export const save = (settings) => {
   const { name, universityId, adminId, originalFile } = settings;
@@ -65,7 +65,7 @@ const createWithUploadedImageId = (
         .then((response) => {
           console.log("Club Created w file ", response);
           // Admin is the first member of club
-          PostToUserClub(response.data.id,adminId)
+          PostToUserFollow(response.data.id,adminId)
         })
         .catch((userupdateerror) => {
           console.log("Club Update w file Error");
@@ -91,7 +91,7 @@ const createWithBlankImageId = (name, universityId, adminId) => {
     .then((response) => {
       console.log("Club Created Response:", response);
       // Admin is the first member of club
-      PostToUserClub(response.data.id,adminId)
+      PostToUserFollow(response.data.id,adminId)
     })
     .catch((error) => {
       console.log("Club Create Error");
@@ -100,16 +100,17 @@ const createWithBlankImageId = (name, universityId, adminId) => {
 
 
 
-const PostToUserClub= (clubId,userId) => {
-  axios(URL_USER_CLUBS, {
+const PostToUserFollow= (clubId,userId) => {
+  axios(URL_USERFOLLOWS, {
     method: "POST",
     header: { "Content-type": "application/json" },
     data: {
-      clubId,
-      userId
+      followId:clubId,
+      userId,
+      followType:TYPE_CLUB
     },
   }).then((response) => {
-    console.log("Posted Succes To Clubusers ", response);
+    console.log("Posted Succes To UserFollow ", response);
     goToNewUniPage(clubId)
   });
 };

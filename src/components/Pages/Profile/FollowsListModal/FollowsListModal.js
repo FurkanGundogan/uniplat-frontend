@@ -12,13 +12,14 @@ import MainProfileStyles from "../MainProfileStyles";
 import Divider from "@mui/material/Divider";
 
 import FollowUserItem from "./FollowUserItem";
-import FolowUniItem from "./FollowUniItem";
+
 import FollowClubItem from "./FollowClubItem";
 import { useContext } from "react";
 import { ProfileContext } from "../ProfileContext";
 import { useNavigate } from "react-router-dom";
 import CircularProgressForTabs from "../CircularProgressForTabs";
-
+import { TYPE_CLUB, TYPE_UNI, TYPE_USER } from "../../../Contexts/Paths";
+import FollowUniItem from "./FollowUniItem";
 export default function FollowsListModal({
   showFollowsList,
   setShowFollowsList,
@@ -29,7 +30,6 @@ export default function FollowsListModal({
   const navigate = useNavigate();
   const { profileFollows, profileClubs, profileUniversities } =
     useContext(ProfileContext);
-
 
   return (
     <div>
@@ -58,18 +58,44 @@ export default function FollowsListModal({
         <DialogContent>
           <List sx={{ pt: 0 }}>
             {profileFollows !== null ? (
-              profileFollows?.map((follow, i) => (
-                <ListItem
+              profileFollows?.map((follow, i) => {
+                if(follow.followType === TYPE_USER){
+                  return <ListItem
                   button
                   key={i}
                   onClick={() => {
                     setShowFollowsList(false);
-                    navigate("/" + follow?.userId);
+                    navigate("/" + follow?.followId);
                   }}
                 >
                   <FollowUserItem follow={follow} />
                 </ListItem>
-              ))
+                }if(follow.followType === TYPE_UNI){
+                  return <ListItem
+                  button
+                  key={i}
+                  onClick={() => {
+                    setShowFollowsList(false);
+                    navigate("/uni/" + follow?.followId);
+                  }}
+                >
+                  <FollowUniItem follow={follow} />
+                </ListItem>
+                }
+                if(follow.followType === TYPE_CLUB){
+                  return <ListItem
+                  button
+                  key={i}
+                  onClick={() => {
+                    setShowFollowsList(false);
+                    navigate("/clubs/" + follow?.followId);
+                  }}
+                >
+                  <FollowClubItem follow={follow} />
+                </ListItem>
+                }
+                 return <div className="div"></div>
+              })
             ) : (
               <CircularProgressForTabs />
             )}
@@ -84,7 +110,7 @@ export default function FollowsListModal({
                     navigate("/uni/" + follow?.universityId);
                   }}
                 >
-                  <FolowUniItem follow={follow} />
+                  <FollowUniItem follow={follow} />
                 </ListItem>
               ))
             ) : (
@@ -107,7 +133,6 @@ export default function FollowsListModal({
             ) : (
               <CircularProgressForTabs />
             )}
-            
           </List>
           <List sx={{ pt: 0 }}>
             <Divider />

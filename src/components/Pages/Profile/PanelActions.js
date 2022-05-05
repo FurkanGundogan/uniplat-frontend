@@ -1,18 +1,18 @@
 import axios from "axios";
-import { URL_USER_UNIVERSITIES,URL_USER_FOLLOWS } from "../../Contexts/Paths"
+import { URL_USERFOLLOWS } from "../../Contexts/Paths"
 
-export const followUser = async (userId,followerId,profileState,setProfileState,profileFollowers,setProfileFollowers) => {
+export const follow = async (userId,followId,type,profileState,setProfileState,profileFollowers,setProfileFollowers) => {
   console.log("user:",userId)
-  console.log("followerId:",followerId)
-  await axios(URL_USER_FOLLOWS, {
+  console.log("followId:",followId)
+  await axios(URL_USERFOLLOWS, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    data: {userId,followerId},
+    data: {userId,followId,followType:type},
   })
     .then((response) => {
-      console.log("followUser User Join Successfull:",response.data);
+      console.log("Follow Successfull:",response.data);
       setProfileState({...profileState,
         isFollow:true,
         followShip:[response.data]})
@@ -20,21 +20,21 @@ export const followUser = async (userId,followerId,profileState,setProfileState,
 
     })
       .catch((e) => {
-      console.log("User Follows Join Error");
+      console.log(" Follow Join Error");
     });
 
 }
 
-export const unfollowUser = (followShip,profileState,setProfileState,profileFollowers,setProfileFollowers) => {
+export const unfollow = (followShip,profileState,setProfileState,profileFollowers,setProfileFollowers) => {
   console.log("Followship Before Leave:",followShip)
-  axios(URL_USER_FOLLOWS+"/"+followShip[0].id, {
+  axios(URL_USERFOLLOWS+"/"+followShip[0].id, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
     },
   })
     .then((response) => {
-      console.log("followUser User Leave Successfull");
+      console.log("Unfollow Successfull");
       let users = profileFollowers.filter((element) => {
         return element.userId !== followShip[0].userId;
       });
@@ -43,11 +43,11 @@ export const unfollowUser = (followShip,profileState,setProfileState,profileFoll
       setProfileFollowers(users)
     })
       .catch((e) => {
-      console.log("Follower User Leave Error");
+      console.log("Unfollow Error");
     });
 
 }
-
+/*
 export const follow = async (userId,universityId,profileState,setProfileState,profileFollowers,setProfileFollowers) => {
   console.log("user:",userId)
   console.log("uni:",universityId)
@@ -93,3 +93,4 @@ export const unfollow = (followShip,profileState,setProfileState,profileFollower
     });
 
 }
+*/

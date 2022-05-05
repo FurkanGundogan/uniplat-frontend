@@ -1,13 +1,13 @@
 import axios from "axios";
-import { URL_USER_CLUBS } from "../../Contexts/Paths"
+import { TYPE_CLUB,URL_USERFOLLOWS } from "../../Contexts/Paths"
 
 export const join = async (userId,clubId,clubState,setClubState) => {
-  await axios(URL_USER_CLUBS, {
+  await axios(URL_USERFOLLOWS, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    data: {userId,clubId},
+    data: {userId,followId:clubId,followType:TYPE_CLUB},
   })
     .then((response) => {
       console.log("Club User Join Successfull:",response.data);
@@ -21,7 +21,7 @@ export const join = async (userId,clubId,clubState,setClubState) => {
 
 export const leave = (memberShip,clubState,setClubState) => {
   console.log("member Before Leave:",memberShip)
-  axios(URL_USER_CLUBS+"/"+memberShip[0].id, {
+  axios(URL_USERFOLLOWS+"/"+memberShip[0].id, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",

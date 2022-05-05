@@ -7,7 +7,7 @@ import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import CircularProgressForTabs from "../../Profile/CircularProgressForTabs";
 import {
-  URL_USER_CLUBS_BY_CLUBID,
+  URL_USERFOLLOWS,
 } from "../../../Contexts/Paths";
 import axios from "axios";
 import MemberItem from "./MemberItem";
@@ -23,8 +23,13 @@ function Members() {
   console.log("buradaki Members:", clubID, clubMembers);
   useEffect(() => {
     const setMembers = async () => {
-      await axios
-        .get(URL_USER_CLUBS_BY_CLUBID + clubID)
+        await axios({
+          method: "GET",
+          url: URL_USERFOLLOWS,
+          params: {
+            followId: clubID,
+          },
+        })
         .then((response) => {
           setClubMembers(response.data.content);
         })
