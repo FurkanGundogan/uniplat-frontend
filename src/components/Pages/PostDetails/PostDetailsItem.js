@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Grid from "@mui/material/Grid";
 import PostDetailsPageStyles from "./PostDetailsPageStyles";
 import UserAvatar from "../UserAvatar";
@@ -17,23 +17,40 @@ import { useParams } from "react-router-dom";
 import { useState } from "react";
 import DetailPostCard from "./DetailPostCard";
 import {PostsContext} from "../HomePosts/PostsContext"
+import { URL_POSTS } from "../../Contexts/Paths";
 import "react-awesome-lightbox/build/style.css";
+import axios from "axios";
+import { UserExtraInfoContext } from "../../Contexts/UserExtraInfoContext";
 
 const PostDetailsItem = () => {
+
+  
   const {postsState,setpostsState} = useContext(PostsContext)
 
-  const { postid } = useParams();
+  const { 
+    //ownerType
+    //,ownerId,
+    postid } = useParams();
   
   const [post, setPost] = useState(postsState.posts.filter(p=>p.id===postid)[0]);
-  /*
-  useEffect(() => {
-    // burası isteklerde kullanılacak
-    setPost(GetPostDetails(postsState, postid));
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
-*/
+  
+    useEffect(()=>{
+
+     axios
+    .get(URL_POSTS + "/" + postid)
+    .then((response) => {
+      setPost(response.data);
+    })
+    .catch((e) => {
+      console.log("card-postowner-info-get-error");
+    });
+
+  },[postid])
+
   // const navigate = useNavigate();
   const dispatch = useAuthDispatch(); // read dispatch method from context
   const mainState = useAuthState(); //read user details from context
+  const { userUni } = useContext(UserExtraInfoContext);
   const { newPostState, setNewPostState } = useContext(NewPostModalContext);
 
   const handleLogout = () => {
@@ -46,26 +63,32 @@ const PostDetailsItem = () => {
     <Grid container className={classes.HomeContainer}>
       <Grid item className={classes.LeftSide}>
         <div className={classes.leftSideInner}>
-        <UserAvatar name={mainState.user.name} surname={mainState.user.surname} /> 
+        <UserAvatar
+            id={mainState.user.id}
+            profileImgId={mainState.user.profileImgId}
+          />
           <Typography variant="body1" className={classes.UserName}>
             {mainState.user.name} {mainState.user.surname}
           </Typography>
           <Divider />
           <Typography variant="body1" className={classes.UserUni}>
-            {mainState.user.email}
+            {userUni.name}
           </Typography>
           <Typography variant="body1" className={classes.UserDept}>
             {mainState.user.type}
           </Typography>
+          <Typography variant="body1" className={classes.UserDept}>
+            {mainState.user.description}
+          </Typography>
           <div className={classes.LeftSideButtonWrapper}>
-            <Button
+          <Button
               className={classes.LeftSideButton}
-              startIcon={<AddCircleOutlineIcon />}
+              startIcon={<AddCircleOutlineIcon />}F
               onClick={() => {
-                setNewPostState({ type: "Post", isOpen: true });
+                setNewPostState({ type: "Post", isOpen: true,ownerId:mainState.user.id,ownerType:"USER"});
               }}
             >
-              Yeni Gönderi
+              New Post
             </Button>
           </div>
           <div className={classes.LeftSideButtonWrapper}>
@@ -100,7 +123,7 @@ const PostDetailsItem = () => {
           <NewPostModal modalState={newPostState} setModal={setNewPostState} />
         )}
 
-        {post !== undefined && <DetailPostCard  post={postsState.posts.filter(p=>p.id===postid)[0]} setPost={setPost} postsState={postsState} setpostsState={setpostsState} />}
+        {post !== undefined && <DetailPostCard  post={post} setPost={setPost} />}
       </Grid>
       <Grid item className={classes.RightSide}>
         <div className={classes.rightSideInner}>

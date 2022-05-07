@@ -1,5 +1,5 @@
 import React from "react";
-import PostCard from "../HomePosts/PostCard";
+import PostCard from "./PostCard";
 import MainProfileStyles from "./MainProfileStyles";
 import { ProfileContext } from "./ProfileContext";
 import { useContext,useEffect } from "react";
@@ -55,10 +55,7 @@ function ProfilePostArea() {
     [userid, loading, hasMore] //eslint-disable-line
   );
 
-  //const getPostsUrl=URL_POSTS_OWNER+profileState.userInfo.id+URL_POSTS_TYPE+usertype
-  // console.log("getPostsUrl:",getPostsUrl)
-  //
-
+  
   const classes = MainProfileStyles();
 
   return (

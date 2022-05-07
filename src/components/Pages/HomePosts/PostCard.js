@@ -23,7 +23,9 @@ import CardMedia from "@mui/material/CardMedia";
 //import NestedPostCard from "./NestedPostCard";
 //import Comment from "../PostDetails/Comment";
 import Chip from "@mui/material/Chip";
-import { URL_FILES } from "../../Contexts/Paths";
+import { TYPE_CLUB, TYPE_UNI, TYPE_USER, URL_CLUBS, URL_FILES, URL_UNIVERSITIES, URL_USERS } from "../../Contexts/Paths";
+import axios from "axios";
+import { useState,useEffect } from "react";
 export default function PostCard(props) {
  
   const {
@@ -33,13 +35,30 @@ export default function PostCard(props) {
     description,
     likeCounter,
     ownerId,
-    // postOwnerType,
+    ownerType,
     // postType,
     // sharedPostId,
     // lastModifiedAt
   } = props.post;
 
 
+  const [owner,setOwner]=useState()
+    useEffect(()=>{
+    let target="";
+    if(ownerType===TYPE_USER) target=URL_USERS
+    if(ownerType===TYPE_CLUB) target=URL_CLUBS
+    if(ownerType===TYPE_UNI) target=URL_UNIVERSITIES
+
+     axios
+    .get(target + "/" + ownerId)
+    .then((response) => {
+      setOwner(response.data);
+    })
+    .catch((e) => {
+      console.log("card-postowner-info-get-error");
+    });
+
+  },[ownerId,ownerType])
  
   const isLiked=false
 
@@ -62,7 +81,7 @@ export default function PostCard(props) {
       <Card
         className={classes.CardWrapper}
         onClick={() =>
-          navigate("/" + ownerId + "/posts/" + id, {
+          navigate("/" +ownerType.toLowerCase()+"/"+ ownerId + "/posts/" + id, {
             state: { prevPath: locState.pathname, scrollY: window.pageYOffset },
           })
         }
@@ -86,7 +105,7 @@ export default function PostCard(props) {
               <MoreVertIcon />
             </IconButton>
           }
-          title={props?.owner?.name+" "+(props?.owner?.surname?props?.owner?.surname:"")}
+          title={owner?.name+" "+(owner?.surname?owner?.surname:"")}
           subheader={
             new Date(createdAt).toLocaleDateString() +
             " - " +
@@ -105,7 +124,7 @@ export default function PostCard(props) {
           onClick={(e) => {
             e.stopPropagation();
             //setFullSize({ isOpen: true, img: img });
-            navigate("/" + ownerId + "/posts/" + id + "/media", {
+            navigate("/" +ownerId + "/posts/" + id + "/media", {
               state: { ...locState, backgroundLocation: locState },
             });
           }}

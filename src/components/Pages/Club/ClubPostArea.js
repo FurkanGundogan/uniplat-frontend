@@ -1,7 +1,7 @@
 import React from 'react'
 import { TYPE_CLUB } from '../../Contexts/Paths';
 import MainClubStyles from './MainClubStyles'
-import PostCard from "../HomePosts/PostCard";
+import PostCard from "../Profile/PostCard";
 import { useContext,useEffect } from "react";
 import { useParams } from "react-router-dom";
 import useGetPost from "./useGetPost";

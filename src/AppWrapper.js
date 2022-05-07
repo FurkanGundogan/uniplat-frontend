@@ -109,7 +109,7 @@ function AppWrapper() {
           exact
         />
         <Route
-          path="/:username/posts/:postid"
+          path="/:ownerType/:ownerId/posts/:postid"
           element={
             <HomeRoute>
               <PostDetailsPage />
