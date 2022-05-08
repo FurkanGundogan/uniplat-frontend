@@ -23,6 +23,7 @@ import { useAuthDispatch } from "../../../Contexts";
 import { useEffect } from "react";
 import MySelect from "../../../LoginRegister/Select";
 import { blankavatarurl,URL_FILES } from "../../../Contexts/Paths";
+
 const style = {
   position: "absolute",
 
@@ -36,6 +37,7 @@ const style = {
 };
 
 export default function ProfileSettingsModal({ settings, setSettings,mainState,profileState,setProfileState }) {
+
   const dispatch = useAuthDispatch(); // read dispatch method from context
   let navigate = useNavigate();
 
@@ -79,8 +81,8 @@ export default function ProfileSettingsModal({ settings, setSettings,mainState,p
 
   const [alertState, setAlert] = useState({ msg: "", isOpen: false });
   useEffect(() => {
-    getUniversitiesForEdit(setUniList)
-  }, [])
+    getUniversitiesForEdit(setUniList,mainState.user.id)
+  }, []) //eslint-disable-line
   
 
   const classes = ProfileSettingsModalStyles();

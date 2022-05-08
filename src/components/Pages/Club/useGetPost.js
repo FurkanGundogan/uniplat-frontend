@@ -1,10 +1,10 @@
 import {useState,useEffect} from 'react'
 import axios from 'axios'
 import {URL_POSTS} from "../../Contexts/Paths"
-
+import { useAuthState } from "../../Contexts";
 
 function useGetPost(ownerId,postOwnerType,pageNumber) {
-    
+    const mainState = useAuthState(); //read user details from context
   
     console.log(ownerId,postOwnerType,pageNumber)
 
@@ -31,6 +31,7 @@ function useGetPost(ownerId,postOwnerType,pageNumber) {
         axios({
             method:"GET",
             url:URL_POSTS,
+            headers:{"userId":mainState.user.id},
             params:{
                 ownerId:ownerId,
                 postOwnerType:postOwnerType,

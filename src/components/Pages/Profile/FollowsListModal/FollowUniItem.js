@@ -9,12 +9,14 @@ import {
   import PersonIcon from "@mui/icons-material/Person";
   import { URL_UNIVERSITIES,URL_FILES } from "../../../Contexts/Paths";
   import axios from "axios";
+  import {useAuthState } from "../../../Contexts";
   function FolowUniItem({ follow }) {
+    const mainState = useAuthState(); //read user details from context
     const [uniDetails, setUniDetails] = useState();
     useEffect(() => {
       const setDetails = async () => {
         await axios
-          .get(URL_UNIVERSITIES + "/" + follow?.followId)
+          .get(URL_UNIVERSITIES + "/" + follow?.followId,{ headers:{"userId":mainState.user.id} })
           .then((response) => {
             setUniDetails(response.data);
           })

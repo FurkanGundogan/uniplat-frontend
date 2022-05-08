@@ -1,13 +1,13 @@
 import axios from "axios"
 import { URL_CLUBS,URL_UNIVERSITIES,URL_USERFOLLOWS} from "../../../Contexts/Paths";
-export const getClubInfos = async (clubId,setClubInfo,setClubUniInfo) => {
+export const getClubInfos = async (clubId,setClubInfo,setClubUniInfo,mainuserid) => {
     await axios
-      .get(URL_CLUBS+"/"+ clubId)
+      .get(URL_CLUBS+"/"+ clubId,{headers:{"userId":mainuserid}})
       .then((response) => {
         
         setClubInfo(response.data);
 
-        getClubUniInfo(response.data.universityId,setClubUniInfo)
+        getClubUniInfo(response.data.universityId,setClubUniInfo,mainuserid)
 
       })
       .catch((e) => {
@@ -17,9 +17,9 @@ export const getClubInfos = async (clubId,setClubInfo,setClubUniInfo) => {
       
   };
 
-  const getClubUniInfo = async (universityId,setClubUniInfo) => {
+  const getClubUniInfo = async (universityId,setClubUniInfo,mainuserid) => {
     await axios
-    .get(URL_UNIVERSITIES+"/"+ universityId)
+    .get(URL_UNIVERSITIES+"/"+ universityId,{headers:{"userId":mainuserid}})
     .then((response) => {
       
       setClubUniInfo(response.data);

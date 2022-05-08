@@ -75,6 +75,7 @@ const MainProfilePage = () => {
   const isFollow = profileState.isFollow;
 
   console.log("isFollow:", isFollow);
+  console.log("isFollowNew:", profileState.userInfo.followedByUser);
   console.log("followShip:", profileState.followShip);
   const classes = MainProfileStyles();
   const [showFollowsList, setShowFollowsList] = React.useState(false);

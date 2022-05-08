@@ -9,13 +9,15 @@ import {
   import PersonIcon from "@mui/icons-material/Person";
   import { URL_CLUBS,URL_FILES,URL_UNIVERSITIES } from "../../../Contexts/Paths";
   import axios from "axios";
+  import {useAuthState } from "../../../Contexts";
   function FollowClubItem({ follow }) {
+    const mainState = useAuthState(); //read user details from context
     const [clubDetails, setClubDetails] = useState();
     const [clubUni, setClubUni] = useState();
     useEffect(() => {
       const setDetails = async () => {
         await axios
-          .get(URL_CLUBS + "/" + follow?.followId)
+          .get(URL_CLUBS + "/" + follow?.followId,{ headers:{"userId":mainState.user.id} })
           .then((response) => {
             setClubDetails(response.data);
           })
@@ -31,7 +33,7 @@ import {
     useEffect(() => {
         const setClubUniDetails = async () => {
           await axios
-            .get(URL_UNIVERSITIES + "/" + clubDetails?.universityId)
+            .get(URL_UNIVERSITIES + "/" + clubDetails?.universityId,{ headers:{"userId":mainState.user.id} })
             .then((response) => {
                 setClubUni(response.data);
             })

@@ -160,6 +160,7 @@ export const clubUsers = [];
 export const ClubContext = createContext();
 
 export const ClubContextProvider = ({ children }) => {
+  const mainState = useAuthState(); //read user details from context
   const [clubState, setClubState] = useState({
     clubInfo: clubInfo,
     clubUniInfo: clubUniInfo,
@@ -172,12 +173,12 @@ export const ClubContextProvider = ({ children }) => {
     clubState,
     setClubState,
   };
-  const mainState = useAuthState(); //read user details from context
+
 
   useEffect(() => {
     const setClubInfo = async () => {
       await axios
-        .get(URL_CLUBS + "/" + clubID)
+        .get(URL_CLUBS + "/" + clubID,{headers:{"userId":mainState.user.id}})
         .then((response) => {
           console.log("setclubinfo: ", response.data);
           setClubState({ ...clubState, clubInfo: response.data });
@@ -197,7 +198,7 @@ export const ClubContextProvider = ({ children }) => {
   useEffect(() => {
     const setClubUniInfo = async () => {
       await axios
-        .get(URL_UNIVERSITIES + "/" + clubState.clubInfo.universityId)
+        .get(URL_UNIVERSITIES + "/" + clubState.clubInfo.universityId,{headers:{"userId":mainState.user.id}})
         .then((response) => {
           console.log("setClubUniInfo: ", response.data);
           setClubState({ ...clubState, clubUniInfo: response.data });

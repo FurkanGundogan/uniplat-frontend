@@ -7,8 +7,9 @@ import { useState,useEffect } from "react";
 import {URL_USERS,URL_FILES} from "../../../Contexts/Paths"
 
 import axios from "axios"
-
+import {useAuthState } from "../../../Contexts";
 function Follower({follower}) {
+  const mainState = useAuthState(); //read user details from context
     const [user, setUser] = useState();
    
  
@@ -17,7 +18,7 @@ function Follower({follower}) {
       
         const setFollowerUser = async () => {
           await axios
-            .get(URL_USERS +"/"+ follower?.userId)
+            .get(URL_USERS +"/"+ follower?.userId,{headers:{"userId":mainState.user.id}})
             .then((response) => {
               setUser(response.data);
             })

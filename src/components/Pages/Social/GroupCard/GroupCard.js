@@ -9,9 +9,10 @@ import { useNavigate } from "react-router-dom";
 import { useState,useEffect } from "react";
 import { getClubInfos,getClubUsersInfo } from "./GroupCardActions";
 import { URL_FILES } from "../../../Contexts/Paths";
+import {useAuthState } from "../../../Contexts";
 export default function RecipeReviewCard({clubId}) {
   const navigate = useNavigate();
-
+  const mainState = useAuthState(); //read user details from context
 
   const [clubInfo,setClubInfo]=useState()
   const [clubUniInfo,setClubUniInfo]=useState()
@@ -19,9 +20,9 @@ export default function RecipeReviewCard({clubId}) {
 console.log("ci:",clubUsersInfo)
   useEffect(() => {
     if (clubId !== undefined) {
-      getClubInfos(clubId,setClubInfo,setClubUniInfo);
+      getClubInfos(clubId,setClubInfo,setClubUniInfo,mainState.user.id);
     }
-  }, [clubId]);
+  }, [clubId,mainState.user.id]);
 
   useEffect(() => {
     if (clubId !== undefined) {

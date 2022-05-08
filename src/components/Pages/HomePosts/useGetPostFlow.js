@@ -26,9 +26,9 @@ function useGetPostFlow(userId,pageNumber) {
         let cancel
         axios({
             method:"GET",
+            headers:{"userId":userId},
             url:URL_POSTFLOWS,
             params:{
-                userId:userId,
                 page:pageNumber,
                 size:5,
             },

@@ -2,6 +2,8 @@ import axios from "axios";
 import { URL_USERFOLLOWS } from "../../Contexts/Paths"
 
 export const follow = async (userId,followId,type,profileState,setProfileState,profileFollowers,setProfileFollowers) => {
+  // followShip kalacak
+  // filtreleme yerine property kullanılacak
   console.log("user:",userId)
   console.log("followId:",followId)
   await axios(URL_USERFOLLOWS, {

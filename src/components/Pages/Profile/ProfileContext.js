@@ -210,7 +210,7 @@ export const ProfileContextProvider = ({ children }) => {
   useEffect(() => {
     const setUserInfo = async () => {
       await axios
-        .get(URL_USERS + "/" + userid)
+        .get(URL_USERS + "/" + userid, { headers:{"userId":mainState.user.id} })
         .then((response) => {
           setProfileState({profileState,userInfo: response.data });
         })
@@ -228,7 +228,7 @@ export const ProfileContextProvider = ({ children }) => {
   useEffect(() => {
     const setUserUniInfo = async () => {
       await axios
-        .get(URL_UNIVERSITIES + "/" + profileState.userInfo.universityId)
+        .get(URL_UNIVERSITIES + "/" + profileState.userInfo.universityId,{ headers:{"userId":mainState.user.id} })
         .then((response) => {
           setProfileState({ ...profileState, userUniInfo: response.data });
         })
@@ -248,7 +248,7 @@ export const ProfileContextProvider = ({ children }) => {
   useEffect(() => {
     const setInfoAsUni = async () => {
       await axios
-        .get(URL_UNIVERSITIES + "/" + uniid)
+        .get(URL_UNIVERSITIES + "/" + uniid,{ headers:{"userId":mainState.user.id} })
         .then((response) => {
           setProfileState({ ...profileState, userInfo: response.data });
         })

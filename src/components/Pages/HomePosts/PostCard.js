@@ -26,8 +26,9 @@ import Chip from "@mui/material/Chip";
 import { TYPE_CLUB, TYPE_UNI, TYPE_USER, URL_CLUBS, URL_FILES, URL_UNIVERSITIES, URL_USERS } from "../../Contexts/Paths";
 import axios from "axios";
 import { useState,useEffect } from "react";
+import { useAuthState } from "../../Contexts";
 export default function PostCard(props) {
- 
+  const mainState = useAuthState(); //read user details from context
   const {
     id,
     imgId,
@@ -41,16 +42,14 @@ export default function PostCard(props) {
     // lastModifiedAt
   } = props.post;
 
-
   const [owner,setOwner]=useState()
-    useEffect(()=>{
+    useEffect(() =>{
     let target="";
     if(ownerType===TYPE_USER) target=URL_USERS
     if(ownerType===TYPE_CLUB) target=URL_CLUBS
     if(ownerType===TYPE_UNI) target=URL_UNIVERSITIES
 
-     axios
-    .get(target + "/" + ownerId)
+    axios.get(target + "/" + ownerId,{ headers:{"userId":mainState.user.id} } )
     .then((response) => {
       setOwner(response.data);
     })
@@ -58,7 +57,7 @@ export default function PostCard(props) {
       console.log("card-postowner-info-get-error");
     });
 
-  },[ownerId,ownerType])
+  },[ownerId,ownerType,mainState.user.id])
  
   const isLiked=false
 
@@ -94,7 +93,11 @@ export default function PostCard(props) {
              
               onClick={(e) => {
                 e.stopPropagation();
-                navigate("/" + ownerId);
+                let target=""
+                if(ownerType===TYPE_USER) target=""
+                if(ownerType===TYPE_UNI) target="uni/"
+                if(ownerType===TYPE_CLUB) target="clubs/"
+                navigate("/" +target+ ownerId);
               }}
             >
               F

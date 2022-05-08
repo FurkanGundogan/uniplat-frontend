@@ -5,19 +5,19 @@ import { blue } from "@mui/material/colors";
 import PersonIcon from "@mui/icons-material/Person";
 import { useState,useEffect } from "react";
 import {URL_CLUBS,URL_FILES, URL_USERFOLLOWS, TYPE_CLUB} from "../../../Contexts/Paths"
-
+import {useAuthState } from "../../../Contexts";
 import axios from "axios"
 
 function MembershipItem({membership}) {
     const [club, setclub] = useState();
     const [clubUsers,setClubUsers]=useState();
-   
+    const mainState = useAuthState(); //read user details from context
     console.log("membership :",membership)
     useEffect(() => {
       
         const setClubDetail = async () => {
           await axios
-            .get(URL_CLUBS +"/"+ membership?.followId)
+            .get(URL_CLUBS +"/"+ membership?.followId,{ headers:{"userId":mainState.user.id} })
             .then((response) => {
               setclub(response.data);
               setUsers(response.data.id)

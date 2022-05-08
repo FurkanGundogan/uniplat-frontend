@@ -24,7 +24,7 @@ export const UserExtraInfoContextProvider = ({ children }) => {
   useEffect(() => {
     const getuni = async () => {
       await axios
-        .get(URL_UNIVERSITIES + "/" + mainState.user.universityId)
+        .get(URL_UNIVERSITIES + "/" + mainState.user.universityId,{ headers:{"userId":mainState.user.id} })
         .then((response) => {
           
           setUserUni(response.data);

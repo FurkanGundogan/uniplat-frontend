@@ -56,7 +56,7 @@ export default function PostCard(props) {
   const [showLikes, setShowLikes] = React.useState(false);
   const navigate = useNavigate();
   const locState = useLocation();
- 
+ // kart img ekle, warningi düzelt
   return (
     <>
       <LikesModal showLikes={showLikes} setShowLikes={setShowLikes} />
@@ -76,7 +76,8 @@ export default function PostCard(props) {
              
               onClick={(e) => {
                 e.stopPropagation();
-                navigate("/" + ownerId);
+               
+     
               }}
             >
               F

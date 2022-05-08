@@ -23,7 +23,7 @@ import axios from "axios";
 import { UserExtraInfoContext } from "../../Contexts/UserExtraInfoContext";
 
 const PostDetailsItem = () => {
-
+  const mainState = useAuthState(); //read user details from context
   
   const {postsState,setpostsState} = useContext(PostsContext)
 
@@ -32,12 +32,12 @@ const PostDetailsItem = () => {
     //,ownerId,
     postid } = useParams();
   
-  const [post, setPost] = useState(postsState.posts.filter(p=>p.id===postid)[0]);
+  const [post, setPost] = useState();
   
     useEffect(()=>{
 
      axios
-    .get(URL_POSTS + "/" + postid)
+    .get(URL_POSTS + "/" + postid,{headers:{"userId":mainState.user.id}})
     .then((response) => {
       setPost(response.data);
     })
@@ -45,11 +45,11 @@ const PostDetailsItem = () => {
       console.log("card-postowner-info-get-error");
     });
 
-  },[postid])
+  },[postid,mainState.user.id])
 
   // const navigate = useNavigate();
   const dispatch = useAuthDispatch(); // read dispatch method from context
-  const mainState = useAuthState(); //read user details from context
+ 
   const { userUni } = useContext(UserExtraInfoContext);
   const { newPostState, setNewPostState } = useContext(NewPostModalContext);
 

@@ -27,7 +27,9 @@ import NestedPostCard from "../HomePosts/NestedPostCard";
 import { TYPE_CLUB, TYPE_UNI, TYPE_USER, URL_CLUBS, URL_FILES, URL_UNIVERSITIES, URL_USERS } from "../../Contexts/Paths";
 import { useState,useEffect } from "react";
 import axios from "axios";
+import { useAuthState } from "../../Contexts";
 export default function DetailPostCard(props) {
+  const mainState = useAuthState(); //read user details from context
   const {
     id,
     imgId,
@@ -55,7 +57,7 @@ export default function DetailPostCard(props) {
     if(ownerType===TYPE_UNI) target=URL_UNIVERSITIES
 
      axios
-    .get(target + "/" + ownerId)
+    .get(target + "/" + ownerId,{headers:{"userId":mainState.user.id}})
     .then((response) => {
       setOwner(response.data);
     })
@@ -63,7 +65,7 @@ export default function DetailPostCard(props) {
       console.log("card-postowner-info-get-error");
     });
 
-  },[ownerId,ownerType])
+  },[ownerId,ownerType,mainState.user.id])
 
   const classes = PostCardStyles();
 
@@ -106,7 +108,11 @@ export default function DetailPostCard(props) {
               aria-label="recipe"
               onClick={(e) => {
                 e.stopPropagation();
-                navigate("/" + owner);
+                let target=""
+                if(ownerType===TYPE_USER) target=""
+                if(ownerType===TYPE_UNI) target="uni/"
+                if(ownerType===TYPE_CLUB) target="clubs/"
+                navigate("/" +target+ ownerId);
               }}
             >
               {owner?.name[0]}

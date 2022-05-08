@@ -3,9 +3,9 @@ import {
   URL_UNIVERSITIES,
   URL_USERFOLLOWS,
 } from "../../../Contexts/Paths";
-export const getUniversityInfo = async (universityId, setUniversityInfo) => {
+export const getUniversityInfo = async (universityId, setUniversityInfo,mainuserid) => {
   await axios
-    .get(URL_UNIVERSITIES + "/" + universityId)
+    .get(URL_UNIVERSITIES + "/" + universityId,{headers:{"userId":mainuserid}})
     .then((response) => {
       setUniversityInfo(response.data);
     })

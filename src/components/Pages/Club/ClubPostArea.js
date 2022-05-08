@@ -8,8 +8,7 @@ import useGetPost from "./useGetPost";
 import { useState, useRef, useCallback } from "react";
 import CircularProgressForTabs from "./CircularProgressForTabs";
 import EndOfPosts from "../Profile/EndOfPosts";
-
- import {ClubContext} from "./ClubContext"
+import {ClubContext} from "./ClubContext"
 
 function ClubPostArea() {
   const { clubID } = useParams();

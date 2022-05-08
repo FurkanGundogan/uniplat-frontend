@@ -14,7 +14,9 @@ import axios from "axios";
 import ClubItem from "./ClubItem";
 import { ListItem } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import {useAuthState } from "../../../Contexts";
 function Clubs() {
+  const mainState = useAuthState(); //read user details from context
   const classes = MainProfileStyles();
   const { uniid } = useParams();
   const navigate = useNavigate();
@@ -24,7 +26,7 @@ function Clubs() {
   useEffect(() => {
     const setClubs = async () => {
       await axios
-        .get(URL_CLUBS_BY_UNIVERSITYID + uniid)
+        .get(URL_CLUBS_BY_UNIVERSITYID + uniid,{headers:{"userId":mainState.user.id}})
         .then((response) => {
           setUniClubs(response.data.content);
         })

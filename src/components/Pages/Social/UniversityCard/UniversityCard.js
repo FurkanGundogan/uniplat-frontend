@@ -9,9 +9,10 @@ import { useNavigate } from "react-router-dom";
 import { useState,useEffect } from "react";
 import { getUniversityInfo,getUniversityUsersInfo } from "./UniversityCardActions";
 import { URL_FILES } from "../../../Contexts/Paths";
+import {useAuthState } from "../../../Contexts";
 export default function RecipeReviewCard({universityId}) {
   const navigate = useNavigate();
-
+  const mainState = useAuthState(); //read user details from context
   console.log("uniid",universityId)
   const [universityInfo,setUniversityInfo]=useState()
   console.log("uni info:",universityInfo)
@@ -19,9 +20,9 @@ export default function RecipeReviewCard({universityId}) {
 
   useEffect(() => {
     if (universityId !== undefined) {
-      getUniversityInfo(universityId,setUniversityInfo);
+      getUniversityInfo(universityId,setUniversityInfo,mainState.user.id);
     }
-  }, [universityId]);
+  }, [universityId,mainState.user.id]);
 
   useEffect(() => {
     if (universityId !== undefined) {

@@ -31,6 +31,7 @@ function useGetPost(ownerId,postOwnerType,pageNumber) {
         axios({
             method:"GET",
             url:URL_POSTS,
+            headers:{"userId":ownerId},
             params:{
                 ownerId:ownerId,
                 postOwnerType:postOwnerType,
