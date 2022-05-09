@@ -53,7 +53,7 @@ function useGetPost(ownerId,postOwnerType,pageNumber) {
         return ()=>cancel()
     
 
-    },[ownerId,postOwnerType,pageNumber]) 
+    },[ownerId,postOwnerType,pageNumber,mainState.user.id]) 
 
     return {loading,error,posts,hasMore}
 }

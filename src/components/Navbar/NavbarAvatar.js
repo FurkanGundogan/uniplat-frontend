@@ -5,12 +5,13 @@ import { useNavigate } from "react-router-dom";
 import { useAuthState } from "../Contexts";
 import {useContext} from "react"
 import { UserExtraInfoContext } from "../Contexts/UserExtraInfoContext";
+import { blankavatarurl } from '../Contexts/Paths';
 export default function NavbarAvatar() {
 
   const mainState = useAuthState(); //read user details from context
 
   const userid=mainState.user.id
-  const blankavatarurl="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqjYWb_kZ7jZ_aCJJdFjLqxS-DBaGsJGxopg&usqp=CAU"
+
   const { userImg } = useContext(UserExtraInfoContext);
   const navigate = useNavigate();
   return (
@@ -22,7 +23,7 @@ export default function NavbarAvatar() {
       }
     >
       <Avatar
-        src={userImg?userImg:blankavatarurl}
+        src={userImg && userImg?userImg:blankavatarurl}
         sx={{ width: 35, height: 35,cursor:"pointer" }}
       />
     </Stack>

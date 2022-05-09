@@ -100,7 +100,7 @@ export default function PostCard(props) {
                 navigate("/" +target+ ownerId);
               }}
             >
-              F
+              asd
             </Avatar>
           }
           action={

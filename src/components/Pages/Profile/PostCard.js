@@ -80,7 +80,7 @@ export default function PostCard(props) {
      
               }}
             >
-              F
+              asd
             </Avatar>
           }
           action={

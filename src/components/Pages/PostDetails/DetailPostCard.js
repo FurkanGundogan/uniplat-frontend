@@ -12,18 +12,18 @@ import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
 import CommentIcon from "@mui/icons-material/Comment";
 import Divider from "@mui/material/Divider";
-import EventArea from "../HomePosts/EventArea";
+// import EventArea from "../HomePosts/EventArea";
 import Collapse from "@mui/material/Collapse";
 import WriteCommentComponent from "../HomePosts/WriteCommentComponent";
 import LikesModal from "../HomePosts/LikesModal";
 import PostCardStyles from "../HomePosts/PostCardStyles";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import { useNavigate, useLocation } from "react-router-dom";
-import Comment from "./Comment";
+// import Comment from "./Comment";
 import Chip from "@mui/material/Chip";
 import { LikePost } from "../HomePosts/HomePostActions";
 import CardMedia from "@mui/material/CardMedia";
-import NestedPostCard from "../HomePosts/NestedPostCard";
+// import NestedPostCard from "../HomePosts/NestedPostCard";
 import { TYPE_CLUB, TYPE_UNI, TYPE_USER, URL_CLUBS, URL_FILES, URL_UNIVERSITIES, URL_USERS } from "../../Contexts/Paths";
 import { useState,useEffect } from "react";
 import axios from "axios";
@@ -35,14 +35,14 @@ export default function DetailPostCard(props) {
     imgId,
     description,
     ownerType,
-    postType,
+   // postType,
     ownerId,
-    sharedPostId,
-    activityTitle,
-    activityStartAt,
-    version,
+   // sharedPostId,
+   // activityTitle,
+   // activityStartAt,
+   // version,
     createdAt,
-    lastModifiedAt,
+   // lastModifiedAt,
   } = props.post;
   const { postsState, setpostsState } = props;
   let isLiked=false

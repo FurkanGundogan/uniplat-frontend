@@ -58,7 +58,7 @@ const MainHomePage = () => {
           <div className={classes.LeftSideButtonWrapper}>
             <Button
               className={classes.LeftSideButton}
-              startIcon={<AddCircleOutlineIcon />}F
+              startIcon={<AddCircleOutlineIcon />}
               onClick={() => {
                 setNewPostState({ type: "Post", isOpen: true,ownerId:mainState.user.id,ownerType:"USER"});
               }}

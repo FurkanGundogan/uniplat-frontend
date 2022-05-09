@@ -16,7 +16,7 @@ import { NewPostModalContext } from "../../Contexts/NewPostModalContext";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
 import DetailPostCard from "./DetailPostCard";
-import {PostsContext} from "../HomePosts/PostsContext"
+
 import { URL_POSTS } from "../../Contexts/Paths";
 import "react-awesome-lightbox/build/style.css";
 import axios from "axios";
@@ -24,8 +24,7 @@ import { UserExtraInfoContext } from "../../Contexts/UserExtraInfoContext";
 
 const PostDetailsItem = () => {
   const mainState = useAuthState(); //read user details from context
-  
-  const {postsState,setpostsState} = useContext(PostsContext)
+
 
   const { 
     //ownerType
@@ -83,7 +82,7 @@ const PostDetailsItem = () => {
           <div className={classes.LeftSideButtonWrapper}>
           <Button
               className={classes.LeftSideButton}
-              startIcon={<AddCircleOutlineIcon />}F
+              startIcon={<AddCircleOutlineIcon />}
               onClick={() => {
                 setNewPostState({ type: "Post", isOpen: true,ownerId:mainState.user.id,ownerType:"USER"});
               }}
