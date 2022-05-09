@@ -236,7 +236,7 @@ export const ClubContextProvider = ({ children }) => {
       setClubUsers();
     }
   }, [clubState.clubUniInfo]); //eslint-disable-line
-
+/*
   useEffect(() => {
     const setIsMember = () => {
       let item = clubState.clubUsers.filter((element) => {
@@ -251,6 +251,6 @@ export const ClubContextProvider = ({ children }) => {
       setIsMember();
     }
   }, [clubState.clubUsers]); //eslint-disable-line
-
+*/
   return <ClubContext.Provider value={value}>{children}</ClubContext.Provider>;
 };

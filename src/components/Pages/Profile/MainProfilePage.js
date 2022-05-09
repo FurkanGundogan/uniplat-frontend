@@ -72,7 +72,8 @@ const MainProfilePage = () => {
   }, [profileState.userInfo]); //eslint-disable-line
 
   // buradaki durum bilgisi istekle yönetilecek
-  const isFollow = profileState.isFollow;
+  // degisti const isFollow = profileState.isFollow;
+  const isFollow = profileState.userInfo.followedByUser;
 
   console.log("isFollow:", isFollow);
   console.log("isFollowNew:", profileState.userInfo.followedByUser);
@@ -100,7 +101,7 @@ const MainProfilePage = () => {
   const handleUnfollow = () => {
 
       unfollow(
-        profileState.followShip,
+        mainState.user.id,
         profileState,
         setProfileState,
         profileFollowers,

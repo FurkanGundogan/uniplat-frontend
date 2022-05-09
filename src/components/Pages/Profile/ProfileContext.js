@@ -291,6 +291,7 @@ export const ProfileContextProvider = ({ children }) => {
     }
   }, [profileState.userInfo]); //eslint-disable-line
 
+  /*
   useEffect(() => {
     const setIsFollow = () => {
       let item;
@@ -318,7 +319,7 @@ export const ProfileContextProvider = ({ children }) => {
       setIsFollow();
     }
   }, [profileFollowers]); //eslint-disable-line
-
+*/
   //
 
   //// follows of user

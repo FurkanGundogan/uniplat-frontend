@@ -39,7 +39,7 @@ const MainClubPage = () => {
   const [settings, setSettings] = useState();
 
   const isAdmin = mainState.user.id === clubState.clubInfo.adminId;
-  const isMember = clubState.isMember
+  const isMember = clubState.clubInfo.followedByUser
   console.log("Club Admin?: ",isAdmin)
   console.log("Club Member?: ",isMember,clubState.memberShip)
   // const isMember = clubID === "2";
@@ -54,7 +54,7 @@ const MainClubPage = () => {
   }
   const handleLeave = () => {
      // join(mainState.user.id,clubState.clubInfo.id)
-     leave(clubState.memberShip,clubState,setClubState)
+     leave(mainState.user.id,clubState,setClubState)
   }
 
 

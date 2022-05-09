@@ -16,8 +16,10 @@ export const follow = async (userId,followId,type,profileState,setProfileState,p
     .then((response) => {
       console.log("Follow Successfull:",response.data);
       setProfileState({...profileState,
-        isFollow:true,
-        followShip:[response.data]})
+        userInfo:{...profileState.userInfo,followedByUser:true},
+       // isFollow:true,
+       // followShip:[response.data]
+      })
         setProfileFollowers([...profileFollowers,response.data])
 
     })
@@ -27,26 +29,47 @@ export const follow = async (userId,followId,type,profileState,setProfileState,p
 
 }
 
-export const unfollow = (followShip,profileState,setProfileState,profileFollowers,setProfileFollowers) => {
-  console.log("Followship Before Leave:",followShip)
-  axios(URL_USERFOLLOWS+"/"+followShip[0].id, {
-    method: "DELETE",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-    .then((response) => {
-      console.log("Unfollow Successfull");
-      let users = profileFollowers.filter((element) => {
-        return element.userId !== followShip[0].userId;
-      });
-      console.log("new users:",users)
-      setProfileState({...profileState,isFollow:false,followShip:null})
-      setProfileFollowers(users)
+export const unfollow = async (userId,profileState,setProfileState,profileFollowers,setProfileFollowers) => {
+ 
+
+  await axios({
+    method:"GET",
+    url:URL_USERFOLLOWS,
+    params:{
+        userId:userId,
+        followId:profileState.userInfo.id,
+    }
+}).then((response) => {
+    console.log("setFollowers: ", response.data.content);
+    axios(URL_USERFOLLOWS+"/"+response.data.content[0].id, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
     })
-      .catch((e) => {
-      console.log("Unfollow Error");
-    });
+      .then((response) => {
+        console.log("Unfollow Successfull");
+        let users = profileFollowers.filter((element) => {
+          return element.userId !== userId;
+        });
+        console.log("new users:",users)
+        setProfileState({...profileState,
+          userInfo:{...profileState.userInfo,followedByUser:false},
+          //isFollow:false,followShip:null
+        })
+        setProfileFollowers(users)
+      })
+        .catch((e) => {
+        console.log("Unfollow Error");
+      });
+
+
+  })
+  .catch((e) => {
+    console.log("profile-followers-get-error");
+  });
+
+ 
 
 }
 /*

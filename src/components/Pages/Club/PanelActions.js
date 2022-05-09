@@ -11,7 +11,9 @@ export const join = async (userId,clubId,clubState,setClubState) => {
   })
     .then((response) => {
       console.log("Club User Join Successfull:",response.data);
-      setClubState({...clubState,clubUsers:[...clubState.clubUsers,response.data]})
+      setClubState({...clubState,
+        clubInfo:{...clubState.clubInfo,followedByUser:true},
+        clubUsers:[...clubState.clubUsers,response.data]})
     })
       .catch((e) => {
       console.log("Club User Join Error");
@@ -19,24 +21,47 @@ export const join = async (userId,clubId,clubState,setClubState) => {
 
 }
 
-export const leave = (memberShip,clubState,setClubState) => {
-  console.log("member Before Leave:",memberShip)
-  axios(URL_USERFOLLOWS+"/"+memberShip[0].id, {
-    method: "DELETE",
+export const leave = async (userId,clubState,setClubState) => {
+
+
+  await axios(URL_USERFOLLOWS, {
+    method: "GET",
     headers: {
       "Content-Type": "application/json",
     },
+    params: {userId:userId,followId:clubState.clubInfo.id},
   })
     .then((response) => {
-      console.log("Club User Leave Successfull");
-      let users = clubState.clubUsers.filter((element) => {
-        return element.userId !== memberShip[0].userId;
-      });
-      console.log("new users:",users)
-      setClubState({...clubState,clubUsers:users,isMember:false,memberShip:null})
+      console.log("Club User Join Successfull:",response.data.content);
+      axios(URL_USERFOLLOWS+"/"+response.data.content[0].id, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => {
+          console.log("Club User Leave Successfull");
+          let users = clubState.clubUsers.filter((element) => {
+            return element.userId !== userId;
+          });
+          console.log("new users:",users)
+          setClubState({...clubState,
+            clubInfo:{...clubState.clubInfo,followedByUser:false},
+            clubUsers:users})
+        })
+          .catch((e) => {
+          console.log("Club User Leave Error");
+        });
+
+
     })
       .catch((e) => {
-      console.log("Club User Leave Error");
+      console.log("Club User Join Error");
     });
+
+
+
+
+
 
 }
