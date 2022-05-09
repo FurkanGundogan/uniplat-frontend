@@ -22,3 +22,4 @@ export const TYPE_UNI="UNIVERSITY"
 export const TYPE_CLUB="CLUB"
 export const URL_USERFOLLOWS="http://localhost:8080/user-follows"
 export const URL_POSTFLOWS="http://localhost:8080/posts/flow"
+export const SIZE=999

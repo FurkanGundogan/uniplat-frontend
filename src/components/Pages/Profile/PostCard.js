@@ -73,7 +73,7 @@ export default function PostCard(props) {
             <Avatar
               sx={{ bgcolor: red[500] }}
               aria-label="recipe"
-             
+              src={props?.owner?.profileImgId && URL_FILES+"/"+props?.owner?.profileImgId}
               onClick={(e) => {
                 e.stopPropagation();
                

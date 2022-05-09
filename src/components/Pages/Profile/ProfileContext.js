@@ -6,6 +6,7 @@ import {
   URL_UNIVERSITIES,
   URL_USERS,
   URL_USERFOLLOWS,
+  SIZE,
 } from "../../Contexts/Paths";
 import { useAuthState } from "../../Contexts";
 // burada ve PostContext'de aynı data var
@@ -272,6 +273,7 @@ export const ProfileContextProvider = ({ children }) => {
           url:URL_USERFOLLOWS,
           params:{
               followId:(userid?userid:uniid),
+              size:SIZE,
           }
       }).then((response) => {
           console.log("setFollowers: ", response.data.content);
@@ -329,6 +331,7 @@ export const ProfileContextProvider = ({ children }) => {
           url:URL_USERFOLLOWS,
           params:{
               userId:userid,
+              size:SIZE,
           }
       }).then((response) => {
           setProfileFollows(response.data.content);
