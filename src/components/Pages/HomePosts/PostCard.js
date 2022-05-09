@@ -27,6 +27,7 @@ import { TYPE_CLUB, TYPE_UNI, TYPE_USER, URL_CLUBS, URL_FILES, URL_UNIVERSITIES,
 import axios from "axios";
 import { useState,useEffect } from "react";
 import { useAuthState } from "../../Contexts";
+import { likeToggle } from "./PostCardActions";
 export default function PostCard(props) {
   const mainState = useAuthState(); //read user details from context
   const {
@@ -34,14 +35,20 @@ export default function PostCard(props) {
     imgId,
     createdAt,
     description,
-    likeCounter,
     ownerId,
     ownerType,
+    countLike,
+    likedByUser,
     // postType,
     // sharedPostId,
     // lastModifiedAt
   } = props.post;
 
+  const [isLiked,setIsLiked]=useState(likedByUser)
+  const [likeCount,setLikeCount]=useState(countLike)
+  const handleLike=()=>{
+      likeToggle(mainState.user.id,id,isLiked,setIsLiked,likeCount,setLikeCount)
+  }
   const [owner,setOwner]=useState()
     useEffect(() =>{
     let target="";
@@ -59,7 +66,7 @@ export default function PostCard(props) {
 
   },[ownerId,ownerType,mainState.user.id])
  
-  const isLiked=false
+  
 
   const [expanded, setExpanded] = React.useState(false);
   const handleExpandClick = (e) => {
@@ -164,7 +171,7 @@ export default function PostCard(props) {
             }}
             className={classes.LikeInfo}
           >
-            <span className={classes.LCSInfoText}>{likeCounter} Likes</span>
+            <span className={classes.LCSInfoText}>{likeCount} Likes</span>
           </div>
           <div className={classes.CommentInfo}>
             <span className={classes.LCSInfoText}>{0} Comments</span>
@@ -180,9 +187,7 @@ export default function PostCard(props) {
             className={classes.LikebuttonWrapper}
             onClick={(e) => {
               e.stopPropagation();
-              /*
-              LikePost(postsState, setpostsState, id);
-              */
+              handleLike()
             }}
           >
             <ThumbUpAltIcon
