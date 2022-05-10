@@ -9,9 +9,11 @@ import useGetPost from "./useGetPost";
 import { useState, useRef, useCallback } from "react";
 import CircularProgressForTabs from "./CircularProgressForTabs";
 import EndOfPosts from "./EndOfPosts";
+
 // statik post verileri, postdetailaction'da bir tanesi seçilip kullanılıyor
 
 function ProfilePostArea() {
+ 
   const { profileState } = useContext(ProfileContext);
   //
   const { userid, uniid } = useParams();
@@ -37,7 +39,8 @@ function ProfilePostArea() {
   const { posts, hasMore, loading } = useGetPost(
     owner,
     usertype,
-    pageNumber
+    pageNumber,
+ 
   );
 
   const observer = useRef();

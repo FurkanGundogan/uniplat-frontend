@@ -15,38 +15,40 @@ import Divider from "@mui/material/Divider";
 // import EventArea from "../HomePosts/EventArea";
 import Collapse from "@mui/material/Collapse";
 import WriteCommentComponent from "../HomePosts/WriteCommentComponent";
-import LikesModal from "../HomePosts/LikesModal";
+import LikesModal from "../HomePosts/LikesModal/LikesModal";
 import PostCardStyles from "../HomePosts/PostCardStyles";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import { useNavigate, useLocation } from "react-router-dom";
 // import Comment from "./Comment";
 import Chip from "@mui/material/Chip";
-import { LikePost } from "../HomePosts/HomePostActions";
 import CardMedia from "@mui/material/CardMedia";
 // import NestedPostCard from "../HomePosts/NestedPostCard";
 import { TYPE_CLUB, TYPE_UNI, TYPE_USER, URL_CLUBS, URL_FILES, URL_UNIVERSITIES, URL_USERS } from "../../Contexts/Paths";
 import { useState,useEffect } from "react";
 import axios from "axios";
 import { useAuthState } from "../../Contexts";
+import { likeToggle } from "../HomePosts/PostCardActions";
 export default function DetailPostCard(props) {
   const mainState = useAuthState(); //read user details from context
   const {
     id,
     imgId,
-    description,
-    ownerType,
-   // postType,
-    ownerId,
-   // sharedPostId,
-   // activityTitle,
-   // activityStartAt,
-   // version,
     createdAt,
+    description,
+    ownerId,
+    ownerType,
+    countLike,
+    likedByUser,
    // lastModifiedAt,
   } = props.post;
-  const { postsState, setpostsState } = props;
-  let isLiked=false
-  let likeCount=0
+ 
+
+  const [isLiked,setIsLiked]=useState(likedByUser)
+  const [likeCount,setLikeCount]=useState(countLike)
+  const handleLike=()=>{
+    likeToggle(mainState.user.id,id,isLiked,setIsLiked,likeCount,setLikeCount)
+}
+
   let commentCount=0
   let shareCount=0
   const [owner,setOwner]=useState()
@@ -75,7 +77,7 @@ export default function DetailPostCard(props) {
 
   return (
     <>
-      <LikesModal showLikes={showLikes} setShowLikes={setShowLikes} />
+      <LikesModal showLikes={showLikes} setShowLikes={setShowLikes} postId={id} />
 
       <Card className={classes.CardWrapper}>
         <div className={classes.CardSectionTitleWrapper}>
@@ -178,8 +180,8 @@ export default function DetailPostCard(props) {
             className={classes.LikebuttonWrapper}
             onClick={(e) => {
               e.stopPropagation();
-
-              LikePost(postsState, setpostsState, id);
+              handleLike()
+         
             }}
           >
             <ThumbUpAltIcon

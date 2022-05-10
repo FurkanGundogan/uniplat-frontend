@@ -16,7 +16,7 @@ import Divider from "@mui/material/Divider";
 //import EventArea from "./EventArea";
 import Collapse from "@mui/material/Collapse";
 import WriteCommentComponent from "./WriteCommentComponent";
-import LikesModal from "./LikesModal";
+import LikesModal from "./LikesModal/LikesModal";
 import { useNavigate, useLocation } from "react-router-dom";
 //import { LikePost } from "./HomePostActions";
 import CardMedia from "@mui/material/CardMedia";
@@ -43,6 +43,7 @@ export default function PostCard(props) {
     // sharedPostId,
     // lastModifiedAt
   } = props.post;
+
 
   const [isLiked,setIsLiked]=useState(likedByUser)
   const [likeCount,setLikeCount]=useState(countLike)
@@ -83,7 +84,7 @@ export default function PostCard(props) {
  
   return (
     <>
-      <LikesModal showLikes={showLikes} setShowLikes={setShowLikes} />
+      <LikesModal showLikes={showLikes} setShowLikes={setShowLikes} postId={id} />
       <Card
         className={classes.CardWrapper}
         onClick={() =>

@@ -6,13 +6,13 @@ import {URL_POSTFLOWS} from "../../Contexts/Paths"
 function useGetPostFlow(userId,pageNumber) {
     
   
-    console.log(userId,pageNumber)
+    
 
     const [loading,setLoading]=useState(true)
     const [error,setError]=useState(false)
     const [posts,setPosts]=useState([])
     const [hasMore,setHasMore]=useState(false)
-    console.log("flowdakiler:",posts)
+
 
     useEffect(()=>{
         setPosts([])

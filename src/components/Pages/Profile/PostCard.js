@@ -16,7 +16,7 @@ import Divider from "@mui/material/Divider";
 //import EventArea from "./EventArea";
 import Collapse from "@mui/material/Collapse";
 import WriteCommentComponent from "../HomePosts/WriteCommentComponent";
-import LikesModal from "../HomePosts/LikesModal";
+import LikesModal from "../HomePosts/LikesModal/LikesModal";
 import { useNavigate, useLocation } from "react-router-dom";
 //import { LikePost } from "./HomePostActions";
 import CardMedia from "@mui/material/CardMedia";
@@ -24,7 +24,11 @@ import CardMedia from "@mui/material/CardMedia";
 //import Comment from "../PostDetails/Comment";
 import Chip from "@mui/material/Chip";
 import { URL_FILES } from "../../Contexts/Paths";
+import { likeToggle } from "../HomePosts/PostCardActions";
+import { useAuthState } from "../../Contexts";
+import { useState } from "react";
 export default function PostCard(props) {
+  const mainState = useAuthState(); //read user details from context
  // profil ve club postcardları owner olarak sayfa sahibini dogrudan alır
  // anasayfadakiler ise her post için kart için sahip bilgilerini çeker
   const {
@@ -32,18 +36,22 @@ export default function PostCard(props) {
     imgId,
     createdAt,
     description,
-    likeCounter,
     ownerId,
     ownerType,
+    countLike,
+    likedByUser,
     // postType,
     // sharedPostId,
     // lastModifiedAt
   } = props.post;
 
 
- 
-  const isLiked=false
-
+  
+  const [isLiked,setIsLiked]=useState(likedByUser)
+  const [likeCount,setLikeCount]=useState(countLike)
+  const handleLike=()=>{
+    likeToggle(mainState.user.id,id,isLiked,setIsLiked,likeCount,setLikeCount)
+}
   const [expanded, setExpanded] = React.useState(false);
   const handleExpandClick = (e) => {
     // parent onClick calismasin diye alttaki fonksiyon kullanilir
@@ -59,7 +67,7 @@ export default function PostCard(props) {
  // kart img ekle, warningi düzelt
   return (
     <>
-      <LikesModal showLikes={showLikes} setShowLikes={setShowLikes} />
+      <LikesModal showLikes={showLikes} setShowLikes={setShowLikes} postId={id} />
       <Card
         className={classes.CardWrapper}
         onClick={() =>
@@ -144,7 +152,7 @@ export default function PostCard(props) {
             }}
             className={classes.LikeInfo}
           >
-            <span className={classes.LCSInfoText}>{likeCounter} Likes</span>
+            <span className={classes.LCSInfoText}>{likeCount} Likes</span>
           </div>
           <div className={classes.CommentInfo}>
             <span className={classes.LCSInfoText}>{0} Comments</span>
@@ -160,9 +168,8 @@ export default function PostCard(props) {
             className={classes.LikebuttonWrapper}
             onClick={(e) => {
               e.stopPropagation();
-              /*
-              LikePost(postsState, setpostsState, id);
-              */
+              handleLike()
+    
             }}
           >
             <ThumbUpAltIcon
