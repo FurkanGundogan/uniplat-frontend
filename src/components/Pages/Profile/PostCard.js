@@ -13,7 +13,7 @@ import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
 import CommentIcon from "@mui/icons-material/Comment";
 import Divider from "@mui/material/Divider";
-//import EventArea from "./EventArea";
+import EventArea from "../HomePosts/EventArea";
 import Collapse from "@mui/material/Collapse";
 import WriteCommentComponent from "../HomePosts/WriteCommentComponent";
 import LikesModal from "../HomePosts/LikesModal/LikesModal";
@@ -40,6 +40,11 @@ export default function PostCard(props) {
     ownerType,
     countLike,
     likedByUser,
+    activityTitle,
+    activityStartAt,
+    activityParticipatedByUser,
+    activityCountParticipant,
+    postType,
     // postType,
     // sharedPostId,
     // lastModifiedAt
@@ -106,16 +111,24 @@ export default function PostCard(props) {
             })
           }
         />
-        {/*
-        type === "Event" && <EventArea eventDetails={eventDetails} />
-        */
+       {
+        postType === "ACTIVITY" && <EventArea
+        userId={mainState.user.id}
+        postId={id}
+        activityTitle={activityTitle}
+        activityStartAt={activityStartAt} 
+        activityParticipatedByUser={activityParticipatedByUser}
+        activityCountParticipant={activityCountParticipant}
+       
+        />
+
         }
 
         <div
           onClick={(e) => {
             e.stopPropagation();
             //setFullSize({ isOpen: true, img: img });
-            navigate("/" + ownerId + "/posts/" + id + "/media", {
+            navigate("/" +ownerType.toLowerCase()+"/"+ ownerId + "/posts/" + id+"/media/"+imgId, {
               state: { ...locState, backgroundLocation: locState },
             });
           }}

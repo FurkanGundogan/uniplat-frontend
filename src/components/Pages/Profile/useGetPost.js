@@ -7,7 +7,7 @@ import { useAuthState } from '../../Contexts';
 function useGetPost(ownerId,postOwnerType,pageNumber) {
  
     const mainState = useAuthState(); //read user details from context
-    console.log(ownerId,postOwnerType,pageNumber)
+   
 
     const [loading,setLoading]=useState(true)
     const [error,setError]=useState(false)

@@ -161,7 +161,7 @@ function AppWrapper() {
       {state?.backgroundLocation && (
         <Routes>
           <Route
-            path="/:username/posts/:postid/media"
+            path="/:ownerType/:ownerId/posts/:postid/media/:imgId"
             element={
               <HomeRoute>
                 <PostOriginalSizeImagePage />

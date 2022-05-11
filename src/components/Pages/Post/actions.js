@@ -135,17 +135,17 @@ const createWithUploadedImageId = (  description,
 
 const sendEvent = (modalState) => {
 
-  const { type, text,originalFile,ownerType,ownerId,dateISO,eventLocation } = modalState;
+  const { type, text,originalFile,ownerType,activityTitle,ownerId,dateISO,eventLocation } = modalState;
   const bodyFormData = getFile(originalFile);
   if (bodyFormData === null) {
     // görselsiz
     // title ve location eklenecek
     console.log({ type, text,ownerType,ownerId,dateISO,eventLocation  });
-    createWithBlankImageId(text,ownerType,type.toUpperCase(),ownerId,"activityTitle",dateISO)
+    createWithBlankImageId(text,ownerType,type.toUpperCase(),ownerId,activityTitle,dateISO)
   } else {
     // görselli
     console.log({ type, text,ownerType,ownerId,dateISO,eventLocation,bodyFormData  });
-    createWithUploadedImageId(text,ownerType,type.toUpperCase(),ownerId,bodyFormData,"activityTitle",dateISO)
+    createWithUploadedImageId(text,ownerType,type.toUpperCase(),ownerId,bodyFormData,activityTitle,dateISO)
   }
 };
 

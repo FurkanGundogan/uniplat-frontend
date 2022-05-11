@@ -9,36 +9,37 @@ import List from "@mui/material/List";
 import CloseIcon from "@mui/icons-material/Close";
 import PostCardStyles from "../PostCardStyles";
 import Divider from "@mui/material/Divider";
-import { URL_USER_LIKED_POSTS } from "../../../Contexts/Paths";
+import { URL_ACTIVITY_PARTICIPANTS } from "../../../Contexts/Paths";
 import axios from "axios";
 import { useState,useEffect } from "react";
-import LikeUser from "./LikeUser";
+import ParticipantUser from "./ParticipantUser";
 import { ListItem } from "@mui/material";
 import { useAuthState } from "../../../Contexts";
 import { useNavigate } from "react-router-dom";
-export default function LikesModal({ showLikes, setShowLikes, postId }) {
+export default function EventParticipantsModel({ showParticipants, setShowParticipants, postId }) {
   const mainState = useAuthState(); //read user details from context
   const classes = PostCardStyles();
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const [likeUserList, setLikeUserList] = useState();
+  const [participantUserList, setParticipantUserList] = useState();
+
   const navigate = useNavigate();
   useEffect(()=>{
     axios({
       method: "GET",
-      url: URL_USER_LIKED_POSTS,
+      url: URL_ACTIVITY_PARTICIPANTS,
       params: {
         postId: postId,
       },
     })
       .then((response) => {
-        setLikeUserList(response.data.content);
+        setParticipantUserList(response.data.content);
       })
       .catch((error) => {
-        console.log("get liked user list error");
+        console.log("get participants user list error");
       });
-  },[postId,showLikes])
+  },[postId,showParticipants])
 
  
 
@@ -47,14 +48,21 @@ export default function LikesModal({ showLikes, setShowLikes, postId }) {
       <Dialog
         fullScreen={fullScreen}
         fullWidth
-        open={showLikes}
-        onClose={() => setShowLikes(false)}
+        open={showParticipants}
+        onClose={(e) =>{
+          e.stopPropagation()
+          setShowParticipants(false)
+        }}
         aria-labelledby="responsive-dialog-title"
         scroll="paper"
       >
         <div className={classes.LikeModalCloseIconWrapper}>
           <CloseIcon
-            onClick={() => setShowLikes(false)}
+            onClick={(e) =>{
+              e.stopPropagation()
+             
+              setShowParticipants(false)
+            }}
             className={classes.LikeModalCloseIcon}
           />
 
@@ -62,20 +70,22 @@ export default function LikesModal({ showLikes, setShowLikes, postId }) {
             className={classes.LikeModalTitle}
             id="responsive-dialog-title"
           >
-            {"Likes"}
+            {"Participants"}
           </DialogTitle>
         </div>
         <Divider />
         <DialogContent>
           <List sx={{ pt: 0 }}>
-            {likeUserList &&
-              likeUserList.map((like, i) => (
+            {participantUserList &&
+              participantUserList.map((p, i) => (
                 <ListItem button 
-                onClick={() =>
-                  navigate("/"+ like.userId)
+                onClick={(e) =>{
+                  e.stopPropagation()
+                  navigate("/"+ p.userId)
+                }
                 }
                 key={i}>
-                  <LikeUser like={like} mainUserId={mainState.user.id}/>
+                  <ParticipantUser participant={p} mainUserId={mainState.user.id}/>
                 </ListItem>
               ))}
           </List>

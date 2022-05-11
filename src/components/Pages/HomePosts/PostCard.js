@@ -28,6 +28,7 @@ import axios from "axios";
 import { useState,useEffect } from "react";
 import { useAuthState } from "../../Contexts";
 import { likeToggle } from "./PostCardActions";
+import EventArea from "./EventArea";
 export default function PostCard(props) {
   const mainState = useAuthState(); //read user details from context
   const {
@@ -39,12 +40,16 @@ export default function PostCard(props) {
     ownerType,
     countLike,
     likedByUser,
-    // postType,
+    activityTitle,
+    activityStartAt,
+    activityParticipatedByUser,
+    activityCountParticipant,
+    postType,
     // sharedPostId,
     // lastModifiedAt
   } = props.post;
 
-
+ 
   const [isLiked,setIsLiked]=useState(likedByUser)
   const [likeCount,setLikeCount]=useState(countLike)
   const handleLike=()=>{
@@ -126,16 +131,24 @@ export default function PostCard(props) {
             })
           }
         />
-        {/*
-        type === "Event" && <EventArea eventDetails={eventDetails} />
-        */
+        {
+        postType === "ACTIVITY" && <EventArea
+        userId={mainState.user.id}
+        postId={id}
+        activityTitle={activityTitle}
+        activityStartAt={activityStartAt} 
+        activityParticipatedByUser={activityParticipatedByUser}
+        activityCountParticipant={activityCountParticipant}
+       
+        />
+
         }
 
         <div
           onClick={(e) => {
             e.stopPropagation();
             //setFullSize({ isOpen: true, img: img });
-            navigate("/" +ownerId + "/posts/" + id + "/media", {
+            navigate("/" +ownerType.toLowerCase()+"/"+ ownerId + "/posts/" + id+"/media/"+imgId, {
               state: { ...locState, backgroundLocation: locState },
             });
           }}

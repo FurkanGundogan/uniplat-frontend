@@ -61,6 +61,13 @@ marginBottom:"4px"
      border:"1px solid gray !important",
      fontFamily:"cursive !important",
  },
+ eventTitleText:{
+    fontWeight:"bold",
+    textAlign:"center",
+    fontFamily:"monospace",
+    fontSize:"16px",
+    marginBottom:"8px",
+ },
  
  
 }));

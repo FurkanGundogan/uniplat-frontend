@@ -23,11 +23,20 @@ import { useNavigate, useLocation } from "react-router-dom";
 import Chip from "@mui/material/Chip";
 import CardMedia from "@mui/material/CardMedia";
 // import NestedPostCard from "../HomePosts/NestedPostCard";
-import { TYPE_CLUB, TYPE_UNI, TYPE_USER, URL_CLUBS, URL_FILES, URL_UNIVERSITIES, URL_USERS } from "../../Contexts/Paths";
-import { useState,useEffect } from "react";
+import {
+  TYPE_CLUB,
+  TYPE_UNI,
+  TYPE_USER,
+  URL_CLUBS,
+  URL_FILES,
+  URL_UNIVERSITIES,
+  URL_USERS,
+} from "../../Contexts/Paths";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { useAuthState } from "../../Contexts";
 import { likeToggle } from "../HomePosts/PostCardActions";
+import EventArea from "../HomePosts/EventArea";
 export default function DetailPostCard(props) {
   const mainState = useAuthState(); //read user details from context
   const {
@@ -39,35 +48,45 @@ export default function DetailPostCard(props) {
     ownerType,
     countLike,
     likedByUser,
-   // lastModifiedAt,
+    activityTitle,
+    activityStartAt,
+    activityParticipatedByUser,
+    activityCountParticipant,
+    postType,
+    // lastModifiedAt,
   } = props.post;
- 
 
-  const [isLiked,setIsLiked]=useState(likedByUser)
-  const [likeCount,setLikeCount]=useState(countLike)
-  const handleLike=()=>{
-    likeToggle(mainState.user.id,id,isLiked,setIsLiked,likeCount,setLikeCount)
-}
+  const [isLiked, setIsLiked] = useState(likedByUser);
+  const [likeCount, setLikeCount] = useState(countLike);
+  const handleLike = () => {
+    likeToggle(
+      mainState.user.id,
+      id,
+      isLiked,
+      setIsLiked,
+      likeCount,
+      setLikeCount
+    );
+  };
 
-  let commentCount=0
-  let shareCount=0
-  const [owner,setOwner]=useState()
-  useEffect(()=>{
-    let target="";
-    if(ownerType===TYPE_USER) target=URL_USERS
-    if(ownerType===TYPE_CLUB) target=URL_CLUBS
-    if(ownerType===TYPE_UNI) target=URL_UNIVERSITIES
+  let commentCount = 0;
+  let shareCount = 0;
+  const [owner, setOwner] = useState();
+  useEffect(() => {
+    let target = "";
+    if (ownerType === TYPE_USER) target = URL_USERS;
+    if (ownerType === TYPE_CLUB) target = URL_CLUBS;
+    if (ownerType === TYPE_UNI) target = URL_UNIVERSITIES;
 
-     axios
-    .get(target + "/" + ownerId,{headers:{"userId":mainState.user.id}})
-    .then((response) => {
-      setOwner(response.data);
-    })
-    .catch((e) => {
-      console.log("card-postowner-info-get-error");
-    });
-
-  },[ownerId,ownerType,mainState.user.id])
+    axios
+      .get(target + "/" + ownerId, { headers: { userId: mainState.user.id } })
+      .then((response) => {
+        setOwner(response.data);
+      })
+      .catch((e) => {
+        console.log("card-postowner-info-get-error");
+      });
+  }, [ownerId, ownerType, mainState.user.id]);
 
   const classes = PostCardStyles();
 
@@ -77,7 +96,11 @@ export default function DetailPostCard(props) {
 
   return (
     <>
-      <LikesModal showLikes={showLikes} setShowLikes={setShowLikes} postId={id} />
+      <LikesModal
+        showLikes={showLikes}
+        setShowLikes={setShowLikes}
+        postId={id}
+      />
 
       <Card className={classes.CardWrapper}>
         <div className={classes.CardSectionTitleWrapper}>
@@ -87,12 +110,16 @@ export default function DetailPostCard(props) {
               // geri gitmeden önce eski scroll pozisyonu atanıyor
               // ScrollToTop'da düzenleniyor
 
-              if (locstate.state != null) {
+              if (
+                locstate.state !== null &&
+                locstate.state?.prevPath !== undefined &&
+                locstate.state?.prevPath !== null
+              ) {
                 /* navigate(locstate.state.prevPath, {
                   state: { prevScrollY: locstate.state.scrollY },
                 });*/
                 // path yerine -1 girince detaydan profile dönüşteki scroll sorunu düzeldi
-                navigate(-1, {
+                navigate(locstate.state.prevPath, {
                   state: { prevScrollY: locstate.state.scrollY },
                 });
               } else {
@@ -108,14 +135,14 @@ export default function DetailPostCard(props) {
             <Avatar
               sx={{ bgcolor: red[500] }}
               aria-label="recipe"
-              src={owner?.profileImgId && URL_FILES+"/"+owner?.profileImgId}
+              src={owner?.profileImgId && URL_FILES + "/" + owner?.profileImgId}
               onClick={(e) => {
                 e.stopPropagation();
-                let target=""
-                if(ownerType===TYPE_USER) target=""
-                if(ownerType===TYPE_UNI) target="uni/"
-                if(ownerType===TYPE_CLUB) target="clubs/"
-                navigate("/" +target+ ownerId);
+                let target = "";
+                if (ownerType === TYPE_USER) target = "";
+                if (ownerType === TYPE_UNI) target = "uni/";
+                if (ownerType === TYPE_CLUB) target = "clubs/";
+                navigate("/" + target + ownerId);
               }}
             >
               {owner?.name[0]}
@@ -126,7 +153,7 @@ export default function DetailPostCard(props) {
               <MoreVertIcon />
             </IconButton>
           }
-          title={owner?.name + " "+ (owner?.surname?owner?.surname:"")}
+          title={owner?.name + " " + (owner?.surname ? owner?.surname : "")}
           subheader={
             new Date(createdAt).toLocaleDateString() +
             " - " +
@@ -136,17 +163,44 @@ export default function DetailPostCard(props) {
             })
           }
         />
-        {/*type === "Event" && <EventArea eventDetails={eventDetails} />*/}
+        {postType === "ACTIVITY" && (
+          <EventArea
+            userId={mainState.user.id}
+            postId={id}
+            activityTitle={activityTitle}
+            activityStartAt={activityStartAt}
+            activityParticipatedByUser={activityParticipatedByUser}
+            activityCountParticipant={activityCountParticipant}
+          />
+        )}
         <div
           onClick={(e) => {
             e.stopPropagation();
             //setFullSize({ isOpen: true, img: img });
-            navigate("/" + owner + "/posts/" + id + "/media", {
-              state: { ...locstate, backgroundLocation: locstate },
-            });
+            navigate(
+              "/" +
+                ownerType.toLowerCase() +
+                "/" +
+                ownerId +
+                "/posts/" +
+                id +
+                "/media/" +
+                imgId,
+              {
+                state: {
+                  ...locstate,
+                  prevPath: locstate.state?.prevPath,
+                  backgroundLocation: locstate,
+                },
+              }
+            );
           }}
         >
-          <CardMedia component="img" image={imgId&&URL_FILES+"/"+imgId} alt="" />
+          <CardMedia
+            component="img"
+            image={imgId && URL_FILES + "/" + imgId}
+            alt=""
+          />
         </div>
         <CardContent>
           <Typography variant="body2" color="black">
@@ -180,8 +234,7 @@ export default function DetailPostCard(props) {
             className={classes.LikebuttonWrapper}
             onClick={(e) => {
               e.stopPropagation();
-              handleLike()
-         
+              handleLike();
             }}
           >
             <ThumbUpAltIcon
