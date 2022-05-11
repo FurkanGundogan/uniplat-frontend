@@ -258,6 +258,11 @@ const MainProfileStyles = makeStyles((theme) => ({
       paddingRight: "72px",
     },
   },
+  RadioButtonArea:{
+    display:"block !important",
+    width:"100%",
+    textAlign:"center",
+  },
 
   "@global": {
     body: {

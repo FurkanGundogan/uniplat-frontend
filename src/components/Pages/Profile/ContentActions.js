@@ -1,5 +1,5 @@
 import ProfilePostArea from "./ProfilePostArea";
-import ProfileEventArea from "./ProfileEventArea";
+import ProfileEventArea from "./EventsTab/ProfileEventArea";
 
 import Clubs from "./ClubTab/Clubs";
 import Memberships from "./MembershipsTab/Memberships"
