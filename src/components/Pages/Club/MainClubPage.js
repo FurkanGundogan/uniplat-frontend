@@ -96,7 +96,7 @@ const MainClubPage = () => {
             <Typography variant="body2" className={classes.UserDept}>
             </Typography>
             <Typography variant="body2" className={classes.UserDept}>
-              {clubState.clubUsers?.length + " Members"}
+              {clubState.clubInfo?.countFollower + " Members"}
             </Typography>
             <Divider />
           </div>
@@ -233,7 +233,7 @@ const MainClubPage = () => {
 
             <div className={classes.CenterTopUserInfoRightSideFollowWrapper}>
               <div className={classes.CenterTopUserInfoRightSideFollowInfo}>
-              {clubState.clubUsers?.length + " Members"}
+              {clubState.clubInfo?.countFollower + " Members"}
               </div>
             </div>
             {/*

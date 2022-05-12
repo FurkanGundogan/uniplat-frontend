@@ -14,13 +14,11 @@ import CommentIcon from "@mui/icons-material/Comment";
 import Divider from "@mui/material/Divider";
 // import EventArea from "../HomePosts/EventArea";
 import Collapse from "@mui/material/Collapse";
-import WriteCommentComponent from "../HomePosts/WriteCommentComponent";
 import LikesModal from "../HomePosts/LikesModal/LikesModal";
 import PostCardStyles from "../HomePosts/PostCardStyles";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import { useNavigate, useLocation } from "react-router-dom";
 // import Comment from "./Comment";
-import Chip from "@mui/material/Chip";
 import CardMedia from "@mui/material/CardMedia";
 // import NestedPostCard from "../HomePosts/NestedPostCard";
 import {
@@ -32,12 +30,16 @@ import {
   URL_UNIVERSITIES,
   URL_USERS,
 } from "../../Contexts/Paths";
-import { useState, useEffect } from "react";
+import { useState, useEffect,useContext } from "react";
 import axios from "axios";
 import { useAuthState } from "../../Contexts";
 import { likeToggle } from "../HomePosts/PostCardActions";
 import EventArea from "../HomePosts/EventArea";
+import { NewPostModalContext } from "../../Contexts/NewPostModalContext";
+import NestedPostCard from "../HomePosts/NestedPostCard"
+import CommentsArea from "./CommentsArea/CommentsArea"
 export default function DetailPostCard(props) {
+  const {  setNewPostState } = useContext(NewPostModalContext);
   const mainState = useAuthState(); //read user details from context
   const {
     id,
@@ -53,9 +55,10 @@ export default function DetailPostCard(props) {
     activityParticipatedByUser,
     activityCountParticipant,
     postType,
+    sharedPostId,
     // lastModifiedAt,
   } = props.post;
-
+ 
   const [isLiked, setIsLiked] = useState(likedByUser);
   const [likeCount, setLikeCount] = useState(countLike);
   const handleLike = () => {
@@ -93,7 +96,15 @@ export default function DetailPostCard(props) {
   const [showLikes, setShowLikes] = React.useState(false);
   const navigate = useNavigate();
   const locstate = useLocation();
-
+  const handleShare = () => {
+    console.log("girdi")
+    setNewPostState({ type: "Post", 
+    isOpen: true,
+    ownerId:mainState.user.id,
+    ownerType:"USER",
+    sharedPostId:sharedPostId?sharedPostId:id
+  })
+  }
   return (
     <>
       <LikesModal
@@ -207,15 +218,17 @@ export default function DetailPostCard(props) {
             {description}
           </Typography>
         </CardContent>
-        {/*props.post.innerPost && (
+        {
+        sharedPostId!==null && (
           <div className={classes.innerPostCardWrapper}>
             <NestedPostCard
-              postsState={postsState}
-              setpostsState={setpostsState}
-              post={props.post.innerPost}
+              postId={sharedPostId}
+
+
             />
           </div>
-        )*/}
+        )
+        }
         <div className={classes.LCSInfoWrapper}>
           <div onClick={() => setShowLikes(true)} className={classes.LikeInfo}>
             <span className={classes.LCSInfoText}>{likeCount} Likes</span>
@@ -250,21 +263,22 @@ export default function DetailPostCard(props) {
           >
             <CommentIcon />
           </IconButton>
-          <IconButton aria-label="share" className={classes.SharebuttonWrapper}>
+          <IconButton aria-label="share" className={classes.SharebuttonWrapper}
+          onClick={
+            (e)=>{
+              e.stopPropagation();
+              handleShare()
+            }
+          }
+          >
             <DoubleArrowIcon />
           </IconButton>
         </CardActions>
         <Collapse in={true} timeout="auto" unmountOnExit>
-          <WriteCommentComponent />
-
           <div className={classes.commentsAreaWrapper}>
-            <Divider>
-              <Chip label="Comments" />
-            </Divider>
-            {/*comments.length > 0 &&
-              comments.map((comment, i) => (
-                <Comment key={i} comment={comment} />
-              ))*/}
+            {
+              <CommentsArea postId={id}/>
+            }
             <Divider />
           </div>
         </Collapse>

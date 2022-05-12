@@ -34,38 +34,40 @@ import {TYPE_USER,TYPE_UNI} from "../../Contexts/Paths"
 const MainProfilePage = () => {
   // const navigate = useNavigate();
   const [tab, setTab] = React.useState(0);
-  console.log("tab:", tab);
+ 
 
   const mainState = useAuthState(); //read user details from context
+ 
 
   const { newPostState, setNewPostState } = useContext(NewPostModalContext);
   const { newUniPostState, setNewUniPostState } = useContext(
     NewUniPostModalContext
   );
   const { userid, uniid } = useParams();
+  useEffect(()=>{
+    setTab(0)
+  },[userid,uniid])
 
   // bu noktada username yerine user id ile kişi bilgileri için istek yönetimi yapılacak
-  console.log("profil sahibi:", userid, uniid);
+
   // bu follow bilgisi bilgilerle kontrol edilecek
   // const [follow, setFollow] = useState(false);
   const [settings, setSettings] = useState();
   const [settingsUni, setSettingsUni] = useState();
   const [createClubState, setCreateClubState] = useState();
   const [isAdmin, setIsAdmin] = useState(false);
-  console.log("isAdmin:", isAdmin);
+
   const isYourProfile = mainState.user.id === userid;
-  console.log("isYourProfile:", isYourProfile);
+ 
   const {
     profileState,
     setProfileState,
     profileFollowers,
     setProfileFollowers,
-    profileFollows,
+  
   } = useContext(ProfileContext);
 
-  console.log("state:", profileState);
-  console.log("followers:", profileFollowers);
-  console.log("follows:", profileFollows);
+
 
   useEffect(() => {
     setIsAdmin(profileState.userInfo.adminId === mainState.user.id);
@@ -75,9 +77,7 @@ const MainProfilePage = () => {
   // degisti const isFollow = profileState.isFollow;
   const isFollow = profileState.userInfo.followedByUser;
 
-  console.log("isFollow:", isFollow);
-  console.log("isFollowNew:", profileState.userInfo.followedByUser);
-  console.log("followShip:", profileState.followShip);
+
   const classes = MainProfileStyles();
   const [showFollowsList, setShowFollowsList] = React.useState(false);
   const [showFollowersList, setShowFollowersList] = React.useState(false);
@@ -175,8 +175,7 @@ const MainProfilePage = () => {
               sx={{ cursor: "pointer !important" }}
             >
               {userid &&
-                profileFollows &&
-                  profileFollows.length +
+                profileState?.userInfo?.countFollow+
                   " Follows"}
             </Typography>
             <Typography
@@ -187,7 +186,7 @@ const MainProfilePage = () => {
                 if (userid) setShowFollowersList(true);
               }}
             >
-              {(profileFollowers ? profileFollowers.length : 0) + " Followers"}
+              {  profileState?.userInfo?.countFollower + " Followers"}
             </Typography>
           </div>
 
@@ -379,10 +378,7 @@ const MainProfilePage = () => {
               >
                 {userid &&
                  
-   
-                  profileFollows &&
-
-                    profileFollows.length +
+                 profileState?.userInfo?.countFollow+
                     " Follows"}
               </div>
               <div
@@ -391,7 +387,8 @@ const MainProfilePage = () => {
                   if (userid) setShowFollowersList(true);
                 }}
               >
-                {(profileFollowers ? profileFollowers.length : 0) +
+                {
+                  profileState?.userInfo?.countFollower+
                   " Followers"}
               </div>
             </div>

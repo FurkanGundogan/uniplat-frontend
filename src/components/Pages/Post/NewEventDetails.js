@@ -8,7 +8,7 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import NewPostModalStyles from "./NewPostModalStyles";
 function NewEventDetails({ modalState, setModal }) {
   const classes = NewPostModalStyles();
-  console.log(modalState)
+
   const handleChange = (newValue) => {
     setModal({ ...modalState, eventDate: newValue, dateISO: "invalid" });
     if (newValue === null) {

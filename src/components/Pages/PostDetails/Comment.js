@@ -3,6 +3,7 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import Box from "@mui/material/Box";
 import PostCardStyles from "../HomePosts/PostCardStyles";
 function Comment({ comment }) {
+  console.log("comment:",comment)
   const classes = PostCardStyles();
   return (
     <div>
@@ -27,11 +28,11 @@ function Comment({ comment }) {
         />
         <div>
           <div className={classes.commentUserNameWrapper}>
-            <div className={classes.commentUserName}>{comment.username}</div>
+            <div className={classes.commentUserName}>{comment.userId}</div>
           </div>
           <div className={classes.commentTextWrapper}>
            
-            <span className={classes.commentText}>{comment.comment_text}</span>
+            <span className={classes.commentText}>{comment.comment}</span>
               
           
           </div>

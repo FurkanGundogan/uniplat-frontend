@@ -15,22 +15,24 @@ import CommentIcon from "@mui/icons-material/Comment";
 import Divider from "@mui/material/Divider";
 //import EventArea from "./EventArea";
 import Collapse from "@mui/material/Collapse";
-import WriteCommentComponent from "./WriteCommentComponent";
 import LikesModal from "./LikesModal/LikesModal";
 import { useNavigate, useLocation } from "react-router-dom";
 //import { LikePost } from "./HomePostActions";
 import CardMedia from "@mui/material/CardMedia";
-//import NestedPostCard from "./NestedPostCard";
+import NestedPostCard from "./NestedPostCard";
 //import Comment from "../PostDetails/Comment";
-import Chip from "@mui/material/Chip";
 import { TYPE_CLUB, TYPE_UNI, TYPE_USER, URL_CLUBS, URL_FILES, URL_UNIVERSITIES, URL_USERS } from "../../Contexts/Paths";
 import axios from "axios";
-import { useState,useEffect } from "react";
+import { useState,useEffect,useContext } from "react";
 import { useAuthState } from "../../Contexts";
 import { likeToggle } from "./PostCardActions";
 import EventArea from "./EventArea";
+import { NewPostModalContext } from "../../Contexts/NewPostModalContext";
+import CommentsArea from "./CommentsArea/CommentsArea";
 export default function PostCard(props) {
+  const { setNewPostState } = useContext(NewPostModalContext);
   const mainState = useAuthState(); //read user details from context
+  
   const {
     id,
     imgId,
@@ -45,9 +47,10 @@ export default function PostCard(props) {
     activityParticipatedByUser,
     activityCountParticipant,
     postType,
-    // sharedPostId,
+    sharedPostId,
     // lastModifiedAt
   } = props.post;
+
 
  
   const [isLiked,setIsLiked]=useState(likedByUser)
@@ -86,6 +89,16 @@ export default function PostCard(props) {
   const [showLikes, setShowLikes] = React.useState(false);
   const navigate = useNavigate();
   const locState = useLocation();
+
+  const handleShare = () => {
+    console.log("girdi")
+    setNewPostState({ type: "Post", 
+    isOpen: true,
+    ownerId:mainState.user.id,
+    ownerType:"USER",
+    sharedPostId:sharedPostId?sharedPostId:id
+  })
+}
  
   return (
     <>
@@ -166,16 +179,14 @@ export default function PostCard(props) {
             {description}
           </Typography>
         </CardContent>
-        {/*
+        {
         sharedPostId!==null && (
           <div className={classes.innerPostCardWrapper}>
             <NestedPostCard
-              postsState={postsState}
-              setpostsState={setpostsState}
-              post={props.post.innerPost}
+              postId={sharedPostId}
             />
           </div>
-        )*/
+        )
         }
         <div className={classes.LCSInfoWrapper}>
           <div
@@ -218,22 +229,20 @@ export default function PostCard(props) {
           >
             <CommentIcon />
           </IconButton>
-          <IconButton aria-label="share" className={classes.SharebuttonWrapper}>
-            <DoubleArrowIcon />
+          <IconButton aria-label="share" className={classes.SharebuttonWrapper}
+          onClick={(e)=>{
+
+            e.stopPropagation();
+            handleShare()
+          }}>
+            <DoubleArrowIcon/>
           </IconButton>
         </CardActions>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
-          <WriteCommentComponent />
           <div className={classes.commentsAreaWrapper}>
-          <Divider sx={{marginBottom:"8px !important"}}>
-            <Chip label="Top Comments" />
-          </Divider>
-            {/*
-            comments.length > 0 &&
-              comments.map((comment, i) => (
-                <Comment key={i} comment={comment} />
-              ))
-              */}
+            {
+              <CommentsArea postId={id}/>
+            }
               <Divider/>
           </div>
         </Collapse>

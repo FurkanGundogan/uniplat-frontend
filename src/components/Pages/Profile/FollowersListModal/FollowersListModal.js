@@ -13,10 +13,10 @@ import Divider from "@mui/material/Divider";
 
 import FollowerUserItem from "./FollowerUserItem";
 
-import { useContext } from "react";
-import { ProfileContext } from "../ProfileContext";
-import { useNavigate } from "react-router-dom";
+import { useCallback,useRef,useState,useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import CircularProgressForTabs from "../CircularProgressForTabs";
+import UseGetFollowers from "../FollowersTab/UseGetFollowers";
 
 export default function FollowersListModal({
   showFollowersList,
@@ -26,8 +26,40 @@ export default function FollowersListModal({
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const navigate = useNavigate();
-  const { profileFollowers } = useContext(ProfileContext);
   
+  
+
+  const {userid} = useParams();
+  const [pageNumber, setPageNumber] = useState(0);
+  const [owner, setOwner] = useState();
+  useEffect(() => {
+    setOwner(userid);
+  }, [userid]);
+
+  const { followers, hasMore, loading } = UseGetFollowers(
+    owner,
+    pageNumber,
+  );
+   
+  const observer = useRef();
+  const lastPostElementRef = useCallback(
+    (node) => {
+      if (loading) return;
+      if (observer.current) observer.current.disconnect();
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasMore) {
+          setPageNumber((prevPageNumber) => prevPageNumber + 1);
+        }
+      });
+      if (node) observer.current.observe(node);
+    },
+    [userid, loading, hasMore] //eslint-disable-line
+  );
+
+
+  console.log("followers on list-modal:",followers)
+
+
 
   return (
     <div>
@@ -55,9 +87,22 @@ export default function FollowersListModal({
         <Divider />
         <DialogContent>
           <List sx={{ pt: 0 }}>
-            {profileFollowers !== null ? (
-              profileFollowers?.map((follower, i) => (
-                <ListItem
+            {followers !== null ? (
+              followers?.map((follower, i) => {
+                if(followers.length === i + 1){
+                  return <ListItem
+                  button
+                  ref={lastPostElementRef}
+                  key={i}
+                  onClick={() => {
+                    setShowFollowersList(false);
+                    navigate("/" + follower?.userId);
+                  }}
+                >
+                  <FollowerUserItem follower={follower} />
+                </ListItem>
+                }else{
+                  return <ListItem
                   button
                   key={i}
                   onClick={() => {
@@ -67,7 +112,9 @@ export default function FollowersListModal({
                 >
                   <FollowerUserItem follower={follower} />
                 </ListItem>
-              ))
+                }
+               
+})
             ) : (
               <CircularProgressForTabs />
             )}

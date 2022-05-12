@@ -20,20 +20,21 @@ export const send = (modalState) => {
 };
 
 const sendPost = (modalState) => {
-  const { type, text,originalFile,ownerType,ownerId } = modalState;
+  const { type, text,originalFile,ownerType,ownerId,sharedPostId } = modalState;
   const bodyFormData = getFile(originalFile);
   if (bodyFormData === null) {
     // görselsiz
     console.log( "send: ",{text,ownerType,type,ownerId} );
-     createWithBlankImageId(text,ownerType,type.toUpperCase(),ownerId)
+     createWithBlankImageId(sharedPostId,text,ownerType,type.toUpperCase(),ownerId)
   } else {
     // görselli
     console.log("send: ",{text,ownerType,type,ownerId,bodyFormData});
-    createWithUploadedImageId(text,ownerType,type.toUpperCase(),ownerId,bodyFormData)
+    createWithUploadedImageId(sharedPostId,text,ownerType,type.toUpperCase(),ownerId,bodyFormData)
   }
 };
 
 const createWithBlankImageId = (
+  sharedPostId=null,
   description,
   ownerType,
   postType,
@@ -44,6 +45,7 @@ const createWithBlankImageId = (
 
 ) => {
   console.log("Create post standart data:", {
+    sharedPostId,
     description,
     ownerType,
     postType,
@@ -56,6 +58,7 @@ const createWithBlankImageId = (
     method: "POST",
     header: { "Content-type": "application/json" },
     data: {
+      sharedPostId,
       description,
       ownerType,
       postType,
@@ -74,7 +77,9 @@ const createWithBlankImageId = (
     });
 };
 
-const createWithUploadedImageId = (  description,
+const createWithUploadedImageId = (  
+  sharedPostId=null,
+  description,
   ownerType,
   postType,
   ownerId,
@@ -92,7 +97,8 @@ const createWithUploadedImageId = (  description,
     data: bodyFormData,
   })
     .then((fileresponse) => {
-      console.log("Create Uni data:", {
+      console.log(" createWithUploadedImageId data:", {
+        sharedPostId,
         description,
         ownerType,
         postType,
@@ -106,6 +112,7 @@ const createWithUploadedImageId = (  description,
         method: "POST",
         header: { "Content-type": "application/json" },
         data: {
+        sharedPostId,
         description,
         ownerType,
         postType,
@@ -135,17 +142,17 @@ const createWithUploadedImageId = (  description,
 
 const sendEvent = (modalState) => {
 
-  const { type, text,originalFile,ownerType,activityTitle,ownerId,dateISO,eventLocation } = modalState;
+  const { type, text,originalFile,ownerType,activityTitle,ownerId,dateISO,eventLocation,sharedPostId } = modalState;
   const bodyFormData = getFile(originalFile);
   if (bodyFormData === null) {
     // görselsiz
     // title ve location eklenecek
-    console.log({ type, text,ownerType,ownerId,dateISO,eventLocation  });
-    createWithBlankImageId(text,ownerType,type.toUpperCase(),ownerId,activityTitle,dateISO)
+    console.log({ sharedPostId,type, text,ownerType,ownerId,dateISO,eventLocation  });
+    createWithBlankImageId(sharedPostId,text,ownerType,type.toUpperCase(),ownerId,activityTitle,dateISO)
   } else {
     // görselli
-    console.log({ type, text,ownerType,ownerId,dateISO,eventLocation,bodyFormData  });
-    createWithUploadedImageId(text,ownerType,type.toUpperCase(),ownerId,bodyFormData,activityTitle,dateISO)
+    console.log({sharedPostId, type, text,ownerType,ownerId,dateISO,eventLocation,bodyFormData  });
+    createWithUploadedImageId(sharedPostId,text,ownerType,type.toUpperCase(),ownerId,bodyFormData,activityTitle,dateISO)
   }
 };
 

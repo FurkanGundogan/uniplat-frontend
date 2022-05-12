@@ -244,7 +244,7 @@ export default function NewPostModal({ modalState, setModal,owner,ownerType }) {
                         });
                         return;
                       }
-                      console.log("w:" + e.target.files[0].width);
+                      
                       setModal({
                         ...modalState,
                         originalFile: e.target.files[0],
