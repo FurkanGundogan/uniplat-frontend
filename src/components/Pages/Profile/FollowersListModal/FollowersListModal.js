@@ -57,7 +57,7 @@ export default function FollowersListModal({
   );
 
 
-  console.log("followers on list-modal:",followers)
+ 
 
 
 

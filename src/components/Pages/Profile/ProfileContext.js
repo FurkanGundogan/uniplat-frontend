@@ -9,6 +9,7 @@ import {
   SIZE,
 } from "../../Contexts/Paths";
 import { useAuthState } from "../../Contexts";
+
 // burada ve PostContext'de aynı data var
 export const data = [
   {
@@ -181,6 +182,7 @@ export const followers = [];
 export const ProfileContext = createContext();
 
 export const ProfileContextProvider = ({ children }) => {
+
   const [profileState, setProfileState] = useState({
     userInfo: userInfo,
     userUniInfo: userUniInfo,
@@ -191,7 +193,9 @@ export const ProfileContextProvider = ({ children }) => {
   // profil's followers seperated another state
   const [profileFollowers, setProfileFollowers] = useState();
   const [profileFollows, setProfileFollows] = useState();
-
+  const [posts,setPosts]=useState([])
+  const [pageNumber, setPageNumber] = useState(0);
+  const [click, setClick] = useState(0);
 
   const value = {
     profileState,
@@ -200,6 +204,11 @@ export const ProfileContextProvider = ({ children }) => {
     setProfileFollowers,
     profileFollows,
     setProfileFollows,
+    posts,
+    setPosts,
+    pageNumber,
+    setPageNumber,
+    click, setClick,
   };
 
   // user bilgileri için istek
@@ -276,7 +285,7 @@ export const ProfileContextProvider = ({ children }) => {
               size:SIZE,
           }
       }).then((response) => {
-          console.log("setFollowers: ", response.data.content);
+          
           setProfileFollowers(response.data.content);
         })
         .catch((e) => {
@@ -347,6 +356,8 @@ export const ProfileContextProvider = ({ children }) => {
   }, [userid]); //eslint-disable-line
 
   return (
-    <ProfileContext.Provider value={value}>{children}</ProfileContext.Provider>
+    <ProfileContext.Provider value={value}>
+      {children}
+      </ProfileContext.Provider>
   );
 };

@@ -14,26 +14,28 @@ function ClubPostArea() {
   const { clubID } = useParams();
   const usertype = TYPE_CLUB;
   const [owner, setOwner] = useState();
-  const [pageNumber, setPageNumber] = useState(0);
- const {clubState} = useContext(ClubContext)
-    const classes= MainClubStyles();
+ 
+ const {clubState,postsAtClub,setPostsAtClub,pageNumberAtClub, setPageNumberAtClub,click} = useContext(ClubContext)
+
+ const classes= MainClubStyles();
     useEffect(() => {
+      
       setOwner(clubID);
     }, [clubID]);
 
   useEffect(() => {
+   
     
-    // profil degisikliginde tab yeniden render, tab indexi degismez
-    // index degisikligi ile veri cekimi tetiklenmesi saglanmaktaydi
-    // bu sebeple eski veriler temizlenmiyordu, bu sekilde bir cozum bulduk
-    // dizi sıfırlama kısmı da profilepost area'da
-setPageNumber(0);
+    setPageNumberAtClub(0);
+    // eslint-disable-next-line
 }, [owner]);
 
-const { posts, hasMore, loading } = useGetPost(
+const { hasMore, loading } = useGetPost(
   owner,
   usertype,
-  pageNumber
+  pageNumberAtClub,
+  setPostsAtClub,
+  click,
 );
 
 const observer = useRef();
@@ -43,7 +45,7 @@ const lastPostElementRef = useCallback(
     if (observer.current) observer.current.disconnect();
     observer.current = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting && hasMore) {
-        setPageNumber((prevPageNumber) => prevPageNumber + 1);
+        setPageNumberAtClub((prevPageNumber) => prevPageNumber + 1);
       }
     });
     if (node) observer.current.observe(node);
@@ -54,10 +56,10 @@ const lastPostElementRef = useCallback(
   return (
     <div className={classes.PostAreaWrapper}>
       {
-        posts.map((p, index) => {
-          if (posts.length === index + 1) {
+        postsAtClub.map((p, index) => {
+          if (postsAtClub.length === index + 1) {
             return (
-              <div ref={lastPostElementRef} key={p.id} className="div">
+              <div ref={lastPostElementRef} key={index} className="div">
                 <PostCard
                   post={p}
                   owner={clubState.clubInfo}
@@ -68,7 +70,7 @@ const lastPostElementRef = useCallback(
           } else {
             return (
               <PostCard
-                key={p.id}
+                key={index}
                 post={p}
                 owner={clubState.clubInfo}
                 usertype={usertype}

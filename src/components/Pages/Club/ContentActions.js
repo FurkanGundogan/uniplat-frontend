@@ -2,8 +2,8 @@ import ClubPostArea from './ClubPostArea'
 import ClubEventArea from './EventsTab/ClubEventArea'
 import Members from './MembersTab/Members';
 export const getContent = (index) => {
-  
-  
+   
+
   switch (index) {
     case 0:
       return <ClubPostArea/>;

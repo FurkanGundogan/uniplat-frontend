@@ -168,10 +168,19 @@ export const ClubContextProvider = ({ children }) => {
     clubUsers: clubUsers,
     isMember: false,
   });
+  const [postsAtClub,setPostsAtClub]=useState([])
+  const [pageNumberAtClub, setPageNumberAtClub] = useState(0);
+  const [click, setClick] = useState(0);
+
   const { clubID } = useParams();
   const value = {
     clubState,
     setClubState,
+    postsAtClub,
+    setPostsAtClub,
+    pageNumberAtClub,
+    setPageNumberAtClub,
+    click, setClick,
   };
 
 
@@ -180,7 +189,7 @@ export const ClubContextProvider = ({ children }) => {
       await axios
         .get(URL_CLUBS + "/" + clubID,{headers:{"userId":mainState.user.id}})
         .then((response) => {
-          console.log("setclubinfo: ", response.data);
+        
           setClubState({ ...clubState, clubInfo: response.data });
         })
         .catch((e) => {
@@ -200,7 +209,7 @@ export const ClubContextProvider = ({ children }) => {
       await axios
         .get(URL_UNIVERSITIES + "/" + clubState.clubInfo.universityId,{headers:{"userId":mainState.user.id}})
         .then((response) => {
-          console.log("setClubUniInfo: ", response.data);
+          
           setClubState({ ...clubState, clubUniInfo: response.data });
         })
         .catch((e) => {
@@ -225,7 +234,7 @@ export const ClubContextProvider = ({ children }) => {
         },
       })
         .then((response) => {
-          console.log("setClubUsers: ", response.data.content);
+         
           setClubState({ ...clubState, clubUsers: response.data.content });
         })
         .catch((e) => {

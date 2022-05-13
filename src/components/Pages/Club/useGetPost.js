@@ -3,23 +3,24 @@ import axios from 'axios'
 import {URL_POSTS} from "../../Contexts/Paths"
 import { useAuthState } from "../../Contexts";
 
-function useGetPost(ownerId,postOwnerType,pageNumber) {
+function useGetPost(ownerId,postOwnerType,pageNumber,setPostsAtClub,click) {
     const mainState = useAuthState(); //read user details from context
   
-    console.log(ownerId,postOwnerType,pageNumber)
-
+  
     const [loading,setLoading]=useState(true)
     const [error,setError]=useState(false)
-    const [posts,setPosts]=useState([])
+  
     const [hasMore,setHasMore]=useState(false)
-    console.log("buradakiler:",posts)
+  
 
     useEffect(()=>{
         // profil degisikliginde tab yeniden render, tab indexi degismez
         // index degisikligi ile veri cekimi tetiklenmesi saglanmaktaydi
         // bu sebeple eski veriler temizlenmiyordu, bu sekilde bir cozum bulduk
         // page numarası sıfırlama kısmı da profilepost area'da
+        /*
         setPosts([])
+        */
     },[ownerId])
 
     useEffect(()=>{
@@ -40,7 +41,8 @@ function useGetPost(ownerId,postOwnerType,pageNumber) {
             },
             cancelToken: new axios.CancelToken(c=>cancel=c)
         }).then(response=>{
-            setPosts(prevPosts=>{
+            setPostsAtClub(prevPosts=>{
+                
                 return [...prevPosts,...response.data.content]
             })
             setHasMore(response.data.content.length>0)
@@ -51,11 +53,11 @@ function useGetPost(ownerId,postOwnerType,pageNumber) {
             setError(true)
         })
         return ()=>cancel()
-    
 
-    },[ownerId,postOwnerType,pageNumber,mainState.user.id]) 
+    // eslint-disable-next-line
+    },[ownerId,postOwnerType,pageNumber,mainState.user.id,click]) 
 
-    return {loading,error,posts,hasMore}
+    return {loading,error,hasMore}
 }
 
 export default useGetPost

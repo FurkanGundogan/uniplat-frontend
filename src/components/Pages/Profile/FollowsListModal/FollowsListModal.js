@@ -40,7 +40,7 @@ export default function FollowsListModal({
       owner,
       pageNumber,
     );
-      console.log("followings",follows)
+   
     const observer = useRef();
     const lastPostElementRef = useCallback(
       (node) => {

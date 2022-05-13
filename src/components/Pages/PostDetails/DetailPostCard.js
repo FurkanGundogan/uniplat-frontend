@@ -44,6 +44,9 @@ import { PostsContext } from "../HomePosts/PostsContext";
 export default function DetailPostCard(props) {
   const {  setNewPostState } = useContext(NewPostModalContext);
   const {pageNumber,setPageNumber}=useContext(PostsContext)
+
+
+
   const mainState = useAuthState(); //read user details from context
   const {
     id,
@@ -132,7 +135,7 @@ export default function DetailPostCard(props) {
               ) {
                 console.log({ prevScrollY: locstate.state.scrollY })
                 setPageNumber(pageNumber+1)
-            
+                
                
                  navigate(locstate.state.prevPath, {
                   state: { prevScrollY: locstate.state.scrollY },

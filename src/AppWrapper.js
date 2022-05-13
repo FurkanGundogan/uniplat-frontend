@@ -108,15 +108,47 @@ function AppWrapper() {
           }
           exact
         />
+        {
+         // burada club için club context
+         // user ve university için profile context verillmekte
         <Route
-          path="/:ownerType/:ownerId/posts/:postid"
+          path="/club/:ownerId/posts/:postid"
           element={
             <HomeRoute>
-              <PostDetailsPage />
+              <ClubContextProvider>
+                  <PostDetailsPage />
+              </ClubContextProvider>
             </HomeRoute>
           }
           exact
         />
+        }
+        {
+        <Route
+          path="/user/:ownerId/posts/:postid"
+          element={
+            <HomeRoute>
+              <ProfileContextProvider>
+                  <PostDetailsPage />
+              </ProfileContextProvider>
+            </HomeRoute>
+          }
+          exact
+        />
+        }
+        {
+        <Route
+          path="/university/:ownerId/posts/:postid"
+          element={
+            <HomeRoute>
+              <ProfileContextProvider>
+                  <PostDetailsPage />
+              </ProfileContextProvider>
+            </HomeRoute>
+          }
+          exact
+        />
+      }
         <Route
           path="/notifications"
           element={

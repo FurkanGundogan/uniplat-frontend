@@ -14,14 +14,14 @@ import EndOfPosts from "./EndOfPosts";
 
 function ProfilePostArea() {
  
-  const { profileState } = useContext(ProfileContext);
+  const { profileState,posts,setPosts,pageNumber, setPageNumber,click } = useContext(ProfileContext);
   //
   const { userid, uniid } = useParams();
   const usertype = userid ? TYPE_USER : TYPE_UNI;
 
   const [owner, setOwner] = useState();
 
-  const [pageNumber, setPageNumber] = useState(0);
+  //const [pageNumber, setPageNumber] = useState(0);
 
   useEffect(() => {
     setOwner(userid ? userid : uniid);
@@ -34,12 +34,16 @@ function ProfilePostArea() {
         // bu sebeple eski veriler temizlenmiyordu, bu sekilde bir cozum bulduk
         // dizi sıfırlama kısmı da profilepost area'da
     setPageNumber(0);
+    // eslint-disable-next-line
   }, [owner]);
 
-  const { posts, hasMore, loading } = useGetPost(
+  const { //posts,
+     hasMore, loading } = useGetPost(
     owner,
     usertype,
     pageNumber,
+    setPosts,
+    click
  
   );
 
@@ -66,7 +70,7 @@ function ProfilePostArea() {
       {posts.map((p, index) => {
         if (posts.length === index + 1) {
           return (
-            <div ref={lastPostElementRef} key={p.id} className="div">
+            <div ref={lastPostElementRef} key={index} className="div">
               <PostCard
                 post={p}
                 owner={profileState.userInfo}
@@ -77,7 +81,7 @@ function ProfilePostArea() {
         } else {
           return (
             <PostCard
-              key={p.id}
+              key={index}
               post={p}
               owner={profileState.userInfo}
               usertype={usertype}

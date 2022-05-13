@@ -41,7 +41,7 @@ function PostArea() {
       {posts.map((p, index) => {
         if (posts.length === index + 1) {
           return (
-            <div ref={lastPostElementRef} key={p.id} className="div">
+            <div ref={lastPostElementRef} key={index} className="div">
               <PostCard
                 post={p}
                 owner={mainState.user}
@@ -52,7 +52,7 @@ function PostArea() {
         } else {
           return (
             <PostCard
-              key={p.id}
+              key={index}
               post={p}
               owner={mainState.user}
               usertype={mainState.user.type}

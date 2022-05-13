@@ -61,7 +61,7 @@ function ProfileEventArea() {
     setListTypeValue("Created");
   }, [owner]);
 
-  console.log("val:",listTypeValue)
+
   const classes = MainProfileStyles();
 
   return (

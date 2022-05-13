@@ -4,14 +4,14 @@ import {URL_POSTS} from "../../Contexts/Paths"
 import { useAuthState } from '../../Contexts';
 
 
-function useGetPost(ownerId,postOwnerType,pageNumber) {
+function useGetPost(ownerId,postOwnerType,pageNumber,setPosts,click) {
  
     const mainState = useAuthState(); //read user details from context
    
-
+    
     const [loading,setLoading]=useState(true)
     const [error,setError]=useState(false)
-    const [posts,setPosts]=useState([])
+   
     const [hasMore,setHasMore]=useState(false)
 
 
@@ -20,7 +20,9 @@ function useGetPost(ownerId,postOwnerType,pageNumber) {
         // index degisikligi ile veri cekimi tetiklenmesi saglanmaktaydi
         // bu sebeple eski veriler temizlenmiyordu, bu sekilde bir cozum bulduk
         // page numarası sıfırlama kısmı da profilepost area'da
+        /*
         setPosts([])
+        */
     },[ownerId])
 
     useEffect(()=>{
@@ -53,10 +55,11 @@ function useGetPost(ownerId,postOwnerType,pageNumber) {
         })
         return ()=>cancel()
     
+// eslint-disable-next-line 
+    },[ownerId,postOwnerType,pageNumber,mainState.user.id,click]) 
 
-    },[ownerId,postOwnerType,pageNumber,mainState.user.id]) 
-
-    return {loading,error,posts,hasMore}
+    return {loading,error,hasMore}
+    
 }
 
 export default useGetPost
