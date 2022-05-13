@@ -130,12 +130,16 @@ export const data=[
 export const PostsContext = createContext()
 
 export const PostsContextProvider = ({ children }) => {
-  const [postsState, setpostsState] = useState({posts:data})
-
+  
+  const [posts,setPosts]=useState([])
+  const [pageNumber, setPageNumber] = useState(0);
+  const [click, setClick] = useState(0);
   const value = {
-    postsState,
-    setpostsState
-
+    posts,
+    setPosts,
+    pageNumber,
+    setPageNumber,
+    click, setClick,
   }
 
   return <PostsContext.Provider value={value}>{children}</PostsContext.Provider>

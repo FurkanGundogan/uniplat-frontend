@@ -3,19 +3,19 @@ import axios from 'axios'
 import {URL_POSTFLOWS} from "../../Contexts/Paths"
 
 
-function useGetPostFlow(userId,pageNumber) {
-    
-  
+function useGetPostFlow(userId,pageNumber,setPosts,click) {
     
 
     const [loading,setLoading]=useState(true)
     const [error,setError]=useState(false)
-    const [posts,setPosts]=useState([])
+    
     const [hasMore,setHasMore]=useState(false)
-
+   
 
     useEffect(()=>{
+        /*
         setPosts([])
+        */
     },[userId])
 
     useEffect(()=>{
@@ -46,10 +46,10 @@ function useGetPostFlow(userId,pageNumber) {
         })
         return ()=>cancel()
     
+ // eslint-disable-next-line 
+    },[userId,pageNumber,click])  
 
-    },[userId,pageNumber]) 
-
-    return {loading,error,posts,hasMore}
+    return {loading,error,hasMore}
 }
 
 export default useGetPostFlow

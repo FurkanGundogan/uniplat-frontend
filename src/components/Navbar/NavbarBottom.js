@@ -12,8 +12,10 @@ import {useContext} from "react"
 import { NewPostModalContext } from '../Contexts/NewPostModalContext';
 import { useNavigate,useLocation } from "react-router-dom";
 import { useAuthState } from '../Contexts';
+import { PostsContext } from '../Pages/HomePosts/PostsContext';
 
 export default function NavbarBottom() {
+  const {setPageNumber,setPosts,setClick}=React.useContext(PostsContext)
   const navigate = useNavigate();
   const classes=NavbarStyles();
   const mainState = useAuthState(); //read user details from context
@@ -23,6 +25,10 @@ export default function NavbarBottom() {
   const [value, setValue] = React.useState(index);
 
 
+  const handleHomeClick = () => {
+    // setPageNumber(1)
+    setClick(p=>p+1)
+  }
   return (
     <Box sx={{ width: 500 }} className={classes.NavbarBottom}>
       <BottomNavigation
@@ -36,6 +42,9 @@ export default function NavbarBottom() {
         icon={<HomeIcon fontSize='large'/>} 
         onClick={()=>{
           window.scrollTo(0,0)
+          handleHomeClick()
+          setPosts([])
+          setPageNumber(0)
           navigate("/Home",{state:{...location.state,bottomindex:0}});
         }}
         />

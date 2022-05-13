@@ -1,21 +1,26 @@
-import React from "react";
+import React, { useContext } from "react";
 import PostCard from "./PostCard";
 import PostAreaStyles from "./PostAreaStyles";
 
-import { useState, useRef, useCallback } from "react";
+import {  useRef, useCallback } from "react";
 import CircularProgressForTabs from "./CircularProgressForTabs";
 import EndOfPosts from "./EndOfPosts";
 import { useAuthState } from "../../Contexts";
 import useGetPostFlow from "./useGetPostFlow";
+import {PostsContext} from "./PostsContext"
 // statik post verileri, postdetailaction'da bir tanesi seçilip kullanılıyor
 
 function PostArea() {
   //const {postsState,setpostsState} = useContext(PostsContext)
   const classes = PostAreaStyles();
   const mainState = useAuthState(); //read user details from context
-  const [pageNumber, setPageNumber] = useState(0);
+  const {posts,setPosts,pageNumber, setPageNumber,click}=useContext(PostsContext)
   const userid = mainState.user.id;
-  const { posts, hasMore, loading } = useGetPostFlow(userid, pageNumber);
+  console.log("page:",pageNumber)
+
+  //const [posts,setPosts]=useState([])
+  const { hasMore, loading } = useGetPostFlow(userid, pageNumber,setPosts,click);
+ 
 
   const observer = useRef();
   const lastPostElementRef = useCallback(

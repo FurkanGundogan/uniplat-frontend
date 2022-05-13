@@ -95,7 +95,7 @@ function AppWrapper() {
           }
           exact
         />
-         <Route
+        <Route
           path="/uni/:uniid"
           element={
             <HomeRoute>
@@ -168,6 +168,7 @@ function AppWrapper() {
               </HomeRoute>
             }
           />
+   
         </Routes>
       )}
     </ScrollToTop>

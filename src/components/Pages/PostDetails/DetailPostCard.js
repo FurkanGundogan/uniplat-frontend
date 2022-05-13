@@ -38,8 +38,12 @@ import EventArea from "../HomePosts/EventArea";
 import { NewPostModalContext } from "../../Contexts/NewPostModalContext";
 import NestedPostCard from "../HomePosts/NestedPostCard"
 import CommentsArea from "./CommentsArea/CommentsArea"
+import { PostsContext } from "../HomePosts/PostsContext";
+
+
 export default function DetailPostCard(props) {
   const {  setNewPostState } = useContext(NewPostModalContext);
+  const {pageNumber,setPageNumber}=useContext(PostsContext)
   const mainState = useAuthState(); //read user details from context
   const {
     id,
@@ -126,14 +130,17 @@ export default function DetailPostCard(props) {
                 locstate.state?.prevPath !== undefined &&
                 locstate.state?.prevPath !== null
               ) {
-                /* navigate(locstate.state.prevPath, {
-                  state: { prevScrollY: locstate.state.scrollY },
-                });*/
-                // path yerine -1 girince detaydan profile dönüşteki scroll sorunu düzeldi
-                navigate(locstate.state.prevPath, {
+                console.log({ prevScrollY: locstate.state.scrollY })
+                setPageNumber(pageNumber+1)
+            
+               
+                 navigate(locstate.state.prevPath, {
                   state: { prevScrollY: locstate.state.scrollY },
                 });
+                // path yerine -1 girince detaydan profile dönüşteki scroll sorunu düzeldi
+  
               } else {
+                console.log("direk home")
                 navigate("/Home");
               }
             }}

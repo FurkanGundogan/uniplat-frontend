@@ -17,9 +17,10 @@ import NotificationPanel from "./Notifications/NotificationPanel";
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import { useAuthDispatch, logout } from "../Contexts";
 import { useState } from "react";
+import { PostsContext } from "../Pages/HomePosts/PostsContext";
 export default function Navbar() {
   const [notificationState, setNotificationState] = useState({ isOpen: false });
-  
+  const {setPageNumber,setPosts,setClick}=React.useContext(PostsContext)
   const dispatch = useAuthDispatch(); // read dispatch method from context
   const handleLogout = () => {
     
@@ -27,6 +28,11 @@ export default function Navbar() {
     window.location.href = "/SignIn";
     
   };
+
+  const handleHomeClick = () => {
+    // setPageNumber(1)
+    setClick(p=>p+1)
+  }
 
   const navigate = useNavigate();
   // farklı dosyadan(navbarstyles) stilleri alıyoruz
@@ -42,7 +48,9 @@ export default function Navbar() {
               color="inherit"
               aria-label="open drawer"
               onClick={(e) => {
-                
+                handleHomeClick()
+                setPosts([])
+                setPageNumber(0)
                 navigate("/Home");
               }}
               className={classes.NavbarLogo}
@@ -66,6 +74,10 @@ export default function Navbar() {
               color="inherit"
               onClick={() => {
                 window.scrollTo(0,0)
+                handleHomeClick()
+                  setPosts([])
+                  setPageNumber(0)
+
                 navigate("/Home");
               }}
             >

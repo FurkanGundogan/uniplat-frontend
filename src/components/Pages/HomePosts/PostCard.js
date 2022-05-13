@@ -90,6 +90,8 @@ export default function PostCard(props) {
   const navigate = useNavigate();
   const locState = useLocation();
 
+ 
+
   const handleShare = () => {
     console.log("girdi")
     setNewPostState({ type: "Post", 
@@ -104,12 +106,16 @@ export default function PostCard(props) {
     <>
       <LikesModal showLikes={showLikes} setShowLikes={setShowLikes} postId={id} />
       <Card
+      
         className={classes.CardWrapper}
-        onClick={() =>
+        onClick={(e) =>{
+          
           navigate("/" +ownerType.toLowerCase()+"/"+ ownerId + "/posts/" + id, {
             state: { prevPath: locState.pathname, scrollY: window.pageYOffset },
           })
-        }
+          
+        } 
+          }
       >
         <CardHeader
           avatar={
@@ -160,7 +166,6 @@ export default function PostCard(props) {
         <div
           onClick={(e) => {
             e.stopPropagation();
-            //setFullSize({ isOpen: true, img: img });
             navigate("/" +ownerType.toLowerCase()+"/"+ ownerId + "/posts/" + id+"/media/"+imgId, {
               state: { ...locState, backgroundLocation: locState },
             });
