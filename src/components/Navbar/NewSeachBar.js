@@ -3,10 +3,11 @@ import "./NewSearchBar.css";
 import CloseIcon from '@mui/icons-material/Close';
 import SearchIcon from "@mui/icons-material/Search";
 import { Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 function NewSeachBar({ placeholder, data }) {
   const [filteredData, setFilteredData] = useState([]);
   const [wordEntered, setWordEntered] = useState("");
-
+  const navigate=useNavigate()
   const handleFilter = (event) => {
     const searchWord = event.target.value;
     setWordEntered(searchWord);
@@ -28,6 +29,7 @@ function NewSeachBar({ placeholder, data }) {
 
   const goToSearch = () => {
    console.log("search with:",wordEntered)
+   navigate("/search")
   };
 
 
@@ -48,13 +50,15 @@ function NewSeachBar({ placeholder, data }) {
           )}
         </div>
       </div>
-      {filteredData.length != 0 && (
+      {filteredData.length !== 0 && (
         <div className="dataResult">
           {filteredData.slice(0, 20).map((value, key) => {
             return (
-              <a className="dataItem" target="_blank">
+              <div className="dataItem" onClick={()=>{
+                goToSearch()
+              }}>
                 <p>{value.title} </p>
-              </a>
+              </div>
             );
           })}
           {
@@ -64,6 +68,7 @@ function NewSeachBar({ placeholder, data }) {
               onClick={(e)=>{
                   e.stopPropagation()
                   console.log("Search all")
+                  goToSearch()
               }}
               >See All Results</Button>
           }

@@ -19,6 +19,7 @@ import ParenSocialPage from "./components/Pages/Social/ParentSocialPage";
 import { ClubContextProvider } from "./components/Pages/Club/ClubContext";
 import { NewUniPostModalContextProvider } from "./components/Contexts/NewUniPostModalContext";
 import { NewClubPostModalContextProvider } from "./components/Contexts/NewClubPostModalContext";
+import ParentSearchPage from "./components/Pages/Search/ParentSearchPage";
 
 function HomeRoute({ children }) {
   // homepage'e gidebilmek için login olmak gerekiyor, yoksa login sayfasına yönlendirir.
@@ -154,6 +155,15 @@ function AppWrapper() {
           element={
             <HomeRoute>
               <ParentNotificationPage />
+            </HomeRoute>
+          }
+          exact
+        />
+        <Route
+          path="/search"
+          element={
+            <HomeRoute>
+              <ParentSearchPage />
             </HomeRoute>
           }
           exact

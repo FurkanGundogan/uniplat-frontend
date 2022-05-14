@@ -1,15 +1,15 @@
-import React, { useState } from "react";
-import SearchIcon from "@mui/icons-material/Search";
-import { styled } from "@mui/material/styles";
-import Autocomplete from "@mui/material/Autocomplete";
-import TextField from '@mui/material/TextField';
-import Stack from '@mui/material/Stack';
-import { makeStyles } from "@mui/styles";
-import Popper from '@mui/material/Popper';
-import { Button } from "@mui/material";
-import ClearIcon from '@mui/icons-material/Clear';
+import React from "react";
+//import SearchIcon from "@mui/icons-material/Search";
+//import { styled } from "@mui/material/styles";
+//import Autocomplete from "@mui/material/Autocomplete";
+//import TextField from '@mui/material/TextField';
+//import Stack from '@mui/material/Stack';
+//import { makeStyles } from "@mui/styles";
+//import Popper from '@mui/material/Popper';
+//import { Button } from "@mui/material";
+//import ClearIcon from '@mui/icons-material/Clear';
 import NewSeachBar from "./NewSeachBar"
-const CssTextField = styled(TextField)({
+/*const CssTextField = styled(TextField)({
   '& label.Mui-focused': {
     color: 'white',
   },
@@ -27,8 +27,8 @@ const CssTextField = styled(TextField)({
       borderColor: 'white',
     },
   },
-});
-const useStyles = makeStyles(theme => ({
+});*/
+/*const useStyles = makeStyles(theme => ({
   root: {
   
     width:"375px !important",
@@ -67,7 +67,7 @@ const useStyles = makeStyles(theme => ({
   popupIndicator: {
 
   }
-}));
+}));*/
 const SearchBar = () => {
 
   return <NewSeachBar placeholder={"Search"} data={top100Films}/>
