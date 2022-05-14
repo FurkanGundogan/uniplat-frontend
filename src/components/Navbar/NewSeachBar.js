@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useCallback, useRef, useState,useEffect } from "react";
 import "./NewSearchBar.css";
 import CloseIcon from '@mui/icons-material/Close';
 import SearchIcon from "@mui/icons-material/Search";
-import { Button } from "@mui/material";
+import { Avatar, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import useSearch from "./useSearch";
+import { TYPE_CLUB, TYPE_UNI, TYPE_USER, URL_FILES } from "../Contexts/Paths";
+import { red } from "@mui/material/colors";
 function NewSeachBar({ placeholder, data }) {
   const [filteredData, setFilteredData] = useState([]);
   const [wordEntered, setWordEntered] = useState("");
@@ -32,7 +35,45 @@ function NewSeachBar({ placeholder, data }) {
    navigate("/search")
   };
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setText(wordEntered)
+   
+    }, 500)
 
+    return () => clearTimeout(timer)
+  }, [wordEntered])
+
+
+
+  const [results,setResults]=useState([])
+  
+  const [pageNumber,setPageNumber]=useState(0)
+  const [text,setText]=useState("")
+
+  useEffect(() => {
+    console.log("text set oldu sonuclar:",results)
+    // eslint-disable-next-line
+  }, [text])
+
+  const [filters,setFilters]=useState(TYPE_USER+","+TYPE_UNI+","+TYPE_CLUB)
+  
+  const { hasMore, loading } = useSearch(text,filters,pageNumber,setResults);
+  const observer = useRef();
+  const lastPostElementRef = useCallback(
+    (node) => {
+      if (loading) return;
+      if (observer.current) observer.current.disconnect();
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasMore) {
+          setPageNumber((prevPageNumber) => prevPageNumber + 1);
+        }
+      });
+      if (node) observer.current.observe(node);
+    },
+    [loading, hasMore] //eslint-disable-line
+
+    );
   return (
     <div className="search">
       <div className="searchInputs">
@@ -44,20 +85,34 @@ function NewSeachBar({ placeholder, data }) {
         />
         <div className="searchIcon">
           {filteredData.length === 0 ? (
-            <SearchIcon onClick={goToSearch} />
+            <SearchIcon onClick={goToSearch} sx={{cursor:"pointer !important"}}/>
           ) : (
             <CloseIcon id="clearBtn" onClick={clearInput} />
           )}
         </div>
       </div>
-      {filteredData.length !== 0 && (
+      {results.length !== 0 && (
         <div className="dataResult">
-          {filteredData.slice(0, 20).map((value, key) => {
+          {results.map((result, key) => {
             return (
-              <div className="dataItem" onClick={()=>{
-                goToSearch()
+              <div className="dataItem" key={key} onClick={(e) => {
+                e.stopPropagation();
+                clearInput()
+                let target=""
+                if(result.searchType===TYPE_USER) target=""
+                if(result.searchType===TYPE_UNI) target="uni/"
+                if(result.searchType===TYPE_CLUB) target="clubs/"
+                navigate("/" +target+ result.id);
               }}>
-                <p>{value.title} </p>
+              <Avatar
+              sx={{ bgcolor: "#aaa3a2",marginLeft:"8px" }}
+              aria-label="recipe"
+              src={result?.profileImgId && URL_FILES+"/"+result?.profileImgId}
+            >
+              
+            </Avatar>
+                <p>{result?.name} </p>
+                <p>{result?.searchType} </p>
               </div>
             );
           })}

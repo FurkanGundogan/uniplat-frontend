@@ -26,3 +26,4 @@ export const SIZE=999
 export const URL_USER_LIKED_POSTS="http://localhost:8080/user-liked-posts"
 export const URL_ACTIVITY_PARTICIPANTS="http://localhost:8080/activity-participants"
 export const URL_POST_COMMENTS="http://localhost:8080/post-comments"
+export const URL_SEARCH="http://localhost:8080/searches"

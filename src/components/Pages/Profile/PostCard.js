@@ -45,6 +45,7 @@ export default function PostCard(props) {
     activityStartAt,
     activityParticipatedByUser,
     activityCountParticipant,
+    activityLocationDescription,
     postType,
     // postType,
      sharedPostId,
@@ -131,6 +132,7 @@ export default function PostCard(props) {
         activityStartAt={activityStartAt} 
         activityParticipatedByUser={activityParticipatedByUser}
         activityCountParticipant={activityCountParticipant}
+        activityLocationDescription={activityLocationDescription}
        
         />
 

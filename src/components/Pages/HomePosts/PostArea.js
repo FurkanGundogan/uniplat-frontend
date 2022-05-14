@@ -21,7 +21,6 @@ function PostArea() {
   //const [posts,setPosts]=useState([])
   const { hasMore, loading } = useGetPostFlow(userid, pageNumber,setPosts,click);
  
-
   const observer = useRef();
   const lastPostElementRef = useCallback(
     (node) => {

@@ -41,6 +41,7 @@ const createWithBlankImageId = (
   ownerId,
   activityTitle,
   activityStartAt,
+  eventLocation,
 
 
 ) => {
@@ -52,6 +53,7 @@ const createWithBlankImageId = (
     ownerId,
     activityTitle,
     activityStartAt,
+    activityLocationDescription:eventLocation,
 
   });
   axios(URL_POSTS, {
@@ -65,6 +67,7 @@ const createWithBlankImageId = (
       ownerId,
       activityTitle,
       activityStartAt,
+      activityLocationDescription:eventLocation,
     
     },
   })
@@ -86,6 +89,7 @@ const createWithUploadedImageId = (
   bodyFormData,
   activityTitle,
   activityStartAt,
+  eventLocation,
 
   ) => {
 
@@ -105,6 +109,7 @@ const createWithUploadedImageId = (
         ownerId,
         activityTitle,
         activityStartAt,
+        activityLocationDescription:eventLocation,
         imgId: fileresponse.data.id,
      
       });
@@ -119,6 +124,7 @@ const createWithUploadedImageId = (
         ownerId,
         activityTitle,
         activityStartAt,
+        activityLocationDescription:eventLocation,
         imgId: fileresponse.data.id,
        
         },
@@ -148,11 +154,11 @@ const sendEvent = (modalState) => {
     // görselsiz
     // title ve location eklenecek
     console.log({ sharedPostId,type, text,ownerType,ownerId,dateISO,eventLocation  });
-    createWithBlankImageId(sharedPostId,text,ownerType,type.toUpperCase(),ownerId,activityTitle,dateISO)
+    createWithBlankImageId(sharedPostId,text,ownerType,type.toUpperCase(),ownerId,activityTitle,dateISO,eventLocation)
   } else {
     // görselli
     console.log({sharedPostId, type, text,ownerType,ownerId,dateISO,eventLocation,bodyFormData  });
-    createWithUploadedImageId(sharedPostId,text,ownerType,type.toUpperCase(),ownerId,bodyFormData,activityTitle,dateISO)
+    createWithUploadedImageId(sharedPostId,text,ownerType,type.toUpperCase(),ownerId,bodyFormData,activityTitle,dateISO,eventLocation)
   }
 };
 

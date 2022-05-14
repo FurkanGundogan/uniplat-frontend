@@ -61,6 +61,7 @@ export default function DetailPostCard(props) {
     activityStartAt,
     activityParticipatedByUser,
     activityCountParticipant,
+    activityLocationDescription,
     postType,
     sharedPostId,
     // lastModifiedAt,
@@ -192,6 +193,7 @@ export default function DetailPostCard(props) {
             activityStartAt={activityStartAt}
             activityParticipatedByUser={activityParticipatedByUser}
             activityCountParticipant={activityCountParticipant}
+            activityLocationDescription={activityLocationDescription}
           />
         )}
         <div

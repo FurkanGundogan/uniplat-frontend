@@ -14,7 +14,7 @@ function EventArea({
   activityCountParticipant,
   activityTitle,
   activityStartAt,
-  eventAddress,
+  activityLocationDescription,
 }) {
   const classes = EventAreaStyles();
   const [done,setDone]=useState(new Date()>new Date(activityStartAt))
@@ -74,7 +74,7 @@ function EventArea({
 
       <div className={classes.LocationWrapper}>
         <LocationOnIcon className={classes.locationIcon} />
-        <span className={classes.eventLocationText}>{eventAddress}</span>
+        <span className={classes.eventLocationText}>{activityLocationDescription}</span>
       </div>
 
       <div>

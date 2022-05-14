@@ -246,16 +246,11 @@ const SignUpPage = () => {
   const classes = useStyles();
   const selectionClasses = InputStyles();
 
-  const [uniList, setUniList] = React.useState([
-    {
-      id: "123e4567-e89b-12d3-a456-556642440000",
-      name: "Fatih Sultan Mehmet Vakıf Üniversitesi",
-    },
-  ]);
+  const [uniList, setUniList] = React.useState([]);
   useEffect(() => {
     
     axios
-      .get(URL_UNIVERSITIES + "?page=0&size=10")
+      .get(URL_UNIVERSITIES)
       .then((response) => {
         console.log("res:", response.data.content);
         setUniList(response.data.content);
