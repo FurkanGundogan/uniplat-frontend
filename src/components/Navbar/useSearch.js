@@ -1,15 +1,15 @@
 import {useState,useEffect} from 'react'
 import axios from 'axios'
-import {URL_SEARCH} from "../Contexts/Paths"
+import {URL_SEARCH,TYPE_ALL} from "../Contexts/Paths"
 
 
-function useSearch(text,filters,pageNumber,setResults) {
-    
+function useSearch(text,filters,pageNumber,size,setResults) {
+
 
     const [loading,setLoading]=useState(true)
     const [error,setError]=useState(false)
     const [hasMore,setHasMore]=useState(false)
-   
+    const [page,setPage]=useState()
 
     
     useEffect(()=>{
@@ -29,12 +29,14 @@ function useSearch(text,filters,pageNumber,setResults) {
             params:{
                 text:str,
                 filters:filters,
-                page:0,
-                size:10,
+                page:pageNumber,
+                size:size,
             },
             cancelToken: new axios.CancelToken(c=>cancel=c)
         }).then(response=>{
+            console.log("all:",response.data)
             setResults(response.data.content)
+            setPage(response.data.page)
             setHasMore(response.data.content.length>0)
             setLoading(false)
             
@@ -49,9 +51,9 @@ function useSearch(text,filters,pageNumber,setResults) {
         setResults([])
     }
     // eslint-disable-next-line 
-    },[pageNumber,text,filters])  
+    },[pageNumber,text,filters,size])  
 
-    return {loading,error,hasMore}
+    return {loading,error,hasMore,page}
 }
 
 export default useSearch

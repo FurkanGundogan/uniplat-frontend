@@ -10,6 +10,9 @@ import SupervisedUserCircleIcon from "@mui/icons-material/SupervisedUserCircle";
 import SchoolIcon from "@mui/icons-material/School";
 import GroupWorkIcon from "@mui/icons-material/GroupWork";
 import ScreenShareIcon from "@mui/icons-material/ScreenShare";
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
+
 import {
   TYPE_CLUB,
   TYPE_POST,
@@ -24,6 +27,8 @@ const SearchPage = () => {
   const [results, setResults] = useState([]);
   const [filters, setFilters] = useState("");
   const [text, setText] = useState("");
+  const [pageNumber,setPageNumber] = useState(0);
+  const [size, setSize] = useState(10);
   function useQuery() {
     // ? ile parametreleri alabiliyoruz
     const { search } = useLocation();
@@ -34,18 +39,35 @@ const SearchPage = () => {
   useEffect(() => {
     setFilters(query.get("filters"));
     setText(query.get("text"));
+    setPageNumber(query.get("page"))
+    setSize(query.get("size"))
   }, [query]);
 
   console.log("filters:", filters);
   console.log("text:", text);
-  const [pageNumber] = useState(0);
-  useSearch(text, filters, pageNumber, setResults);
+  console.log("page:", pageNumber);
+  const {page} = useSearch(text, filters, pageNumber,size, setResults);
   console.log("results:", results);
 
   const handleFilterClick = (filter) => {
-    // setFilters(filter);
-    navigate("/search?filters="+filter+"&text="+text)
+    if(filter===TYPE_ALL){
+      navigate("/search?filters="+filter+"&text="+text+"&page=0&size=10")
+    }else{
+      navigate("/search?filters="+filter+"&text="+text+"&page=0&size=5")
+    }
   };
+
+  const handlePagination = (event,value) => {
+    console.log("setpage:",value-1)
+
+    if(filters===TYPE_ALL){
+      navigate("/search?filters="+filters+"&text="+text+"&page="+(value-1)+"&size=10")
+    }else{
+      navigate("/search?filters="+filters+"&text="+text+"&page="+(value-1)+"&size=5")
+    }
+
+  }
+
   return (
     <Grid container className={classes.HomeContainer}>
       <Grid item className={classes.LeftSide}></Grid>
@@ -97,6 +119,20 @@ const SearchPage = () => {
 
           <div className={classes.title}>Results</div>
           <SearchList results={results} />
+          {page &&
+          <Stack spacing={4}
+          sx={{
+            alignItems:"center !important",
+            marginBottom:"60px"
+          }}>
+            <Pagination 
+            count={page?.totalPages}
+            page={(page?.number+1)}
+            onChange={handlePagination} 
+            color="primary"
+             />
+          </Stack>
+          }
         </div>
       </Grid>
       <Grid item className={classes.RightSide}></Grid>

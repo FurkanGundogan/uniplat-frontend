@@ -11,6 +11,7 @@ import { TYPE_CLUB, TYPE_UNI, TYPE_USER,TYPE_POST, URL_FILES } from "../Contexts
 function NewSeachBar({ placeholder, data }) {
   const [filteredData, setFilteredData] = useState([]);
   const [wordEntered, setWordEntered] = useState("");
+
   const navigate=useNavigate()
   const handleFilter = (event) => {
     const searchWord = event.target.value;
@@ -47,6 +48,7 @@ function NewSeachBar({ placeholder, data }) {
   const [results,setResults]=useState([])
   
   const [pageNumber]=useState(0)
+  const [size, setSize] = useState(10);
   const [text,setText]=useState("")
 
   useEffect(() => {
@@ -58,11 +60,11 @@ function NewSeachBar({ placeholder, data }) {
   
   const goToSearch = () => {
     console.log("search with:",wordEntered)
-    navigate("/search?filters="+filters+","+TYPE_POST+"&text="+wordEntered)
+    navigate("/search?filters="+filters+","+TYPE_POST+"&text="+wordEntered+"&page="+pageNumber+"&size=10")
     clearInput()
    };
 
-  useSearch(text,filters,pageNumber,setResults);
+  useSearch(text,filters,pageNumber,size,setResults);
   // const observer = useRef();
   /*
   const lastPostElementRef = useCallback(
