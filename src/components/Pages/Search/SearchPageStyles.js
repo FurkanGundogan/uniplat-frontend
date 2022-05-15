@@ -51,6 +51,25 @@ const SearchPageStyles = makeStyles((theme) => ({
   title:{
     textAlign:"center"
   },
+  filterTitle:{
+    marginTop:"12px",
+    marginBottom:"12px",
+    textAlign:"center",
+    fontFamily:"'Exo 2'",
+    fontSize:"22px"
+  },
+  filtersWrapper:{
+    display:"flex",
+    justifyContent:"space-evenly",
+    marginBottom:"12px",
+  },
+  filter:{
+    cursor:"pointer !important",
+    '&:hover': {
+      background: "#2e7d32 !important",
+      color:"white"
+   },
+  },
   "@global": {
     body: {
       height: "100% !important",

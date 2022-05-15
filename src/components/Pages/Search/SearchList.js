@@ -6,80 +6,62 @@ import ListItemText from "@mui/material/ListItemText";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
+import {
+  TYPE_USER,
+  TYPE_UNI,
+  TYPE_CLUB,
+  TYPE_POST,
+} from "../../Contexts/Paths";
+import UserItem from "./UserItem";
 
-const nots = [
-  {
-    id: "0",
-    from: "Mehmet Ak",
-    content: "Yeni bir etkinlik başlattı.",
-  },
-  {
-    id: "1",
-    from: "Furkan Gündoğan",
-    content: "Fotoğrafına yorum yaptı.",
-  },
-  {
-    id: "2",
-    from: "Ayşe Sarı",
-    content: "Gönderini beğendi.",
-  },
-  {
-    id: "3",
-    from: "Fatih Sultan Mehmet Vakıf Üniversitesi",
-    content: "Yeni bir gönderi paylaştı.",
-  },
-  {
-    id: "4",
-    from: "Fatih Sultan Mehmet Vakıf Üniversitesi",
-    content: "Yeni bir gönderi paylaştı.",
-  },
-  {
-    id: "5",
-    from: "İstanbul Üniversitesi",
-    content: "Yeni bir gönderi paylaştı.",
-  },
-  {
-    id: "6",
-    from: "Furkan Gündoğan",
-    content: "Fotoğrafına yorum yaptı.",
-  },
-  {
-    id: "7",
-    from: "Ayşe Sarı",
-    content: "Gönderini beğendi.",
-  },
-];
+export default function SearchList({ results }) {
+  let users = results.filter((r) => r.searchType === TYPE_USER);
+  let universities = results.filter((r) => r.searchType === TYPE_UNI);
+  let clubs = results.filter((r) => r.searchType === TYPE_CLUB);
+  let posts = results.filter((r) => r.searchType === TYPE_POST);
 
-export default function SearchList() {
+
+
   return (
     <List sx={{ width: "100%", bgcolor: "none" }}>
-      {nots &&
-        nots.map((notification, i) => 
-          <div key={i}>
-            <ListItem key={i} alignItems="flex-start">
-              <ListItemAvatar>
-                <Avatar alt="Remy Sharp">{notification.from[0]}</Avatar>
-              </ListItemAvatar>
-              <ListItemText
-                primary={notification.from}
-                secondary={
-                  <React.Fragment>
-                    <Typography
-                      sx={{ display: "inline" }}
-                      component="span"
-                      variant="body2"
-                      color="text.primary"
-                    >
-                      {notification.content}
-                    </Typography>
-                    {" — İçerik kısa bilgisi..."}
-                  </React.Fragment>
-                }
-              />
-            </ListItem>
-            <Divider key={i+1} variant="inset" component="li" />
+      {results && (
+        <div>
+          <div className="div">
+            {users.length > 0 && (
+              <div className="div">
+                <div className="div">Users</div>
+                {users.map((user, i) => {
+                  return <UserItem user={user} key={user.id} />;
+                })}
+              </div>
+            )}
+            {universities.length > 0 && (
+              <div className="div">
+                <div className="div">Universities</div>
+                {universities.map((user, i) => {
+                  return <UserItem user={user} key={user.id} i={i} />;
+                })}
+              </div>
+            )}
+            {clubs.length > 0 && (
+              <div className="div">
+                <div className="div">Clubs</div>
+                {clubs.map((user, i) => {
+                  return <UserItem user={user} key={user.id} i={i} />;
+                })}
+              </div>
+            )}
+            {posts.length > 0 && (
+              <div className="div">
+                <div className="div">Posts</div>
+                {posts.map((user, i) => {
+                  return <UserItem user={user} key={user.id} i={i} />;
+                })}
+              </div>
+            )}
           </div>
-        )}
+        </div>
+      )}
     </List>
   );
 }

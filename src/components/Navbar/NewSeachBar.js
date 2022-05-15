@@ -1,12 +1,13 @@
-import React, { useCallback, useRef, useState,useEffect } from "react";
+import React, { useState,useEffect } from "react";
 import "./NewSearchBar.css";
 import CloseIcon from '@mui/icons-material/Close';
 import SearchIcon from "@mui/icons-material/Search";
 import { Avatar, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import useSearch from "./useSearch";
-import { TYPE_CLUB, TYPE_UNI, TYPE_USER, URL_FILES } from "../Contexts/Paths";
-import { red } from "@mui/material/colors";
+import { TYPE_CLUB, TYPE_UNI, TYPE_USER,TYPE_POST, URL_FILES } from "../Contexts/Paths";
+
+
 function NewSeachBar({ placeholder, data }) {
   const [filteredData, setFilteredData] = useState([]);
   const [wordEntered, setWordEntered] = useState("");
@@ -30,10 +31,7 @@ function NewSeachBar({ placeholder, data }) {
     setWordEntered("");
   };
 
-  const goToSearch = () => {
-   console.log("search with:",wordEntered)
-   navigate("/search")
-  };
+
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -48,18 +46,25 @@ function NewSeachBar({ placeholder, data }) {
 
   const [results,setResults]=useState([])
   
-  const [pageNumber,setPageNumber]=useState(0)
+  const [pageNumber]=useState(0)
   const [text,setText]=useState("")
 
   useEffect(() => {
     console.log("text set oldu sonuclar:",results)
     // eslint-disable-next-line
   }, [text])
-
-  const [filters,setFilters]=useState(TYPE_USER+","+TYPE_UNI+","+TYPE_CLUB)
   
-  const { hasMore, loading } = useSearch(text,filters,pageNumber,setResults);
-  const observer = useRef();
+  const [filters]=useState(TYPE_USER+","+TYPE_UNI+","+TYPE_CLUB)
+  
+  const goToSearch = () => {
+    console.log("search with:",wordEntered)
+    navigate("/search?filters="+filters+","+TYPE_POST+"&text="+wordEntered)
+    clearInput()
+   };
+
+  useSearch(text,filters,pageNumber,setResults);
+  // const observer = useRef();
+  /*
   const lastPostElementRef = useCallback(
     (node) => {
       if (loading) return;
@@ -74,6 +79,10 @@ function NewSeachBar({ placeholder, data }) {
     [loading, hasMore] //eslint-disable-line
 
     );
+  */
+
+  
+
   return (
     <div className="search">
       <div className="searchInputs">
@@ -87,7 +96,10 @@ function NewSeachBar({ placeholder, data }) {
           {filteredData.length === 0 ? (
             <SearchIcon onClick={goToSearch} sx={{cursor:"pointer !important"}}/>
           ) : (
-            <CloseIcon id="clearBtn" onClick={clearInput} />
+            <CloseIcon id="clearBtn" onClick={()=>{
+              clearInput()
+              setText("")
+            }} />
           )}
         </div>
       </div>
@@ -111,8 +123,8 @@ function NewSeachBar({ placeholder, data }) {
             >
               
             </Avatar>
-                <p>{result?.name} </p>
-                <p>{result?.searchType} </p>
+                <p className="name">{result?.name} </p>
+                <p className="type">{result?.searchType} </p>
               </div>
             );
           })}

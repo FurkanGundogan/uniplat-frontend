@@ -55,14 +55,15 @@ export const editReq = ({
   bodyFormData,
 }) => {
   const updateduser = {
-    ...mainState.user,
-    name: name,
-    surname: surname,
+    name:name,
+    surname:surname,
     profileImgId:profileImgId,
-    description: description,
+    description:description,
     universityId:universityId,
-    version: mainState.user.version,
-    password:"123123"
+    version:mainState.user.version,
+    messageAccessed:mainState.user.messageAccessed,
+    birthDate:mainState.user.birthDate,
+    gender:mainState.user.gender,
   };
 
 
@@ -70,7 +71,7 @@ export const editReq = ({
     // varsa önce file'ı yükle sonra user'ı update et
 
     console.log("uu:", updateduser);
-    console.log("gonderilen formdata:", bodyFormData);
+    
     axios(URL_FILES, {
       method: "POST",
       headers: {
@@ -79,9 +80,10 @@ export const editReq = ({
       data: bodyFormData,
     })
       .then((fileresponse) => {
+        console.log("updateduser:",{...updateduser, profileImgId: fileresponse.data.id})
         axios(URL_USERS + "/" + mainState.user.id, {
           method: "PUT",
-          header: { "Content-type": "application/json",
+          headers: { "Content-type": "application/json",
                     "userId":mainState.user.id  },
           data: { ...updateduser, profileImgId: fileresponse.data.id },
         })
@@ -95,7 +97,7 @@ export const editReq = ({
            
           })
           .catch((userupdateerror) => {
-            console.log("User Update Errorrrrr");
+            console.log("User Update Errorrrrr:",userupdateerror);
           });
       })
       .catch((error) => {
@@ -106,7 +108,7 @@ export const editReq = ({
     console.log("uu:", updateduser);
     axios(URL_USERS + "/" + mainState.user.id, {
       method: "PUT",
-      header: { "Content-type": "application/json",
+      headers: { "Content-type": "application/json",
                 "userId":mainState.user.id },
       data: updateduser,
     })
@@ -118,7 +120,7 @@ export const editReq = ({
         console.log("User Update Response:", response);
       })
       .catch((error) => {
-        console.log("User Update Error");
+        console.log("User Update Error:",error.message);
       });
   }
 };

@@ -15,10 +15,9 @@ function useSearch(text,filters,pageNumber,setResults) {
     useEffect(()=>{
     
         var str = text
+        if(str!==""){
         str = str.trim().replace(/\s+/g, '&').toLowerCase();
         
-        if(str!==""){
-     
         console.log(str);
         setLoading(true)
         setError(false)
@@ -49,6 +48,7 @@ function useSearch(text,filters,pageNumber,setResults) {
     }else{
         setResults([])
     }
+    // eslint-disable-next-line 
     },[pageNumber,text,filters])  
 
     return {loading,error,hasMore}
