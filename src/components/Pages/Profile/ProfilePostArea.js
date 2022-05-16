@@ -16,6 +16,7 @@ function ProfilePostArea() {
  
   const { profileState,posts,setPosts,pageNumber, setPageNumber,click } = useContext(ProfileContext);
   //
+  
   const { userid, uniid } = useParams();
   const usertype = userid ? TYPE_USER : TYPE_UNI;
 
@@ -28,11 +29,7 @@ function ProfilePostArea() {
   }, [userid, uniid]);
 
   useEffect(() => {
-    
-        // profil degisikliginde tab yeniden render, tab indexi degismez
-        // index degisikligi ile veri cekimi tetiklenmesi saglanmaktaydi
-        // bu sebeple eski veriler temizlenmiyordu, bu sekilde bir cozum bulduk
-        // dizi sıfırlama kısmı da profilepost area'da
+    // tab sıfırlama
     setPageNumber(0);
     // eslint-disable-next-line
   }, [owner]);

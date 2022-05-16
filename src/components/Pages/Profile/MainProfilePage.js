@@ -13,7 +13,7 @@ import NewPostModal from "../Post/NewPostModal";
 import { NewPostModalContext } from "../../Contexts/NewPostModalContext";
 import MyTabs from "./MyTabs";
 import Content from "./Content";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import "react-awesome-lightbox/build/style.css";
 import ProfileSettingsModal from "./ProfileSettings/ProfileSettingsModal";
 import StarIcon from "@mui/icons-material/Star";
@@ -34,8 +34,8 @@ import {TYPE_USER,TYPE_UNI} from "../../Contexts/Paths"
 const MainProfilePage = () => {
   // const navigate = useNavigate();
   const [tab, setTab] = React.useState(0);
- 
-
+  const locstate = useLocation();
+  console.log("locstate",locstate)
   const mainState = useAuthState(); //read user details from context
  
 
@@ -44,8 +44,25 @@ const MainProfilePage = () => {
     NewUniPostModalContext
   );
   const { userid, uniid } = useParams();
+  const {
+    profileState,
+    setProfileState,
+    profileFollowers,
+    setProfileFollowers,
+    setPosts,
+  } = useContext(ProfileContext);
   useEffect(()=>{
     setTab(0)
+    console.log("locstate.state:",locstate.state)
+    if(locstate.state===null){
+      // burada yapılan aksiyon:
+      // bir profil sayfasına yönlenme 2 türlü olmakta
+      // 1. bir iteme doğrudan tıklayıp  yönlenme
+      // 2. post detay sayfasından dönerek yönlenme
+      // ikinci durumda postlar kalmalı ve mevcut konuma inme sağlanmalı
+      //  ilk durumda postlar temizlenmeli. bu aksiyon ilk durum için.
+      setPosts([])
+    }
   },[userid,uniid])
 
   // bu noktada username yerine user id ile kişi bilgileri için istek yönetimi yapılacak
@@ -59,13 +76,7 @@ const MainProfilePage = () => {
 
   const isYourProfile = mainState.user.id === userid;
  
-  const {
-    profileState,
-    setProfileState,
-    profileFollowers,
-    setProfileFollowers,
-  
-  } = useContext(ProfileContext);
+ 
 
 
 
