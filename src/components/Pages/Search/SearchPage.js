@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Grid from "@mui/material/Grid";
 import SearchPageStyles from "./SearchPageStyles";
 import SearchList from "./SearchList";
 import { useLocation, useNavigate } from "react-router-dom";
 import useSearch from "../../Navbar/useSearch";
-import { Avatar, Chip } from "@mui/material";
+import { Chip } from "@mui/material";
 import ClearAllIcon from "@mui/icons-material/ClearAll";
 import SupervisedUserCircleIcon from "@mui/icons-material/SupervisedUserCircle";
 import SchoolIcon from "@mui/icons-material/School";
@@ -19,7 +19,11 @@ import {
   TYPE_UNI,
   TYPE_USER,
 } from "../../Contexts/Paths";
+import { NewPostModalContext } from "../../Contexts/NewPostModalContext";
+import NewPostModal from "../Post/NewPostModal";
 const SearchPage = () => {
+
+  const { newPostState, setNewPostState } = useContext(NewPostModalContext);
   const navigate=useNavigate()
   const TYPE_ALL =
     TYPE_USER + "," + TYPE_UNI + "," + TYPE_CLUB + "," + TYPE_POST;
@@ -71,11 +75,19 @@ const SearchPage = () => {
   return (
     <Grid container className={classes.HomeContainer}>
       <Grid item className={classes.LeftSide}></Grid>
-      <Grid item className={classes.Center}>
+      <Grid item className={classes.Center} >
+        
         <div className={classes.notAreaWrapper}>
+        {newPostState && (
+          <NewPostModal modalState={newPostState} setModal={setNewPostState} />
+        )}
           <div className={classes.filterTitle}>Filters</div>
           <div className={classes.filtersWrapper}>
+          <Grid container spacing={2} className={classes.filtersWrapperGrid}>
+          <Grid item xs={3} md={1} ></Grid>
+          <Grid item xs={3} md={2} >
             <Chip
+             
               onClick={() => handleFilterClick(TYPE_ALL)}
               variant={filters === TYPE_ALL ? "filled" : "outlined"}
               icon={<ClearAllIcon />}
@@ -83,7 +95,11 @@ const SearchPage = () => {
               className={classes.filter}
               color="success"
             />
+            </Grid>
+            
+            <Grid item xs={3} md={2}>
             <Chip
+             
               onClick={() => handleFilterClick(TYPE_USER)}
               variant={filters === TYPE_USER ? "filled" : "outlined"}
               label="User"
@@ -91,23 +107,36 @@ const SearchPage = () => {
               icon={<SupervisedUserCircleIcon />}
               color="success"
             />
+            </Grid>
+            <Grid item xs={3} display={{ md: "none !important" }}></Grid>
+         
+          
+            <Grid item xs={4} md={2}>
             <Chip
-              onClick={() => handleFilterClick(TYPE_UNI)}
-              variant={filters === TYPE_UNI ? "filled" : "outlined"}
-              icon={<SchoolIcon />}
-              label="University"
-              className={classes.filter}
-              color="success"
-            />
+            
+            onClick={() => handleFilterClick(TYPE_CLUB)}
+            variant={filters === TYPE_CLUB ? "filled" : "outlined"}
+            icon={<GroupWorkIcon />}
+            label="Club"
+            className={classes.filter}
+            color="success"
+          />
+            </Grid>
+            <Grid item xs={4} md={2}>
             <Chip
-              onClick={() => handleFilterClick(TYPE_CLUB)}
-              variant={filters === TYPE_CLUB ? "filled" : "outlined"}
-              icon={<GroupWorkIcon />}
-              label="Club"
-              className={classes.filter}
-              color="success"
-            />
+             
+             onClick={() => handleFilterClick(TYPE_UNI)}
+             variant={filters === TYPE_UNI ? "filled" : "outlined"}
+             icon={<SchoolIcon />}
+             label="University"
+             className={classes.filter}
+             color="success"
+           />
+ 
+            </Grid>
+            <Grid item xs={4} md={2}>
             <Chip
+     
               onClick={() => handleFilterClick(TYPE_POST)}
               variant={filters === TYPE_POST ? "filled" : "outlined"}
               icon={<ScreenShareIcon />}
@@ -115,11 +144,14 @@ const SearchPage = () => {
               className={classes.filter}
               color="success"
             />
+            </Grid>
+            <Grid item md={1} display={{ sm: "none !important" }}></Grid>
+            </Grid>
           </div>
 
-          <div className={classes.title}>Results</div>
-          <SearchList results={results} />
-          {page &&
+          <div className={classes.title}>{page&&page?.totalElements} Results</div>
+          <SearchList results={results} filters={filters} text={text} />
+          {page && filters !== TYPE_ALL &&
           <Stack spacing={4}
           sx={{
             alignItems:"center !important",

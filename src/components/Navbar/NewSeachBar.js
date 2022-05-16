@@ -48,7 +48,7 @@ function NewSeachBar({ placeholder, data }) {
   const [results,setResults]=useState([])
   
   const [pageNumber]=useState(0)
-  const [size, setSize] = useState(10);
+  const [size] = useState(10);
   const [text,setText]=useState("")
 
   useEffect(() => {

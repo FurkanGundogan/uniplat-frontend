@@ -1,6 +1,6 @@
 import {useState,useEffect} from 'react'
 import axios from 'axios'
-import {URL_SEARCH,TYPE_ALL} from "../Contexts/Paths"
+import {URL_SEARCH} from "../Contexts/Paths"
 
 
 function useSearch(text,filters,pageNumber,size,setResults) {

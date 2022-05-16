@@ -49,7 +49,11 @@ const SearchPageStyles = makeStyles((theme) => ({
       marginTop:"4px"
   },
   title:{
-    textAlign:"center"
+     marginTop:"12px",
+    marginBottom:"12px",
+    textAlign:"center",
+    fontFamily:"'Exo 2'",
+    fontSize:"22px"
   },
   filterTitle:{
     marginTop:"12px",
@@ -59,7 +63,8 @@ const SearchPageStyles = makeStyles((theme) => ({
     fontSize:"22px"
   },
   filtersWrapper:{
-    display:"flex",
+    textAlign:"center",
+    display:"block",
     justifyContent:"space-evenly",
     marginBottom:"12px",
   },
@@ -69,6 +74,31 @@ const SearchPageStyles = makeStyles((theme) => ({
       background: "#2e7d32 !important",
       color:"white"
    },
+  },
+  searchItemListItem:{
+    cursor:"pointer !important"
+  },
+  searchItemBottom:{
+    display:"flex",
+    [theme.breakpoints.down("lg")]: {
+      display:"block",
+   },
+  },
+  searchItemInner:{
+    display:"flex", 
+  },
+  searchItemBottomFollowing:{
+    marginLeft:"4px",
+    display:"flex"
+  },
+  searchPostItemCardWrapper:{
+    [theme.breakpoints.up("sm")]: {
+      maxWidth:"50% !important",
+      marginLeft:"25% !important"
+   },
+  },
+  filtersWrapperGrid:{
+    marginBottom:"12px !important",
   },
   "@global": {
     body: {
