@@ -16,7 +16,7 @@ export const follow = async (userId,followId,type,profileState,setProfileState,p
     .then((response) => {
       console.log("Follow Successfull:",response.data);
       setProfileState({...profileState,
-        userInfo:{...profileState.userInfo,followedByUser:true},
+        userInfo:{...profileState.userInfo,followedByUser:true,countFollower:(profileState.userInfo.countFollower+1)},
        // isFollow:true,
        // followShip:[response.data]
       })
@@ -54,7 +54,7 @@ export const unfollow = async (userId,profileState,setProfileState,profileFollow
         });
         console.log("new users:",users)
         setProfileState({...profileState,
-          userInfo:{...profileState.userInfo,followedByUser:false},
+          userInfo:{...profileState.userInfo,followedByUser:false,countFollower:(profileState.userInfo.countFollower-1)},
           //isFollow:false,followShip:null
         })
         setProfileFollowers(users)

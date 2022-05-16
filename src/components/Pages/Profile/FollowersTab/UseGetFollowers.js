@@ -5,7 +5,7 @@ import { useAuthState } from '../../../Contexts';
 
 
 function UseGetFollowers(ownerId,pageNumber) {
- 
+
     const mainState = useAuthState(); //read user details from context
    
 

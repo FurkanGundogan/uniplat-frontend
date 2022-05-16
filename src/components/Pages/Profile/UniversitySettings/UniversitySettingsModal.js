@@ -32,7 +32,7 @@ const style = {
   p: 4,
 };
 
-export default function UniversitySettingsModal({ settings, setSettings,profileState,setProfileState }) {
+export default function UniversitySettingsModal({ settings, setSettings,mainState,profileState,setProfileState }) {
  
   // let navigate = useNavigate();
  
@@ -45,7 +45,7 @@ export default function UniversitySettingsModal({ settings, setSettings,profileS
   const handleSend = async () => {
     if (validate()) {
       
-      save(settings,profileState,setProfileState);
+      save(settings,profileState,setProfileState,mainState);
       setSettings({...settings,isopen:false})
       // window.location.href="/uni/"+profileState.userInfo.id
     } else {

@@ -169,6 +169,7 @@ const MainClubPage = () => {
         )}
         {settings && (
           <ClubSettingsModal 
+          mainState={mainState}
           settings={settings}
           setSettings={setSettings}
           clubState={clubState}

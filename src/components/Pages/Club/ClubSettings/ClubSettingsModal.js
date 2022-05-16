@@ -32,7 +32,7 @@ const style = {
   p: 4,
 };
 
-export default function ClubSettingsModal({ settings, setSettings,clubState,setClubState }) {
+export default function ClubSettingsModal({ settings, setSettings,mainState,clubState,setClubState }) {
   //let navigate = useNavigate();
   console.log(settings)
 
@@ -41,7 +41,7 @@ export default function ClubSettingsModal({ settings, setSettings,clubState,setC
 
   const handleSend = async () => {
     if (validate()) {
-      save(settings, clubState, setClubState);
+      save(settings, clubState, setClubState,mainState);
       setSettings({...settings,isopen:false})
       // window.location.href="/clubs/"+clubState.clubInfo.id
       

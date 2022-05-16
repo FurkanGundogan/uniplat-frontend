@@ -118,6 +118,7 @@ const MainProfilePage = () => {
         setShowFollowsList={setShowFollowsList}
       />
       {
+        showFollowersList===true &&
         <FollowersListModal
           showFollowersList={showFollowersList}
           setShowFollowersList={setShowFollowersList}
@@ -297,6 +298,7 @@ const MainProfilePage = () => {
             setSettings={setSettingsUni}
             profileState={profileState}
             setProfileState={setProfileState}
+            mainState={mainState}
           />
         )}
         {createClubState && (

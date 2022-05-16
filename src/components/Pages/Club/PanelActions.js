@@ -12,7 +12,7 @@ export const join = async (userId,clubId,clubState,setClubState) => {
     .then((response) => {
       console.log("Club User Join Successfull:",response.data);
       setClubState({...clubState,
-        clubInfo:{...clubState.clubInfo,followedByUser:true},
+        clubInfo:{...clubState.clubInfo,followedByUser:true,countFollower:(clubState.clubInfo.countFollower+1)},
         clubUsers:[...clubState.clubUsers,response.data]})
     })
       .catch((e) => {
@@ -46,7 +46,7 @@ export const leave = async (userId,clubState,setClubState) => {
           });
           console.log("new users:",users)
           setClubState({...clubState,
-            clubInfo:{...clubState.clubInfo,followedByUser:false},
+            clubInfo:{...clubState.clubInfo,followedByUser:false,countFollower:(clubState.clubInfo.countFollower-1)},
             clubUsers:users})
         })
           .catch((e) => {
