@@ -15,7 +15,7 @@ function useSearch(text,filters,pageNumber,size,setResults) {
     useEffect(()=>{
     
         var str = text
-        if(str!==""){
+        if(str!=="" && str!==null && str!==undefined){
         str = str.trim().replace(/\s+/g, '&').toLowerCase();
         
         console.log(str);

@@ -151,7 +151,7 @@ const SearchPage = () => {
 
           <div className={classes.title}>{page&&page?.totalElements} Results</div>
           <SearchList results={results} filters={filters} text={text} />
-          {page && filters !== TYPE_ALL &&
+          {page && filters !== TYPE_ALL && page?.totalElements>0 &&
           <Stack spacing={4}
           sx={{
             alignItems:"center !important",
