@@ -63,6 +63,7 @@ const MainProfilePage = () => {
       //  ilk durumda postlar temizlenmeli. bu aksiyon ilk durum için.
       setPosts([])
     }
+    // eslint-disable-next-line
   },[userid,uniid])
 
   // bu noktada username yerine user id ile kişi bilgileri için istek yönetimi yapılacak
@@ -238,13 +239,16 @@ const MainProfilePage = () => {
                 </Button>
               ))}
 
-            {isAdmin && (
+            {uniid && 
+            (
               <div className={classes.AdminAreaWrapper}>
                 <Divider />
+                {isAdmin &&
                 <div className={classes.AdminTitleWrapper}>
                   <StarIcon className={classes.AdminStarIcon} />
                   <div className={classes.AdminText}>Admin</div>
                 </div>
+                }
                 <List component="nav" aria-label="mailbox folders">
                   <ListItem
                     onClick={() => setCreateClubState({ isopen: true })}
@@ -263,7 +267,7 @@ const MainProfilePage = () => {
                   </ListItem>
                   <Divider />
                     */}
-
+                  { isAdmin &&
                   <ListItem
                     onClick={() => {
                       setNewPostState({
@@ -278,6 +282,7 @@ const MainProfilePage = () => {
                   >
                     <ListItemText primary="New Post" />
                   </ListItem>
+                  }
                 </List>
               </div>
             )}
@@ -407,7 +412,8 @@ const MainProfilePage = () => {
             </div>
           </div>
         </div>
-        {isAdmin && (
+        {isAdmin && 
+        (
           <Acciordion
             createClubState={createClubState}
             setCreateClubState={setCreateClubState}
