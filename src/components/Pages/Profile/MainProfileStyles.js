@@ -263,6 +263,12 @@ const MainProfileStyles = makeStyles((theme) => ({
     width:"100%",
     textAlign:"center",
   },
+  selectedUserForAdmin:{
+    marginTop:"24px",
+    alignSelf:"center",
+    textAlign:"-webkit-center",
+    minHeight:"70px",
+  },
 
   "@global": {
     body: {

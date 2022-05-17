@@ -48,10 +48,12 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
 }));
 
 export default function CustomizedAccordions({
-  setShowAdminList,
+  showAdminChange,
+  setShowAdminChange,
   setCreateClubState,
   setNewPostState,
-  ownerId
+  ownerId,
+  isAdmin,
 }) {
   const [expanded, setExpanded] = React.useState(false);
 
@@ -63,7 +65,7 @@ export default function CustomizedAccordions({
     <div className={classes.responsiveAdminArea}>
       <Accordion expanded={expanded} onChange={handleChange}>
         <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
-          <Typography component="span">Admin</Typography>
+          <Typography component="span">Manage</Typography>
         </AccordionSummary>
         <AccordionDetails sx={{ padding: "0px !important" }}>
           <List
@@ -77,16 +79,19 @@ export default function CustomizedAccordions({
                 primary="Create Club"
               />
             </ListItem>
-            <Divider />
-            {/**
-              Admin List disabled
-              <ListItem onClick={()=>setShowAdminList(true)} button>
-                <ListItemText primary="Show Admins" />
+            { isAdmin &&
+              <ListItem
+                onClick={() => {
+                  setShowAdminChange(true);
+                }}
+                button
+              >
+                <ListItemText primary="Hand Over Management" />
               </ListItem>
-              <Divider />
-               */}
-
-            <ListItem
+            }
+            {
+              isAdmin && 
+              <ListItem
               onClick={() => {
                 setNewPostState({
                   type: "Post",
@@ -99,6 +104,17 @@ export default function CustomizedAccordions({
             >
               <ListItemText primary="New Post" />
             </ListItem>
+            }
+            <Divider />
+            {/**
+              Admin List disabled
+              <ListItem onClick={()=>setShowAdminList(true)} button>
+                <ListItemText primary="Show Admins" />
+              </ListItem>
+              <Divider />
+               */}
+
+           
           </List>
         </AccordionDetails>
       </Accordion>

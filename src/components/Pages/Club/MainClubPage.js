@@ -20,7 +20,7 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import Acciordion from "./Accordion/Accordion";
-import AdminListModal from "./AdminListModal";
+import AdminChangeModal from "./AdminChangeModal";
 import RequestListModal from "./RequestListModal";
 import { NewClubPostModalContext } from "../../Contexts/NewClubPostModalContext";
 import { ClubContext } from "./ClubContext";
@@ -46,7 +46,7 @@ const MainClubPage = () => {
   // const isMember = clubID === "2";
   // const [joinReq, setJoinReq] = useState(false);
   const classes = MainClubStyles();
-  const [showAdminList, setShowAdminList] = React.useState(false);
+  const [showAdminChange, setShowAdminChange] = React.useState(false);
   const [showJoinReqList, setJoinReqList] = React.useState(false);
 
   const handleJoin = async () => {
@@ -60,13 +60,13 @@ const MainClubPage = () => {
   console.log("state:", clubState);
   return (
     <Grid id={"xyz"} container className={classes.HomeContainer}>
-      {showAdminList === true && (
-        <AdminListModal
+      {showAdminChange === true && (
+        <AdminChangeModal
           mainUserId={mainState.user.id}
           clubState={clubState}
           setClubState={setClubState}
-          showAdminList={showAdminList}
-          setShowAdminList={setShowAdminList}
+          showAdminChange={showAdminChange}
+          setShowAdminChange={setShowAdminChange}
         />
       )}
       <RequestListModal
@@ -133,13 +133,7 @@ const MainClubPage = () => {
                 </div>
                 <List component="nav" aria-label="mailbox folders">
                   <Divider />
-                  {/**
-                     * Show admins disabled
-                  <ListItem onClick={() => setShowAdminList(true)} button>
-                    <ListItemText primary="Show Admins" />
-                  </ListItem>
-                  <Divider />
-                     */}
+             
 
                   <ListItem
                     onClick={() =>
@@ -157,7 +151,7 @@ const MainClubPage = () => {
                   </ListItem>
                   {isAdmin && (
                     <ListItem
-                      onClick={() => setShowAdminList(true)}
+                      onClick={() => setShowAdminChange(true)}
                       button
                       divider
                     >
@@ -268,8 +262,8 @@ const MainClubPage = () => {
         </div>
         {isAdmin && (
           <Acciordion
-            showAdminList={showAdminList}
-            setShowAdminList={setShowAdminList}
+            showAdminChange={showAdminChange}
+            setShowAdminChange={setShowAdminChange}
             showJoinReqList={showJoinReqList}
             setJoinReqList={setJoinReqList}
             setNewPostState={setNewPostState}

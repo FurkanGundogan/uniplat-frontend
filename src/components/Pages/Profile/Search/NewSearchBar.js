@@ -119,7 +119,6 @@ function NewSearchBar({ placeholder, data,setSelected }) {
                 <div className="dataItem" ref={lastPostElementRef} key={key} onClick={(e) => {
                   e.stopPropagation();
                   clearInput()
-
                   setSelected(result)
                  
                 }}>

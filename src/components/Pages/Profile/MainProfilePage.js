@@ -31,6 +31,7 @@ import { follow, unfollow } from "./PanelActions";
 import FollowersListModal from "./FollowersListModal/FollowersListModal";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import {TYPE_USER,TYPE_UNI} from "../../Contexts/Paths"
+import AdminChangeModal from "./AdminChangeModal";
 const MainProfilePage = () => {
   // const navigate = useNavigate();
   const [tab, setTab] = React.useState(0);
@@ -91,6 +92,7 @@ const MainProfilePage = () => {
 
 
   const classes = MainProfileStyles();
+  const [showAdminChange, setShowAdminChange] = React.useState(false);
   const [showFollowsList, setShowFollowsList] = React.useState(false);
   const [showFollowersList, setShowFollowersList] = React.useState(false);
   const handleFollow = async () => {
@@ -125,6 +127,15 @@ const MainProfilePage = () => {
 
   return (
     <Grid id={"xyz"} container className={classes.HomeContainer}>
+      {showAdminChange === true && (
+        <AdminChangeModal
+          mainUserId={mainState.user.id}
+          profileState={profileState}
+          setProfileState={setProfileState}
+          showAdminChange={showAdminChange}
+          setShowAdminChange={setShowAdminChange}
+        />
+      )}
       <FollowsListModal
         showFollowsList={showFollowsList}
         setShowFollowsList={setShowFollowsList}
@@ -256,6 +267,17 @@ const MainProfilePage = () => {
                   >
                     <ListItemText primary="Create Club" />
                   </ListItem>
+                  {
+                    isAdmin && (
+                      <ListItem
+                        onClick={() => setShowAdminChange(true)}
+                        button
+                        divider
+                      >
+                        <ListItemText primary="Hand Over Management" />
+                      </ListItem>
+                    )
+                  }
                   <Divider />
                   {/* admin list is disable
                   <ListItem
@@ -412,15 +434,17 @@ const MainProfilePage = () => {
             </div>
           </div>
         </div>
-        {isAdmin && 
-        (
+ 
           <Acciordion
             createClubState={createClubState}
             setCreateClubState={setCreateClubState}
             setNewPostState={setNewPostState}
             ownerId={uniid&&uniid}
+            showAdminChange={showAdminChange}
+            setShowAdminChange={setShowAdminChange}
+            isAdmin={isAdmin}
           />
-        )}
+        
 
         <MyTabs isUni={uniid} tab={tab} setTab={setTab} />
 

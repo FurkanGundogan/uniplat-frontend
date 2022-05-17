@@ -49,7 +49,7 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
 }));
 
 export default function CustomizedAccordions({
-  setShowAdminList,
+  setShowAdminChange,
   setJoinReqList,
   setNewPostState,
   ownerId,
@@ -104,7 +104,7 @@ export default function CustomizedAccordions({
             
             <ListItem
               onClick={() => {
-                setShowAdminList(true);
+                setShowAdminChange(true);
               }}
               button
             >

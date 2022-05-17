@@ -1,0 +1,26 @@
+
+.searchForAdmin{
+   margin-top: 14px;
+    width: 75% !important;
+}
+.searchInputsForAdmin {
+    border: 1px solid #b7a6a6 !important;
+    background-color: rgb(189 191 191) !important;
+  }
+
+.dataResultForAdmin {
+    z-index: 5555 !important;
+    position: absolute !important;
+    inset:30% auto auto 75px !important;
+    width: 75% !important;
+    height: 200px !important;
+ 
+}
+
+  @media only screen and (max-width: 600px) {
+    .dataResultForAdmin {
+        inset:23% auto auto 46px !important;
+        height: 35% !important;
+   
+      }
+  }

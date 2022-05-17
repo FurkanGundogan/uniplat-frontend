@@ -7,64 +7,58 @@ import { useTheme } from "@mui/material/styles";
 import Avatar from "@mui/material/Avatar";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
-import ListItemAvatar from "@mui/material/ListItemAvatar";
-import ListItemText from "@mui/material/ListItemText";
-import { blue } from "@mui/material/colors";
-import PersonIcon from "@mui/icons-material/Person";
 import CloseIcon from "@mui/icons-material/Close";
-import MainClubStyles from "./MainClubStyles";
+import MainProfileStyles from "./MainProfileStyles";
 import Divider from "@mui/material/Divider";
-import { Button, IconButton, Typography } from "@mui/material";
-import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
-import TextField from "@mui/material/TextField";
-import SendIcon from "@mui/icons-material/Send";
+import { Button, Typography } from "@mui/material";
 import { useState } from "react";
 import NewSearchBar from "./Search/NewSearchBar";
-import { URL_CLUBS, URL_FILES } from "../../Contexts/Paths";
+import { URL_FILES, URL_UNIVERSITIES } from "../../Contexts/Paths";
 import axios from "axios";
-export default function AdminListModal({
-  showAdminList,
-  setShowAdminList,
+export default function AdminChangeModal({
+  showAdminChange,
+  setShowAdminChange,
   mainUserId,
-  setClubState,
-  clubState,
+  setProfileState,
+  profileState,
 }) {
   const [selected, setSelected] = useState();
-  const classes = MainClubStyles();
+  const classes = MainProfileStyles();
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
-  const likeUserList = ["username@gmail.com", "user02@gmail.com"];
+ 
 
-  const [newEmail, setNewEmail] = useState(null);
-
-  const handleListItemDeleteClick = (value) => {
-    console.log(value);
-  };
-  const handleAddNew = (value) => {
-    console.log(newEmail);
-  };
   const handleConfirm = () => {
     console.log(selected);
     if (selected !== undefined && selected !== null) {
-      console.log("clubInfo:", {
-        ...clubState.clubInfo,
+      console.log("id:", profileState.userInfo.id);
+      console.log("mainUserId:", mainUserId);
+      console.log("userInfo:", {
         adminId: selected.id,
+        name:profileState.userInfo.name,
+        description:profileState.userInfo.description,
+        profileImgId:profileState.userInfo.profileImgId,
+        version:profileState.userInfo.version,
       });
-      axios(URL_CLUBS + "/" + clubState.clubInfo.id, {
+      
+      axios(URL_UNIVERSITIES + "/" + profileState.userInfo.id, {
         method: "PUT",
         headers: { "Content-type": "application/json", userId: mainUserId },
         data: {
-          ...clubState.clubInfo,
           adminId: selected.id,
+          name:profileState.userInfo.name,
+          description:profileState.userInfo.description,
+          profileImgId:profileState.userInfo.profileImgId,
+          version:profileState.userInfo.version,
         },
       })
         .then((response) => {
-          setClubState({ ...clubState, clubInfo: response.data });
-          console.log("Club Update Response:", response);
-          setShowAdminList(false);
+          setProfileState({ ...profileState, userInfo: response.data });
+          console.log("Uni Update Response:", response);
+          setShowAdminChange(false);
         })
         .catch((error) => {
-          console.log("Club Update Error", error);
+          console.log("Uni Update Error", error);
         });
     }
   };
@@ -74,14 +68,14 @@ export default function AdminListModal({
       <Dialog
         fullScreen={fullScreen}
         fullWidth
-        open={showAdminList}
-        onClose={() => setShowAdminList(false)}
+        open={showAdminChange}
+        onClose={() => setShowAdminChange(false)}
         aria-labelledby="responsive-dialog-title"
         scroll="paper"
       >
         <div className={classes.AdminListModalCloseIconWrapper}>
           <CloseIcon
-            onClick={() => setShowAdminList(false)}
+            onClick={() => setShowAdminChange(false)}
             className={classes.AdminListModalCloseIcon}
           />
 
