@@ -24,8 +24,8 @@ import AdminListModal from "./AdminListModal";
 import RequestListModal from "./RequestListModal";
 import { NewClubPostModalContext } from "../../Contexts/NewClubPostModalContext";
 import { ClubContext } from "./ClubContext";
-import { join,leave } from "./PanelActions";
-import UserAvatarResponsive from "./UserAvatarResponsive"
+import { join, leave } from "./PanelActions";
+import UserAvatarResponsive from "./UserAvatarResponsive";
 import { TYPE_CLUB } from "../../Contexts/Paths";
 const MainClubPage = () => {
   // const navigate = useNavigate();
@@ -33,15 +33,16 @@ const MainClubPage = () => {
   const mainState = useAuthState(); //read user details from context
   const { clubState, setClubState } = useContext(ClubContext);
   const { newPostState, setNewPostState } = useContext(NewPostModalContext);
-  const { newClubPostState, setNewClubPostState } = useContext(NewClubPostModalContext);
-
+  const { newClubPostState, setNewClubPostState } = useContext(
+    NewClubPostModalContext
+  );
 
   const [settings, setSettings] = useState();
 
   const isAdmin = mainState.user.id === clubState.clubInfo.adminId;
-  const isMember = clubState.clubInfo.followedByUser
-  console.log("Club Admin?: ",isAdmin)
-  console.log("Club Member?: ",isMember,clubState.memberShip)
+  const isMember = clubState.clubInfo.followedByUser;
+  console.log("Club Admin?: ", isAdmin);
+  console.log("Club Member?: ", isMember, clubState.memberShip);
   // const isMember = clubID === "2";
   // const [joinReq, setJoinReq] = useState(false);
   const classes = MainClubStyles();
@@ -49,22 +50,25 @@ const MainClubPage = () => {
   const [showJoinReqList, setJoinReqList] = React.useState(false);
 
   const handleJoin = async () => {
-   join(mainState.user.id,clubState.clubInfo.id,clubState,setClubState)
-  
-  }
+    join(mainState.user.id, clubState.clubInfo.id, clubState, setClubState);
+  };
   const handleLeave = () => {
-     // join(mainState.user.id,clubState.clubInfo.id)
-     leave(mainState.user.id,clubState,setClubState)
-  }
+    // join(mainState.user.id,clubState.clubInfo.id)
+    leave(mainState.user.id, clubState, setClubState);
+  };
 
-
-  console.log("state:",clubState)
+  console.log("state:", clubState);
   return (
     <Grid id={"xyz"} container className={classes.HomeContainer}>
-      <AdminListModal
-        showAdminList={showAdminList}
-        setShowAdminList={setShowAdminList}
-      />
+      {showAdminList === true && (
+        <AdminListModal
+          mainUserId={mainState.user.id}
+          clubState={clubState}
+          setClubState={setClubState}
+          showAdminList={showAdminList}
+          setShowAdminList={setShowAdminList}
+        />
+      )}
       <RequestListModal
         showJoinReqList={showJoinReqList}
         setJoinReqList={setJoinReqList}
@@ -75,55 +79,50 @@ const MainClubPage = () => {
             <div className={classes.editButtonWrapper}>
               <IconButton
                 aria-label="delete"
-                onClick={() => setSettings({  ...clubState.clubInfo,isopen: true })}
+                onClick={() =>
+                  setSettings({ ...clubState.clubInfo, isopen: true })
+                }
               >
                 <EditIcon />
               </IconButton>
             </div>
           )}
-          <UserAvatar
-            profileImgId={clubState.clubInfo?.profileImgId}
-          />
+          <UserAvatar profileImgId={clubState.clubInfo?.profileImgId} />
           <Typography variant="body1" className={classes.UserName}>
             {clubState.clubInfo?.name}
           </Typography>
           <Divider />
           <Typography variant="body1" className={classes.UserName}>
-          {clubState.clubUniInfo?.name}
+            {clubState.clubUniInfo?.name}
           </Typography>
           <Divider />
           <div className={classes.LeftSideFollowWrapper}>
-            <Typography variant="body2" className={classes.UserDept}>
-            </Typography>
+            <Typography
+              variant="body2"
+              className={classes.UserDept}
+            ></Typography>
             <Typography variant="body2" className={classes.UserDept}>
               {clubState.clubInfo?.countFollower + " Members"}
             </Typography>
             <Divider />
           </div>
           <div className={classes.LeftSideButtonWrapper}>
-            {
-              (isAdmin===false && isMember===true) && <Typography variant="body2" className={classes.UserDept}>
-              {"Member"}
-            </Typography>
-            }
+            {isAdmin === false && isMember === true && (
+              <Typography variant="body2" className={classes.UserDept}>
+                {"Member"}
+              </Typography>
+            )}
 
-            {isAdmin === false  && isMember === false && (
-              <Button
-                className={classes.LeftSideButton}
-                onClick={handleJoin}
-              >
+            {isAdmin === false && isMember === false && (
+              <Button className={classes.LeftSideButton} onClick={handleJoin}>
                 Join
               </Button>
             )}
-            {isAdmin === false  && isMember === true && (
-              <Button
-                className={classes.LeftSideButton}
-                onClick={handleLeave}
-              >
+            {isAdmin === false && isMember === true && (
+              <Button className={classes.LeftSideButton} onClick={handleLeave}>
                 Leave
               </Button>
             )}
-
 
             {isAdmin && (
               <div className={classes.AdminAreaWrapper}>
@@ -134,26 +133,37 @@ const MainClubPage = () => {
                 </div>
                 <List component="nav" aria-label="mailbox folders">
                   <Divider />
-                  {
-                    /**
+                  {/**
                      * Show admins disabled
                   <ListItem onClick={() => setShowAdminList(true)} button>
                     <ListItemText primary="Show Admins" />
                   </ListItem>
                   <Divider />
-                     */
-                  }
-                 
-  
-                  <ListItem onClick={()=> setNewPostState({
-                    type: "Post",
-                    isOpen: true,
-                    ownerId: clubState.clubInfo.id,
-                    ownerType: TYPE_CLUB,
-                  })
-                  } button divider>
+                     */}
+
+                  <ListItem
+                    onClick={() =>
+                      setNewPostState({
+                        type: "Post",
+                        isOpen: true,
+                        ownerId: clubState.clubInfo.id,
+                        ownerType: TYPE_CLUB,
+                      })
+                    }
+                    button
+                    divider
+                  >
                     <ListItemText primary="New Post" />
                   </ListItem>
+                  {isAdmin && (
+                    <ListItem
+                      onClick={() => setShowAdminList(true)}
+                      button
+                      divider
+                    >
+                      <ListItemText primary="Hand Over Management" />
+                    </ListItem>
+                  )}
                 </List>
               </div>
             )}
@@ -165,30 +175,37 @@ const MainClubPage = () => {
           <NewPostModal modalState={newPostState} setModal={setNewPostState} />
         )}
         {newClubPostState && (
-          <NewPostModal modalState={newClubPostState} setModal={setNewClubPostState} />
+          <NewPostModal
+            modalState={newClubPostState}
+            setModal={setNewClubPostState}
+          />
         )}
         {settings && (
-          <ClubSettingsModal 
-          mainState={mainState}
-          settings={settings}
-          setSettings={setSettings}
-          clubState={clubState}
-          setClubState={setClubState} 
+          <ClubSettingsModal
+            mainState={mainState}
+            settings={settings}
+            setSettings={setSettings}
+            clubState={clubState}
+            setClubState={setClubState}
           />
         )}
 
-          {/**
+        {/**
            responsive club menu
            */}
         <div className={classes.CenterTopUserInfoWrapper}>
           <div className={classes.CenterTopUserInfoLeftSide}>
             <div className={classes.CenterTopUserInfoLeftSideAvatarWrapper}>
-              <UserAvatarResponsive profileImgId={clubState.clubInfo?.profileImgId}/>
+              <UserAvatarResponsive
+                profileImgId={clubState.clubInfo?.profileImgId}
+              />
             </div>
             <div className={classes.CenterTopButtonWrapper}>
               {isAdmin && (
                 <Button
-                  onClick={() => setSettings({  ...clubState.clubInfo,isopen: true })}
+                  onClick={() =>
+                    setSettings({ ...clubState.clubInfo, isopen: true })
+                  }
                   className={classes.CenterTopButton}
                   endIcon={<EditIcon className={classes.CenterTopEditIcon} />}
                 >
@@ -196,7 +213,7 @@ const MainClubPage = () => {
                 </Button>
               )}
 
-              {isAdmin === false  && isMember === false && (
+              {isAdmin === false && isMember === false && (
                 <Button
                   className={classes.CenterTopButton}
                   onClick={handleJoin}
@@ -204,7 +221,7 @@ const MainClubPage = () => {
                   Join
                 </Button>
               )}
-              {isAdmin === false  && isMember === true && (
+              {isAdmin === false && isMember === true && (
                 <Button
                   className={classes.CenterTopButton}
                   onClick={handleLeave}
@@ -212,18 +229,16 @@ const MainClubPage = () => {
                   Leave
                 </Button>
               )}
-              {
-                /*
+              {/*
               isAdmin === false && isMember === true && (
                 <Button color="error" onClick={() => console.log("leave club")}>
                   Leave
                 </Button>
               )
-              */
-              }
+              */}
             </div>
           </div>
-          
+
           <div className={classes.CenterTopUserInfoRightSide}>
             <div className={classes.CenterTopUserInfoRightSideUserName}>
               {clubState.clubInfo?.name}
@@ -234,7 +249,7 @@ const MainClubPage = () => {
 
             <div className={classes.CenterTopUserInfoRightSideFollowWrapper}>
               <div className={classes.CenterTopUserInfoRightSideFollowInfo}>
-              {clubState.clubInfo?.countFollower + " Members"}
+                {clubState.clubInfo?.countFollower + " Members"}
               </div>
             </div>
             {/*
@@ -248,8 +263,7 @@ const MainClubPage = () => {
                 </Button>
                 </div>
               )
-              */
-              }
+              */}
           </div>
         </div>
         {isAdmin && (
@@ -260,6 +274,7 @@ const MainClubPage = () => {
             setJoinReqList={setJoinReqList}
             setNewPostState={setNewPostState}
             ownerId={clubState.clubInfo.id}
+            
           />
         )}
         <MyTabs tab={tab} setTab={setTab} />

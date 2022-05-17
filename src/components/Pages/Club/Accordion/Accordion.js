@@ -101,6 +101,15 @@ export default function CustomizedAccordions({
             >
               <ListItemText primary="New Post" />
             </ListItem>
+            
+            <ListItem
+              onClick={() => {
+                setShowAdminList(true);
+              }}
+              button
+            >
+              <ListItemText primary="Hand Over Management" />
+            </ListItem>
           </List>
         </AccordionDetails>
       </Accordion>

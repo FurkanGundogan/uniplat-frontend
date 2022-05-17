@@ -259,6 +259,12 @@ const MainClubStyles = makeStyles((theme) => ({
   AdminListModalTitle: {
     padding: "14px 8px !important",
   },
+  selectedUserForAdmin:{
+    marginTop:"24px",
+    alignSelf:"center",
+    textAlign:"-webkit-center",
+    minHeight:"70px",
+  },
 
   "@global": {
     body: {
