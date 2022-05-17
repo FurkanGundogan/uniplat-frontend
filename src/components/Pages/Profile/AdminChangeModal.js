@@ -89,7 +89,7 @@ export default function AdminChangeModal({
         <Divider />
         <div className="div" style={{ textAlign: "center", marginTop: "18px" }}>
           <Typography variant="h6" gutterBottom component="div">
-            Search For New Admin
+            Search Teacher For New Adminship
           </Typography>
         </div>
         <NewSearchBar setSelected={setSelected} />

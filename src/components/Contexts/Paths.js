@@ -28,3 +28,4 @@ export const URL_ACTIVITY_PARTICIPANTS="http://localhost:8080/activity-participa
 export const URL_POST_COMMENTS="http://localhost:8080/post-comments"
 export const URL_SEARCH="http://localhost:8080/searches"
 export const TYPE_POST="POST"
+export const TYPE_TEACHER="TEACHER"

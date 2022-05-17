@@ -5,7 +5,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { Avatar } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import useSearch from "./useSearch";
-import { TYPE_USER,TYPE_POST, URL_FILES } from "../../../Contexts/Paths";
+import { TYPE_POST, URL_FILES,TYPE_TEACHER } from "../../../Contexts/Paths";
 
 
 function NewSearchBar({ placeholder, data,setSelected }) {
@@ -63,7 +63,7 @@ function NewSearchBar({ placeholder, data,setSelected }) {
     // eslint-disable-next-line
   }, [text])
   
-  const [filters]=useState(TYPE_USER)
+  const [filters]=useState(TYPE_TEACHER)
   
   const goToSearch = () => {
     console.log("search with:",wordEntered)
@@ -130,7 +130,7 @@ function NewSearchBar({ placeholder, data,setSelected }) {
                 
               </Avatar>
                   <p className="name">{result?.name} </p>
-                  <p className="type">{result?.searchType} </p>
+                
                 </div>
               );
             }else{
@@ -150,7 +150,7 @@ function NewSearchBar({ placeholder, data,setSelected }) {
                 
               </Avatar>
                   <p className="name">{result?.name} </p>
-                  <p className="type">{result?.searchType} </p>
+                
                 </div>
               );
             }
