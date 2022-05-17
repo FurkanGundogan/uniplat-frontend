@@ -14,17 +14,22 @@ import GroupCard from "./GroupCard/GroupCard"
 import UniversityCard from "./UniversityCard/UniversityCard";
 import { blankavatar } from "../../Contexts/Paths";
 
-import {getUserClubs,getUserUniversities} from "./SocialInfoActions"
+import {getUserClubs,getUserUniversities,getUserUniversitiesAsAdmin,
+  getUserClubsAsAdmin} from "./SocialInfoActions"
 const MainSocialPage = () => {
   const mainState = useAuthState(); //read user details from context
  
   const [clubs,setClubs]=useState()
+  const [clubsAsAdmin,setClubsAsAdmin]=useState()
   const [universities,setUniversities]=useState()
+  const [universitiesAsAdmin,setUniversitiesAsAdmin]=useState()
+
   useEffect(()=>{
     getUserClubs(mainState.user.id,setClubs)
     getUserUniversities(mainState.user.id,setUniversities)
+    getUserUniversitiesAsAdmin(mainState.user.id,setUniversitiesAsAdmin)
+    getUserClubsAsAdmin(mainState.user.id,setClubsAsAdmin)
   },[mainState.user.id])
-
 
   const [createUniState, setCreateUniState] = useState();
   const [createClubState, setCreateClubState] = useState();
@@ -97,12 +102,13 @@ const MainSocialPage = () => {
             UNIVERSITIES
           </Typography>
           <Box sx={{ flexGrow: 1 }}>
+
             <Grid container className={classes.mygridcontainer} spacing={3}>
               {
                 universities!==undefined &&
                 universities.map((userUni,index)=>
                   <Grid key={index} item xs={6}  className={classes.mygrid}>
-                    <UniversityCard universityId={userUni.followId}/>
+                    <UniversityCard universityId={userUni.followId} universitiesAsAdmin={universitiesAsAdmin}/>
                   </Grid>
                 )
               }
@@ -122,7 +128,7 @@ const MainSocialPage = () => {
                 clubs!==undefined &&
                 clubs.map((userClub,index)=>
                   <Grid key={index} item xs={6}  className={classes.mygrid}>
-                    <GroupCard clubId={userClub.followId}/>
+                    <GroupCard clubId={userClub.followId} clubsAsAdmin={clubsAsAdmin}/>
                   </Grid>
                 )
               }

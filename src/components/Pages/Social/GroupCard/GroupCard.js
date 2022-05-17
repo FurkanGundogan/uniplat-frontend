@@ -10,14 +10,18 @@ import { useState,useEffect } from "react";
 import { getClubInfos,getClubUsersInfo } from "./GroupCardActions";
 import { URL_FILES } from "../../../Contexts/Paths";
 import {useAuthState } from "../../../Contexts";
-export default function RecipeReviewCard({clubId}) {
+import { Chip } from "@mui/material";
+import StarOutlineIcon from "@mui/icons-material/StarOutline";
+import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
+export default function RecipeReviewCard({clubId,clubsAsAdmin}) {
   const navigate = useNavigate();
   const mainState = useAuthState(); //read user details from context
 
   const [clubInfo,setClubInfo]=useState()
   const [clubUniInfo,setClubUniInfo]=useState()
   const [clubUsersInfo,setClubUsersInfo]=useState()
-console.log("ci:",clubUsersInfo)
+
+
   useEffect(() => {
     if (clubId !== undefined) {
       getClubInfos(clubId,setClubInfo,setClubUniInfo,mainState.user.id);
@@ -47,7 +51,25 @@ console.log("ci:",clubUsersInfo)
             C
           </Avatar>
         }
-  
+        action={clubInfo &&
+          clubsAsAdmin &&
+          clubsAsAdmin?.filter((e) => e.id === clubInfo?.id).length > 0 ?(
+              <div className="div" style={{ color: "black" }}>
+              <Chip
+              label="Admin"
+                variant="outlined"
+                color="warning"
+                icon={<StarOutlineIcon />}
+              />
+            </div>
+          ):  <div className="div" style={{ color: "black" }}>
+          <Chip
+          label="Member"
+            variant="outlined"
+            color="primary"
+            icon={<PersonOutlineIcon />}
+          />
+        </div>}
         title={clubInfo?clubInfo.name:"Title"}
         subheader={clubUniInfo?clubUniInfo.name:"University"}
       />
