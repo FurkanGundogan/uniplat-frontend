@@ -169,7 +169,7 @@ export default function DetailPostCard(props) {
                 navigate("/" + target + ownerId);
               }}
             >
-              {owner?.name[0]}
+              
             </Avatar>
           }
           action={
@@ -251,7 +251,7 @@ export default function DetailPostCard(props) {
             <span className={classes.LCSInfoText}>{commentCount} Comments</span>
           </div>
           <div className={classes.ShareInfo}>
-            <span className={classes.LCSInfoText}>{shareCount} Shares</span>
+            <span className={classes.LCSInfoText}></span>
           </div>
         </div>
         <Divider />

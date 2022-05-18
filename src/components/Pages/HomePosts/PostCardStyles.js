@@ -34,7 +34,7 @@ const PostCardStyles = makeStyles((theme) => ({
     marginLeft: "8px",
   },
   ShareInfo: {
-    marginRight: "8px",
+    marginRight: "42px",
   },
   CommentInfo: {},
   LCSInfoText: {

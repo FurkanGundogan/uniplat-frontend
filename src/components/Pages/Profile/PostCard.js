@@ -108,7 +108,7 @@ export default function PostCard(props) {
      
               }}
             >
-              asd
+              
             </Avatar>
           }
           action={
@@ -185,7 +185,7 @@ export default function PostCard(props) {
             <span className={classes.LCSInfoText}>{commentCount} Comments</span>
           </div>
           <div className={classes.ShareInfo}>
-            <span className={classes.LCSInfoText}>{0} Shares</span>
+            <span className={classes.LCSInfoText}></span>
           </div>
         </div>
         <Divider />
