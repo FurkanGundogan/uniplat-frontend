@@ -49,6 +49,7 @@ export default function PostCard(props) {
     postType,
     // postType,
      sharedPostId,
+     countComment,
     // lastModifiedAt
   } = props.post;
 
@@ -56,6 +57,7 @@ export default function PostCard(props) {
   
   const [isLiked,setIsLiked]=useState(likedByUser)
   const [likeCount,setLikeCount]=useState(countLike)
+  const [commentCount,setCommentCount]=useState(countComment)
   const handleLike=()=>{
     likeToggle(mainState.user.id,id,isLiked,setIsLiked,likeCount,setLikeCount)
 }
@@ -180,7 +182,7 @@ export default function PostCard(props) {
             <span className={classes.LCSInfoText}>{likeCount} Likes</span>
           </div>
           <div className={classes.CommentInfo}>
-            <span className={classes.LCSInfoText}>{0} Comments</span>
+            <span className={classes.LCSInfoText}>{commentCount} Comments</span>
           </div>
           <div className={classes.ShareInfo}>
             <span className={classes.LCSInfoText}>{0} Shares</span>
@@ -225,7 +227,7 @@ export default function PostCard(props) {
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <div className={classes.commentsAreaWrapper}>
             {
-              <CommentsArea postId={id}/>
+              <CommentsArea postId={id} setCommentCount={setCommentCount}/>
             }
               <Divider/>
           </div>

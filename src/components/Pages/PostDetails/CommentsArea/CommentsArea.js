@@ -5,7 +5,7 @@ import AllCommentsShowingMessage from "./AllCommentsShowingMessage";
 import useGetComments from "./useGetComments";
 import WriteCommentComponent from "../../HomePosts/WriteCommentComponent";
 import { Chip, Divider } from "@mui/material";
-function CommentsArea({ postId }) {
+function CommentsArea({ postId,setCommentCount }) {
   const [pageNumber, setPageNumber] = useState(0);
   const mainState = useAuthState(); //read user details from context
   const { comments, setComments, hasMore, loading } = useGetComments(
@@ -35,6 +35,7 @@ function CommentsArea({ postId }) {
           postId={postId}
           comments={comments}
           setComments={setComments}
+          setCommentCount={setCommentCount}
         />
       }
       {

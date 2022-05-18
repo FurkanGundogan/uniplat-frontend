@@ -8,7 +8,7 @@ import { URL_FILES, URL_POST_COMMENTS } from "../../Contexts/Paths";
 import axios from "axios";
 import { Avatar } from "@mui/material";
 import { red } from "@mui/material/colors";
-function WriteCommentComponent({postId,comments,setComments}) {
+function WriteCommentComponent({postId,comments,setComments,setCommentCount}) {
   const mainState = useAuthState(); //read user details from context
   const [comment,setComment]=useState("")
   const handleSendComment = () => {
@@ -25,6 +25,7 @@ function WriteCommentComponent({postId,comments,setComments}) {
   }).then(response=>{
     console.log("res:",response)
      setComments([response.data,...comments])
+     setCommentCount(prev=>prev+1)
       
   }).catch(error=>{
     console.log("comment send error")

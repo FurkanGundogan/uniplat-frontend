@@ -6,7 +6,7 @@ import { URL_POST_COMMENTS } from "../../../Contexts/Paths";
 import WriteCommentComponent from "../WriteCommentComponent";
 import Comment from "./Comment";
 import ShowMore from "./ShowMore"
-function CommentsArea({ postId }) {
+function CommentsArea({ postId,setCommentCount }) {
     const mainState = useAuthState(); //read user details from context
   const [comments, setComments] = useState();
   const [showMore, setShowMore] = useState(false);
@@ -40,6 +40,7 @@ function CommentsArea({ postId }) {
     <WriteCommentComponent postId={postId}
     comments={comments}
     setComments={setComments}
+    setCommentCount={setCommentCount}
     />}
     {
       <Divider sx={{marginBottom:"8px !important"}}>

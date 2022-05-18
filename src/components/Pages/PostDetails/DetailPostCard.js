@@ -64,11 +64,13 @@ export default function DetailPostCard(props) {
     activityLocationDescription,
     postType,
     sharedPostId,
+    countComment,
     // lastModifiedAt,
   } = props.post;
  
   const [isLiked, setIsLiked] = useState(likedByUser);
   const [likeCount, setLikeCount] = useState(countLike);
+  const [commentCount, setCommentCount] = useState(countComment);
   const handleLike = () => {
     likeToggle(
       mainState.user.id,
@@ -80,7 +82,7 @@ export default function DetailPostCard(props) {
     );
   };
 
-  let commentCount = 0;
+
   let shareCount = 0;
   const [owner, setOwner] = useState();
   useEffect(() => {
@@ -289,7 +291,7 @@ export default function DetailPostCard(props) {
         <Collapse in={true} timeout="auto" unmountOnExit>
           <div className={classes.commentsAreaWrapper}>
             {
-              <CommentsArea postId={id}/>
+              <CommentsArea postId={id} setCommentCount={setCommentCount}/>
             }
             <Divider />
           </div>
