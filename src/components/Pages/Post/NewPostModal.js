@@ -203,6 +203,7 @@ export default function NewPostModal({ modalState, setModal,owner,ownerType }) {
                     <EventBusyIcon />
                   )}
                 </ToggleButton>
+                {/*
                 <ToggleButton
                   value="check"
                   selected={modalState.type === "Survey"}
@@ -221,6 +222,9 @@ export default function NewPostModal({ modalState, setModal,owner,ownerType }) {
                 >
                   <ListIcon />
                 </ToggleButton>
+                */
+                }
+
                 <label htmlFor="icon-button-file">
                   <input
                     style={{ display: "none" }}
