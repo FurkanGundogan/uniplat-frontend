@@ -18,6 +18,7 @@ import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import { useAuthDispatch, logout } from "../Contexts";
 import { useState } from "react";
 import { PostsContext } from "../Pages/HomePosts/PostsContext";
+import InfoIcon from '@mui/icons-material/Info';
 export default function Navbar() {
   const [notificationState, setNotificationState] = useState({ isOpen: false });
   const {setPageNumber,setPosts,setClick}=React.useContext(PostsContext)
@@ -98,14 +99,18 @@ export default function Navbar() {
             </IconButton>
             <IconButton
               size="large"
-              aria-label="show 4 new mails"
+              aria-label="about"
               color="inherit"
+              onClick={(e) => {
+                
+                navigate("/About");
+              }}
+              
             >
-              <Badge badgeContent={4} color="error">
-                <MailIcon fontSize="large" />
-              </Badge>
+                <InfoIcon fontSize="large" />
             </IconButton>
             <IconButton
+              sx={{display:"none"}}
               size="large"
               aria-label="show 17 new notifications"
               color="inherit"

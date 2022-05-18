@@ -3,7 +3,6 @@ import Box from '@mui/material/Box';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import HomeIcon from '@mui/icons-material/Home';
-import MailIcon from '@mui/icons-material/Mail';
 import GroupsIcon from '@mui/icons-material/Groups';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import NavbarStyles from './NavbarStyles';
@@ -13,7 +12,7 @@ import { NewPostModalContext } from '../Contexts/NewPostModalContext';
 import { useNavigate,useLocation } from "react-router-dom";
 import { useAuthState } from '../Contexts';
 import { PostsContext } from '../Pages/HomePosts/PostsContext';
-
+import InfoIcon from '@mui/icons-material/Info';
 export default function NavbarBottom() {
   const {setPageNumber,setPosts,setClick}=React.useContext(PostsContext)
   const navigate = useNavigate();
@@ -49,7 +48,11 @@ export default function NavbarBottom() {
         }}
         />
 
-        <BottomNavigationAction icon={<MailIcon fontSize='large'/>} />
+        <BottomNavigationAction icon={<InfoIcon fontSize='large'/>} 
+        onClick={(e) => {  
+          navigate("/About",{state:{...location.state,bottomindex:1}});
+        }}
+        />
         <BottomNavigationAction 
         icon={<AddCircleOutlineIcon fontSize='large'/>}
         onClick={()=>{
@@ -60,7 +63,7 @@ export default function NavbarBottom() {
         onClick={()=>navigate("/social",{state:{...location.state,bottomindex:3}})}
         icon={<GroupsIcon fontSize='large'/>} />
 
-        <BottomNavigationAction icon={<NotificationsIcon 
+        <BottomNavigationAction sx={{display:"none"}} icon={<NotificationsIcon 
         onClick={()=>navigate("/notifications",{state:{...location.state,bottomindex:4}})} fontSize='large'/>} />
       </BottomNavigation>
     </Box>

@@ -20,6 +20,7 @@ import { ClubContextProvider } from "./components/Pages/Club/ClubContext";
 import { NewUniPostModalContextProvider } from "./components/Contexts/NewUniPostModalContext";
 import { NewClubPostModalContextProvider } from "./components/Contexts/NewClubPostModalContext";
 import ParentSearchPage from "./components/Pages/Search/ParentSearchPage";
+import ParentAboutPage from "./components/Pages/About/ParentAboutPage";
 
 function HomeRoute({ children }) {
   // homepage'e gidebilmek için login olmak gerekiyor, yoksa login sayfasına yönlendirir.
@@ -186,6 +187,15 @@ function AppWrapper() {
                   <ParentClubPage />
                 </NewClubPostModalContextProvider>
               </ClubContextProvider>
+            </HomeRoute>
+          }
+          exact
+        />
+        <Route
+          path="/About"
+          element={
+            <HomeRoute>
+              <ParentAboutPage />
             </HomeRoute>
           }
           exact
