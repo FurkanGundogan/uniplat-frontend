@@ -46,33 +46,51 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
   borderTop: "1px solid rgba(0, 0, 0, .125)",
 }));
 
-export default function CustomizedAccordions({setCreateUniState,setCreateClubState}) {
+export default function CustomizedAccordions({
+  setCreateUniState,
+  setCreateClubState,
+  isTeacher,
+}) {
   const [expanded, setExpanded] = React.useState(false);
-  // import { useAuthState } from "../../../Contexts"; const mainState = useAuthState(); 
-  const handleChange =()=> {
+  // import { useAuthState } from "../../../Contexts"; const mainState = useAuthState();
+  const handleChange = () => {
     setExpanded(!expanded);
   };
   const classes = MainProfileStyles();
   return (
     <div className={classes.responsiveAdminArea}>
       <Accordion
-        sx={{marginRight:"8px"}}
+        sx={{ marginRight: "8px" }}
         expanded={expanded}
         onChange={handleChange}
       >
         <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
           <Typography component="span">Teacher Panel</Typography>
         </AccordionSummary>
-        <AccordionDetails sx={{padding:"0px !important"}}>
-          <List sx={{padding:"0px !important"}} component="nav" aria-label="mailbox folders">
+        <AccordionDetails sx={{ padding: "0px !important" }}>
+          <List
+            sx={{ padding: "0px !important" }}
+            component="nav"
+            aria-label="mailbox folders"
+          >
             <ListItem button>
-              <ListItemText onClick={()=>setCreateClubState({isopen:true})} primary="Create Club" />
+              <ListItemText
+                onClick={() => setCreateClubState({ isopen: true })}
+                primary="Create Club"
+              />
             </ListItem>
             <Divider />
-            <ListItem onClick={()=>setCreateUniState({isopen:true})} button>
-              <ListItemText primary="Create University" />
-            </ListItem>
-            <Divider />
+            {isTeacher === true && (
+              <>
+                <ListItem
+                  onClick={() => setCreateUniState({ isopen: true })}
+                  button
+                >
+                  <ListItemText primary="Create University" />
+                </ListItem>
+                <Divider />
+              </>
+            )}
           </List>
         </AccordionDetails>
       </Accordion>

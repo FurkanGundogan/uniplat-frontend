@@ -1,0 +1,19 @@
+
+.searchForUni{
+   margin-top: 14px;
+    width: 100% !important;
+}
+.searchInputsForUni {
+    border: 1px solid #b7a6a6 !important;
+    background-color: rgb(189 191 191) !important;
+  }
+
+.dataResultForUni {
+    z-index: 5555 !important;
+    position: inherit !important;
+    width: 100% !important;
+    height: 200px !important;
+ 
+}
+
+

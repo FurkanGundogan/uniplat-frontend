@@ -9,7 +9,7 @@ import { ListItem } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
 import { useContext, useState } from "react";
 import { ProfileContext } from "../ProfileContext";
-import {TYPE_CLUB, URL_USERFOLLOWS} from "../../../Contexts/Paths"
+import {SIZE, TYPE_CLUB, URL_USERFOLLOWS} from "../../../Contexts/Paths"
 import axios from "axios";
 import { useEffect } from "react";
 function Memberships() {
@@ -28,7 +28,8 @@ function Memberships() {
           url: URL_USERFOLLOWS,
           params: {
             userId: profileState.userInfo.id,
-            followType:TYPE_CLUB
+            followType:TYPE_CLUB,
+            size:SIZE,
           },
         })
         .then((response) => {

@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { URL_USERFOLLOWS,TYPE_CLUB, TYPE_UNI, URL_UNIVERSITIES, URL_CLUBS } from '../../Contexts/Paths';
+import { URL_USERFOLLOWS,TYPE_CLUB, TYPE_UNI, URL_UNIVERSITIES, URL_CLUBS,SIZE } from '../../Contexts/Paths';
 
 export const getUserClubs = async (id,setClubs)=> {
     await axios({
@@ -8,9 +8,10 @@ export const getUserClubs = async (id,setClubs)=> {
         params: {
           userId: id,
           followType:TYPE_CLUB,
+          size:SIZE,
         },
       }).then((response) => {
-         
+         console.log("resss",response.data.content)
           setClubs(response.data.content);
         }).catch((e) => {
           console.log("user-clubs-get-error");
@@ -24,6 +25,7 @@ export const getUserUniversities = async (id,setUniversities)=> {
         params: {
           userId: id,
           followType:TYPE_UNI,
+          size:SIZE,
         },
       }).then((response) => {
         
@@ -39,6 +41,7 @@ export const getUserUniversitiesAsAdmin = async (id,setUniversitiesAsAdmin)=> {
       url: URL_UNIVERSITIES,
       params: {
         adminId: id,
+        size:SIZE,
       },
     }).then((response) => {
       
@@ -56,6 +59,7 @@ export const getUserClubsAsAdmin = async (id,setClubsAsAdmin)=> {
       headers:{"userId":id},
       params: {
         adminId: id,
+        size:SIZE,
       },
     }).then((response) => {
       

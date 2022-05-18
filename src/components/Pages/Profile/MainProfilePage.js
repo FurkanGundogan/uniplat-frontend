@@ -435,6 +435,8 @@ const MainProfilePage = () => {
           </div>
         </div>
  
+          {
+            uniid &&      
           <Acciordion
             createClubState={createClubState}
             setCreateClubState={setCreateClubState}
@@ -444,7 +446,7 @@ const MainProfilePage = () => {
             setShowAdminChange={setShowAdminChange}
             isAdmin={isAdmin}
           />
-        
+        }
 
         <MyTabs isUni={uniid} tab={tab} setTab={setTab} />
 

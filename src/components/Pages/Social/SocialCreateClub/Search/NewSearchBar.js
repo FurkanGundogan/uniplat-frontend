@@ -1,11 +1,11 @@
 import React, { useState,useEffect, useRef, useCallback } from "react";
-import "./NewSearchBarForAdminChange.css";
+import "./NewSearchBarForUni.css";
 import CloseIcon from '@mui/icons-material/Close';
 import SearchIcon from "@mui/icons-material/Search";
 import { Avatar } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import useSearch from "./useSearch";
-import { TYPE_POST, URL_FILES,TYPE_TEACHER } from "../../../Contexts/Paths";
+import { TYPE_POST, URL_FILES, TYPE_UNI } from "../../../../Contexts/Paths";
 
 
 function NewSearchBar({ placeholder, data,setSelected }) {
@@ -63,7 +63,7 @@ function NewSearchBar({ placeholder, data,setSelected }) {
     // eslint-disable-next-line
   }, [text])
   
-  const [filters]=useState(TYPE_TEACHER)
+  const [filters]=useState(TYPE_UNI)
   
   const goToSearch = () => {
     console.log("search with:",wordEntered)
@@ -92,8 +92,8 @@ function NewSearchBar({ placeholder, data,setSelected }) {
   
 
   return (
-    <div className="search searchForAdmin">
-      <div className="searchInputs searchInputsForAdmin">
+    <div className="search searchForUni">
+      <div className="searchInputs searchInputsForUni">
         <input
           type="text"
           placeholder={placeholder}
@@ -112,13 +112,14 @@ function NewSearchBar({ placeholder, data,setSelected }) {
         </div>
       </div>
       {results.length !== 0 && (
-        <div className="dataResult dataResultForAdmin">
+        <div className="dataResult dataResultForUni">
           {results.map((result, key) => {
             if (results.length === key + 1) {
               return (
                 <div className="dataItem" ref={lastPostElementRef} key={key} onClick={(e) => {
                   e.stopPropagation();
                   clearInput()
+
                   setSelected(result)
                  
                 }}>
@@ -130,6 +131,7 @@ function NewSearchBar({ placeholder, data,setSelected }) {
                 
               </Avatar>
                   <p className="name">{result?.name} </p>
+                  <p className="type">{result?.searchType} </p>
                 </div>
               );
             }else{
@@ -149,7 +151,7 @@ function NewSearchBar({ placeholder, data,setSelected }) {
                 
               </Avatar>
                   <p className="name">{result?.name} </p>
-                
+                  <p className="type">{result?.searchType} </p>
                 </div>
               );
             }

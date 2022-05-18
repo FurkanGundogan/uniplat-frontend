@@ -236,7 +236,18 @@ const ProfileSettingsModalStyles = makeStyles((theme) => ({
     cursor:"pointer",
     fontFamily:"'Exo 2'",
     color:"gray",
-  }
+  },
+  selectedUserForAdmin:{
+    marginTop:"24px",
+    alignSelf:"center",
+    textAlign:"-webkit-center",
+    minHeight:"70px",
+  },
+  searchTitle:{
+    fontSize:"14px",
+    textAlign:"center",
+    marginTop:"8px",
+  },
 }));
 
 export default ProfileSettingsModalStyles;

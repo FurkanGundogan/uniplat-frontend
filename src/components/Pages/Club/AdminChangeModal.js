@@ -10,10 +10,16 @@ import ListItem from "@mui/material/ListItem";
 import CloseIcon from "@mui/icons-material/Close";
 import MainClubStyles from "./MainClubStyles";
 import Divider from "@mui/material/Divider";
-import { Button,Typography } from "@mui/material";
-import { useState } from "react";
+import { Button, Typography } from "@mui/material";
+import { useState, useEffect } from "react";
 import NewSearchBar from "./Search/NewSearchBar";
-import { URL_CLUBS, URL_FILES } from "../../Contexts/Paths";
+import {
+  TYPE_CLUB,
+  URL_CLUBS,
+  URL_FILES,
+  URL_USERFOLLOWS,
+  URL_USERS,
+} from "../../Contexts/Paths";
 import axios from "axios";
 export default function AdminChangeModal({
   showAdminChange,
@@ -27,10 +33,9 @@ export default function AdminChangeModal({
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
- 
   const handleConfirm = () => {
     console.log(selected);
-    if (selected !== undefined && selected !== null) {
+    if (selected !== undefined && selected !== null && isSelectedFollower!==undefined && isSelectedFollower!==null) {
       console.log("clubInfo:", {
         ...clubState.clubInfo,
         adminId: selected.id,
@@ -46,6 +51,22 @@ export default function AdminChangeModal({
         .then((response) => {
           setClubState({ ...clubState, clubInfo: response.data });
           console.log("Club Update Response:", response);
+
+          if(isSelectedFollower===false){
+            axios(URL_USERFOLLOWS, {
+              method: "POST",
+              headers: { "Content-type": "application/json" },
+              data: {
+                userId:selected.id,
+                followType:TYPE_CLUB,
+                followId:clubState.clubInfo.id
+              },
+            }).then((r)=>{
+              console.log("change club admin set follow error")
+            })
+          }
+
+
           setShowAdminChange(false);
         })
         .catch((error) => {
@@ -53,6 +74,31 @@ export default function AdminChangeModal({
         });
     }
   };
+  const [isSelectedFollower, setIsSelectedFollower] = useState();
+  console.log("isSelectedFollower", isSelectedFollower);
+  useEffect(() => {
+    if ((selected !== undefined) && (selected !== null)) {
+      axios({
+        method: "GET",
+        url: URL_USERFOLLOWS,
+        params: {
+          userId: selected.id,
+          followType: TYPE_CLUB,
+          followId: clubState.clubInfo.id,
+        },
+      })
+        .then((response) => {
+          if (response.data.content.length > 0) {
+            setIsSelectedFollower(true);
+          } else {
+            setIsSelectedFollower(false);
+          }
+        })
+        .catch((error) => {
+          console.log("setIsSelectedFollower error", error);
+        });
+    }
+  }, [selected]);
 
   return (
     <div>

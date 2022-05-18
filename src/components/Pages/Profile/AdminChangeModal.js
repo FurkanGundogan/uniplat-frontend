@@ -11,9 +11,9 @@ import CloseIcon from "@mui/icons-material/Close";
 import MainProfileStyles from "./MainProfileStyles";
 import Divider from "@mui/material/Divider";
 import { Button, Typography } from "@mui/material";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import NewSearchBar from "./Search/NewSearchBar";
-import { URL_FILES, URL_UNIVERSITIES } from "../../Contexts/Paths";
+import { TYPE_UNI, URL_FILES, URL_UNIVERSITIES, URL_USERFOLLOWS } from "../../Contexts/Paths";
 import axios from "axios";
 export default function AdminChangeModal({
   showAdminChange,
@@ -26,11 +26,11 @@ export default function AdminChangeModal({
   const classes = MainProfileStyles();
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
- 
+
 
   const handleConfirm = () => {
     console.log(selected);
-    if (selected !== undefined && selected !== null) {
+    if (selected !== undefined && selected !== null && isSelectedFollower!==undefined && isSelectedFollower!==null) {
       console.log("id:", profileState.userInfo.id);
       console.log("mainUserId:", mainUserId);
       console.log("userInfo:", {
@@ -55,6 +55,22 @@ export default function AdminChangeModal({
         .then((response) => {
           setProfileState({ ...profileState, userInfo: response.data });
           console.log("Uni Update Response:", response);
+
+          if(isSelectedFollower===false){
+            axios(URL_USERFOLLOWS, {
+              method: "POST",
+              headers: { "Content-type": "application/json" },
+              data: {
+                userId:selected.id,
+                followType:TYPE_UNI,
+                followId:profileState.userInfo.id
+              },
+            }).then((r)=>{
+              console.log("change uni admin set follow error")
+            })
+          }
+
+
           setShowAdminChange(false);
         })
         .catch((error) => {
@@ -62,6 +78,34 @@ export default function AdminChangeModal({
         });
     }
   };
+
+
+  const [isSelectedFollower, setIsSelectedFollower] = useState();
+  console.log("isSelectedFollower uni", isSelectedFollower);
+  useEffect(() => {
+    if ((selected !== undefined) && (selected !== null)) {
+      axios({
+        method: "GET",
+        url: URL_USERFOLLOWS,
+        params: {
+          userId: selected.id,
+          followType: TYPE_UNI,
+          followId: profileState.userInfo.id,
+        },
+      })
+        .then((response) => {
+          if (response.data.content.length > 0) {
+            setIsSelectedFollower(true);
+          } else {
+            setIsSelectedFollower(false);
+          }
+        })
+        .catch((error) => {
+          console.log("setIsSelectedFollower Uni error", error);
+        });
+    }
+  }, [selected]);
+
 
   return (
     <div>
@@ -105,6 +149,7 @@ export default function AdminChangeModal({
                 }
               ></Avatar>
               <div className="name">{selected?.name} </div>
+             
             </>
           )}
         </div>

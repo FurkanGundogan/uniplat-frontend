@@ -18,7 +18,8 @@ import { save } from "./actions";
 import CropEasy from "./crop/CropEasy";
 import { Avatar } from "@mui/material";
 import SaveAsIcon from "@mui/icons-material/SaveAs";
-import { blankavatarurl } from "../../../Contexts/Paths";
+import { blankavatarurl, URL_FILES } from "../../../Contexts/Paths";
+import NewSearchBar from "./Search/NewSearchBar";
 const style = {
   position: "absolute",
 
@@ -36,13 +37,11 @@ export default function CreateClubModal({
   setSettings,
   adminId,
   profileImgId,
-  universityId,
 }) {
-
-  console.log("settings club modal:",settings)
+  console.log("settings club modal:", settings);
   const handleSend = async () => {
     if (validate()) {
-      save({ ...settings, adminId: adminId, universityId: universityId });
+      save({ ...settings, adminId: adminId, universityId: selected.id });
     } else {
       window.scrollTo(0, 0);
     }
@@ -57,6 +56,10 @@ export default function CreateClubModal({
       setAlert({ msg: "Enter Club Name", isOpen: true });
       return false;
     }
+    if (selected===undefined | selected===null) {
+      setAlert({ msg: "Select University", isOpen: true });
+      return false;
+    }
     /*
     if (!validateAbout(settings.about)) {
       setAlert({ msg: "Fill the About", isOpen: true });
@@ -67,8 +70,19 @@ export default function CreateClubModal({
   };
 
   const [alertState, setAlert] = useState({ msg: "", isOpen: false });
-
+  const [selected, setSelected] = useState();
+  console.log("selected:", selected);
   const classes = CreateClubModalStyles();
+
+  React.useEffect(()=>{
+    if(selected!==undefined | selected !==null){
+      setSettings({
+        ...settings,
+
+      })
+    }
+    // eslint-disable-next-line
+  },[selected])
 
   return (
     <div>
@@ -138,16 +152,14 @@ export default function CreateClubModal({
                   />
                 </label>
 
-                {
-                settings?.selectedFile !== undefined &&
-                settings?.selectedFile !== null &&
-                  (
+                {settings?.selectedFile !== undefined &&
+                  settings?.selectedFile !== null && (
                     <div
                       className={classes.RemovePhotoText}
                       onClick={() => {
                         setSettings({
                           ...settings,
-                          originalFile:null,
+                          originalFile: null,
                           selectedFile: null,
                           cropModalOpen: false,
                         });
@@ -175,6 +187,7 @@ export default function CreateClubModal({
                 </div>
               )}
               <div className={classes.inputAreaWrapper}>
+               
                 <TextField
                   id="multiline-static"
                   placeholder="Name"
@@ -183,6 +196,25 @@ export default function CreateClubModal({
                     setSettings({ ...settings, name: e.target.value });
                   }}
                 />
+                <div className={classes.searchTitle}>Select University For Club</div>
+                 <NewSearchBar setSelected={setSelected} />
+               
+                <div className={classes.selectedUserForAdmin}>
+                  {selected && (
+                    <>
+                      
+                      <Avatar
+                        sx={{ bgcolor: "#aaa3a2", marginLeft: "8px" }}
+                        aria-label="recipe"
+                        src={
+                          selected?.profileImgId &&
+                          URL_FILES + "/" + selected?.profileImgId
+                        }
+                      ></Avatar>
+                      <div className="name">{selected?.name} </div>
+                    </>
+                  )}
+                </div>
                 {/*
                 <TextField
                   id="multiline-static"

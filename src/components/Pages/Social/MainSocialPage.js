@@ -10,30 +10,34 @@ import "react-awesome-lightbox/build/style.css";
 import CreateUniModal from "./SocialCreateUni/CreateUniModal";
 import Acciordion from "./Accordion/Accordion";
 import Box from "@mui/material/Box";
-import GroupCard from "./GroupCard/GroupCard"
+import GroupCard from "./GroupCard/GroupCard";
 import UniversityCard from "./UniversityCard/UniversityCard";
 import { blankavatar } from "../../Contexts/Paths";
 
-import {getUserClubs,getUserUniversities,getUserUniversitiesAsAdmin,
-  getUserClubsAsAdmin} from "./SocialInfoActions"
+import {
+  getUserClubs,
+  getUserUniversities,
+  getUserUniversitiesAsAdmin,
+  getUserClubsAsAdmin,
+} from "./SocialInfoActions";
 const MainSocialPage = () => {
   const mainState = useAuthState(); //read user details from context
- 
-  const [clubs,setClubs]=useState()
-  const [clubsAsAdmin,setClubsAsAdmin]=useState()
-  const [universities,setUniversities]=useState()
-  const [universitiesAsAdmin,setUniversitiesAsAdmin]=useState()
 
-  useEffect(()=>{
-    getUserClubs(mainState.user.id,setClubs)
-    getUserUniversities(mainState.user.id,setUniversities)
-    getUserUniversitiesAsAdmin(mainState.user.id,setUniversitiesAsAdmin)
-    getUserClubsAsAdmin(mainState.user.id,setClubsAsAdmin)
-  },[mainState.user.id])
+  const [clubs, setClubs] = useState();
+  const [clubsAsAdmin, setClubsAsAdmin] = useState();
+  const [universities, setUniversities] = useState();
+  const [universitiesAsAdmin, setUniversitiesAsAdmin] = useState();
+
+  useEffect(() => {
+    getUserClubs(mainState.user.id, setClubs);
+    getUserUniversities(mainState.user.id, setUniversities);
+    getUserUniversitiesAsAdmin(mainState.user.id, setUniversitiesAsAdmin);
+    getUserClubsAsAdmin(mainState.user.id, setClubsAsAdmin);
+  }, [mainState.user.id]);
 
   const [createUniState, setCreateUniState] = useState();
   const [createClubState, setCreateClubState] = useState();
-  const [isTeacher] = useState(mainState.user.type==="TEACHER");
+  const [isTeacher] = useState(mainState.user.type === "TEACHER");
   const classes = MainSocialPageStyles();
   return (
     <Grid container className={classes.HomeContainer}>
@@ -47,8 +51,9 @@ const MainSocialPage = () => {
           </ListItem>
 
           <Divider />
-          {isTeacher && (
-            <List component="nav" aria-label="mailbox folders">
+          <List component="nav" aria-label="mailbox folders">
+            {isTeacher && (
+              <>
               <ListItem
                 onClick={() => setCreateUniState({ isopen: true })}
                 button
@@ -56,32 +61,32 @@ const MainSocialPage = () => {
                 <ListItemText primary="Create University" />
               </ListItem>
               <Divider />
-              <ListItem
-                onClick={() => setCreateClubState({ isopen: true })}
-                button
-              >
-                <ListItemText primary="Create Club" />
-              </ListItem>
-            </List>
-          )}
+              </>
+            )}
+            
+            <ListItem
+              onClick={() => setCreateClubState({ isopen: true })}
+              button
+            >
+              <ListItemText primary="Create Club" />
+            </ListItem>
+          </List>
         </div>
       </Grid>
-      
+
       <Grid item className={classes.Center}>
-      {isTeacher && (
+        {(
           <Acciordion
-          
             setCreateUniState={setCreateUniState}
             setCreateClubState={setCreateClubState}
+            isTeacher={isTeacher}
           />
         )}
         {createUniState && (
           <CreateUniModal
-           
             settings={createUniState}
             setSettings={setCreateUniState}
             adminId={mainState.user.id}
-           
           />
         )}
         {createClubState && (
@@ -89,12 +94,11 @@ const MainSocialPage = () => {
             settings={createClubState}
             setSettings={setCreateClubState}
             adminId={mainState.user.id}
-            universityId={mainState.user.universityId}
             profileImgId={blankavatar}
           />
         )}
         <div className={classes.SocialCenterInner}>
-        <Typography
+          <Typography
             variant="h5"
             sx={{ padding: "14px" }}
             color="text.primary"
@@ -102,19 +106,19 @@ const MainSocialPage = () => {
             UNIVERSITIES
           </Typography>
           <Box sx={{ flexGrow: 1 }}>
-
             <Grid container className={classes.mygridcontainer} spacing={3}>
-              {
-                universities!==undefined &&
-                universities.map((userUni,index)=>
-                  <Grid key={index} item xs={6}  className={classes.mygrid}>
-                    <UniversityCard universityId={userUni.followId} universitiesAsAdmin={universitiesAsAdmin}/>
+              {universities !== undefined &&
+                universities.map((userUni, index) => (
+                  <Grid key={index} item xs={6} className={classes.mygrid}>
+                    <UniversityCard
+                      universityId={userUni.followId}
+                      universitiesAsAdmin={universitiesAsAdmin}
+                    />
                   </Grid>
-                )
-              }
+                ))}
             </Grid>
           </Box>
-          
+
           <Typography
             variant="h5"
             sx={{ padding: "14px" }}
@@ -124,14 +128,15 @@ const MainSocialPage = () => {
           </Typography>
           <Box sx={{ flexGrow: 1 }}>
             <Grid container className={classes.mygridcontainer} spacing={3}>
-              {
-                clubs!==undefined &&
-                clubs.map((userClub,index)=>
-                  <Grid key={index} item xs={6}  className={classes.mygrid}>
-                    <GroupCard clubId={userClub.followId} clubsAsAdmin={clubsAsAdmin}/>
+              {clubs !== undefined &&
+                clubs.map((userClub, index) => (
+                  <Grid key={index} item xs={6} className={classes.mygrid}>
+                    <GroupCard
+                      clubId={userClub.followId}
+                      clubsAsAdmin={clubsAsAdmin}
+                    />
                   </Grid>
-                )
-              }
+                ))}
             </Grid>
           </Box>
         </div>
