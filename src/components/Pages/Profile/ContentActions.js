@@ -9,7 +9,6 @@ export const alltabs={
   ProfilePostArea:<ProfilePostArea/>,
   Followers:<Followers/>,
   ProfileEventArea:<ProfileEventArea/>,
-  SURVEYS:"SURVEYS",
   Clubs:<Clubs/>,
   Memberships:<Memberships/>
 }
@@ -23,11 +22,8 @@ export const GetContent = (index,useriid,uniid) => {
 
       case 1:
         return <ProfileEventArea />;
-
-      case 2:
-        return "SURVEYS";
   
-      case 3:
+      case 2:
         return <Memberships/>;
   
       default:
@@ -48,9 +44,6 @@ export const GetContent = (index,useriid,uniid) => {
         return <ProfileEventArea />;
   
       case 3:
-        return "SURVEYS";
-  
-      case 4:
         return (<Clubs/>);
   
       default:

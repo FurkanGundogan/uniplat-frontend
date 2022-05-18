@@ -12,9 +12,6 @@ export const getContent = (index) => {
       return <ClubEventArea/>;
       
     case 2:
-      return "SURVEYS"
-      
-    case 3:
       return <Members/>;
       
     default:

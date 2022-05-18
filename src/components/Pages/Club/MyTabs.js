@@ -40,7 +40,6 @@ export default function MyTabs({tab,setTab}) {
       >
         <Tab label="Posts" />
         <Tab label="Events" />
-        <Tab label="Surveys" />
         <Tab label="Members" />
 
       </Tabs>

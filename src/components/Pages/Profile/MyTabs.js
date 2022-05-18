@@ -42,7 +42,6 @@ export default function MyTabs({isUni,tab,setTab}) {
         <Tab label="Posts" />
         {isUni!==undefined&&<Tab label="Followers" />}
         <Tab label="Events" />
-        <Tab label="Surveys" />
         {isUni!==undefined&&<Tab label="Clubs" />}
         {isUni===undefined&&<Tab label="Memberships" />}
 
