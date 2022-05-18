@@ -57,7 +57,7 @@ function ClubItem({ user, i }) {
                   {user?.description}
                 </Typography>
                 <div className={classes.searchItemInner}>
-                  {" — " + owner?.countFollower + " Followers "}
+                  {" — " + owner?.countFollower + " Members "}
                   {owner?.followedByUser === true && (
                     <div className={classes.searchItemBottomFollowing}>
                       <CheckCircleIcon fontSize={"18px"} />
