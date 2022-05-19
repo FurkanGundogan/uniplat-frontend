@@ -16,6 +16,7 @@ import { NewPostModalContext } from "../../Contexts/NewPostModalContext";
 import { UserExtraInfoContext } from "../../Contexts/UserExtraInfoContext";
 import PostArea from "../HomePosts/PostArea";
 import "react-awesome-lightbox/build/style.css";
+import RightSide from "../RightSide/RightSide";
 
 const MainHomePage = () => {
   const dispatch = useAuthDispatch(); // read dispatch method from context
@@ -102,15 +103,7 @@ const MainHomePage = () => {
       </Grid>
       <Grid item className={classes.RightSide}>
         <div className={classes.rightSideInner}>
-          <Typography variant="body1" className={classes.UserDept}>
-            Right Side
-          </Typography>
-          <Typography variant="body1" className={classes.UserDept}>
-            Right Side
-          </Typography>
-          <Typography variant="body1" className={classes.UserDept}>
-            Right Side
-          </Typography>
+          <RightSide/>
         </div>
       </Grid>
     </Grid>

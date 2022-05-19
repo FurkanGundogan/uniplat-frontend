@@ -29,10 +29,11 @@ export default function AdminChangeModal({
 
 
   const handleConfirm = () => {
-    console.log(selected);
+    //console.log(selected);
     if (selected !== undefined && selected !== null && isSelectedFollower!==undefined && isSelectedFollower!==null) {
-      console.log("id:", profileState.userInfo.id);
-      console.log("mainUserId:", mainUserId);
+      //console.log("id:", profileState.userInfo.id);
+      //console.log("mainUserId:", mainUserId);
+      /*
       console.log("userInfo:", {
         adminId: selected.id,
         name:profileState.userInfo.name,
@@ -40,7 +41,7 @@ export default function AdminChangeModal({
         profileImgId:profileState.userInfo.profileImgId,
         version:profileState.userInfo.version,
       });
-      
+      */
       axios(URL_UNIVERSITIES + "/" + profileState.userInfo.id, {
         method: "PUT",
         headers: { "Content-type": "application/json", userId: mainUserId },
@@ -54,7 +55,7 @@ export default function AdminChangeModal({
       })
         .then((response) => {
           setProfileState({ ...profileState, userInfo: response.data });
-          console.log("Uni Update Response:", response);
+          //console.log("Uni Update Response:", response);
 
           if(isSelectedFollower===false){
             axios(URL_USERFOLLOWS, {
@@ -81,7 +82,7 @@ export default function AdminChangeModal({
 
 
   const [isSelectedFollower, setIsSelectedFollower] = useState();
-  console.log("isSelectedFollower uni", isSelectedFollower);
+  // console.log("isSelectedFollower uni", isSelectedFollower);
   useEffect(() => {
     if ((selected !== undefined) && (selected !== null)) {
       axios({
@@ -104,6 +105,7 @@ export default function AdminChangeModal({
           console.log("setIsSelectedFollower Uni error", error);
         });
     }
+    // eslint-disable-next-line
   }, [selected]);
 
 

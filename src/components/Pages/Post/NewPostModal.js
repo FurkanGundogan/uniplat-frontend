@@ -10,7 +10,6 @@ import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import ToggleButton from "@mui/material/ToggleButton";
 import EventAvailableIcon from "@mui/icons-material/EventAvailable";
 import EventBusyIcon from "@mui/icons-material/EventBusy";
-import ListIcon from "@mui/icons-material/List";
 import NewSurvey from "./NewSurvey";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import ClearIcon from "@mui/icons-material/Clear";

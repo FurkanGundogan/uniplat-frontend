@@ -32,7 +32,7 @@ const style = {
 };
 
 export default function CreateUniModal({settings, setSettings,  adminId}) {
-  console.log("settings cre uni :",settings)
+  // console.log("settings cre uni :",settings)
   const handleSend = async () => {
     if (validate()) {
       save({ ...settings, adminId: adminId });
@@ -111,7 +111,7 @@ export default function CreateUniModal({settings, setSettings,  adminId}) {
                         });
                         return;
                       }
-                      console.log("w:" + e.target.files[0].width);
+                      // console.log("w:" + e.target.files[0].width);
                       setSettings({
                         ...settings,
                         originalFile: e.target.files[0],

@@ -23,7 +23,7 @@ function WriteCommentComponent({postId,comments,setComments,setCommentCount}) {
         comment
       }
   }).then(response=>{
-    console.log("res:",response)
+    // console.log("res:",response)
      setComments([response.data,...comments])
      setCommentCount(prev=>prev+1)
       

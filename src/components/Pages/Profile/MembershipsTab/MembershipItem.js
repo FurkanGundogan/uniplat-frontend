@@ -12,7 +12,7 @@ function MembershipItem({membership}) {
     const [club, setclub] = useState();
     const [clubUsers,setClubUsers]=useState();
     const mainState = useAuthState(); //read user details from context
-    console.log("membership :",membership)
+    // console.log("membership :",membership)
     useEffect(() => {
       
         const setClubDetail = async () => {
@@ -42,7 +42,7 @@ function MembershipItem({membership}) {
                 followType:TYPE_CLUB,
             }
         }).then((response) => {
-              console.log("res:",response)
+              // console.log("res:",response)
               setClubUsers(response.data.content);
             })
             .catch((e) => {

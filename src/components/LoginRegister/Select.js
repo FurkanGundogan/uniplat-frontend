@@ -12,7 +12,7 @@ export default function MySelect(props) {
   const classes = InputStyles();
   const { name, label, value, error = null, onChange, options } = props;
   /*eslint-disable */
-console.log("opt",options)
+//console.log("opt",options)
   return (
     <FormControl
       variant="outlined"

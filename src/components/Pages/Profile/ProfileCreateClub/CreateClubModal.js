@@ -39,7 +39,7 @@ export default function CreateClubModal({
   universityId,
 }) {
 
-  console.log("settings club modal:",settings)
+  // console.log("settings club modal:",settings)
   const handleSend = async () => {
     if (validate()) {
       save({ ...settings, adminId: adminId, universityId: universityId });
@@ -117,7 +117,7 @@ export default function CreateClubModal({
                         });
                         return;
                       }
-                      console.log("w:" + e.target.files[0].width);
+                      // console.log("w:" + e.target.files[0].width);
                       setSettings({
                         ...settings,
                         originalFile: e.target.files[0],

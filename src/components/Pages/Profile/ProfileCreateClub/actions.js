@@ -46,12 +46,14 @@ const createWithUploadedImageId = (
     data: bodyFormData,
   })
     .then((fileresponse) => {
+      /*
       console.log("Club create w image data", {
         name,
         universityId,
         adminId,
         profileImgId: fileresponse.data.id,
       });
+      */
       axios(URL_CLUBS, {
         method: "POST",
         header: { "Content-type": "application/json" },
@@ -63,7 +65,7 @@ const createWithUploadedImageId = (
         },
       })
         .then((response) => {
-          console.log("Club Created w file ", response);
+          // ("Club Created w file ", response);
           // Admin is the first member of club
           PostToUserFollow(response.data.id,adminId)
         })
@@ -77,19 +79,21 @@ const createWithUploadedImageId = (
 };
 
 const createWithBlankImageId = (name, universityId, adminId) => {
+  /*
   console.log("club create standard data:", {
     name,
     universityId,
     adminId,
     
   });
+  */
   axios(URL_CLUBS, {
     method: "POST",
     header: { "Content-type": "application/json" },
     data: { name, universityId, adminId },
   })
     .then((response) => {
-      console.log("Club Created Response:", response);
+      //console.log("Club Created Response:", response);
       // Admin is the first member of club
       PostToUserFollow(response.data.id,adminId)
     })
@@ -110,7 +114,7 @@ const PostToUserFollow= (clubId,userId) => {
       followType:TYPE_CLUB
     },
   }).then((response) => {
-    console.log("Posted Succes To UserFollow ", response);
+    //console.log("Posted Succes To UserFollow ", response);
     goToNewUniPage(clubId)
   });
 };

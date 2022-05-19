@@ -59,14 +59,14 @@ function NewSearchBar({ placeholder, data,setSelected }) {
   useEffect(() => {
     // her yeni textte aramalar temizlenmekte
     setResults([])
-    console.log("text set oldu sonuclar:",results)
+    // console.log("text set oldu sonuclar:",results)
     // eslint-disable-next-line
   }, [text])
   
   const [filters]=useState(TYPE_USER)
   
   const goToSearch = () => {
-    console.log("search with:",wordEntered)
+    // console.log("search with:",wordEntered)
     navigate("/search?filters="+filters+","+TYPE_POST+"&text="+wordEntered+"&page="+pageNumber+"&size=10")
     clearInput()
    };
@@ -157,18 +157,7 @@ function NewSearchBar({ placeholder, data,setSelected }) {
             }
            
           })}
-          {/*
-              <Button variant="text" fullWidth
-              startIcon={<SearchIcon />}
-              sx={{marginBottom:"6px !important"}}
-              onClick={(e)=>{
-                  e.stopPropagation()
-                  console.log("Search all")
-                  goToSearch()
-              }}
-              >See All Results</Button>
-              */
-          }
+
         </div>
       )}
     </div>

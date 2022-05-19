@@ -20,7 +20,7 @@ function Members() {
   const navigate = useNavigate();
   const [clubMembers, setClubMembers] = useState();
 
-  console.log("buradaki Members:", clubID, clubMembers);
+  // console.log("buradaki Members:", clubID, clubMembers);
   useEffect(() => {
     const setMembers = async () => {
         await axios({

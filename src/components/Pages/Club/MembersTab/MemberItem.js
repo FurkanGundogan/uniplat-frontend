@@ -11,7 +11,7 @@ import axios from "axios"
 function ClubItem({member}) {
     const [memberDetails, setMemberDetails] = useState();
     const mainState = useAuthState(); //read user details from context
-    console.log(" uye :",memberDetails)
+    // console.log(" uye :",memberDetails)
     
     useEffect(() => {
       

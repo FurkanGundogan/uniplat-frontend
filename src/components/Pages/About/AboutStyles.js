@@ -34,6 +34,15 @@ const AboutStyles = makeStyles((theme) => ({
     fontSize:"20px !important",
     textAlign:"center"
   },
+  imageWrapper:{
+    textAlign:"center",
+   
+  },
+  image:{
+    width:"300px",
+    borderRadius:"24px"
+  }
+
 
 }));
 

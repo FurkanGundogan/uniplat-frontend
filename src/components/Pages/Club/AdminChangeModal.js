@@ -18,7 +18,6 @@ import {
   URL_CLUBS,
   URL_FILES,
   URL_USERFOLLOWS,
-  URL_USERS,
 } from "../../Contexts/Paths";
 import axios from "axios";
 export default function AdminChangeModal({
@@ -34,12 +33,9 @@ export default function AdminChangeModal({
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   const handleConfirm = () => {
-    console.log(selected);
+    // console.log(selected);
     if (selected !== undefined && selected !== null && isSelectedFollower!==undefined && isSelectedFollower!==null) {
-      console.log("clubInfo:", {
-        ...clubState.clubInfo,
-        adminId: selected.id,
-      });
+
       axios(URL_CLUBS + "/" + clubState.clubInfo.id, {
         method: "PUT",
         headers: { "Content-type": "application/json", userId: mainUserId },
@@ -75,7 +71,7 @@ export default function AdminChangeModal({
     }
   };
   const [isSelectedFollower, setIsSelectedFollower] = useState();
-  console.log("isSelectedFollower", isSelectedFollower);
+  
   useEffect(() => {
     if ((selected !== undefined) && (selected !== null)) {
       axios({
@@ -98,6 +94,7 @@ export default function AdminChangeModal({
           console.log("setIsSelectedFollower error", error);
         });
     }
+    // eslint-disable-next-line
   }, [selected]);
 
   return (

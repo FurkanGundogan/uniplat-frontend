@@ -20,6 +20,8 @@ import {
   getUserUniversitiesAsAdmin,
   getUserClubsAsAdmin,
 } from "./SocialInfoActions";
+import RightSide from "../RightSide/RightSide";
+import CircularProgressForTabs from "../Club/CircularProgressForTabs";
 const MainSocialPage = () => {
   const mainState = useAuthState(); //read user details from context
 
@@ -107,7 +109,7 @@ const MainSocialPage = () => {
           </Typography>
           <Box sx={{ flexGrow: 1 }}>
             <Grid container className={classes.mygridcontainer} spacing={3}>
-              {universities !== undefined &&
+              {universities !== undefined ?
                 universities.map((userUni, index) => (
                   <Grid key={index} item xs={6} className={classes.mygrid}>
                     <UniversityCard
@@ -115,7 +117,7 @@ const MainSocialPage = () => {
                       universitiesAsAdmin={universitiesAsAdmin}
                     />
                   </Grid>
-                ))}
+                )):<CircularProgressForTabs/>}
             </Grid>
           </Box>
 
@@ -128,7 +130,7 @@ const MainSocialPage = () => {
           </Typography>
           <Box sx={{ flexGrow: 1 }}>
             <Grid container className={classes.mygridcontainer} spacing={3}>
-              {clubs !== undefined &&
+              {clubs !== undefined ?
                 clubs.map((userClub, index) => (
                   <Grid key={index} item xs={6} className={classes.mygrid}>
                     <GroupCard
@@ -136,22 +138,14 @@ const MainSocialPage = () => {
                       clubsAsAdmin={clubsAsAdmin}
                     />
                   </Grid>
-                ))}
+                )):<CircularProgressForTabs/> }
             </Grid>
           </Box>
         </div>
       </Grid>
       <Grid item className={classes.RightSide}>
         <div className={classes.rightSideInner}>
-          <Typography variant="body1" className={classes.UserDept}>
-            Right Side
-          </Typography>
-          <Typography variant="body1" className={classes.UserDept}>
-            Right Side
-          </Typography>
-          <Typography variant="body1" className={classes.UserDept}>
-            Right Side
-          </Typography>
+        <RightSide/>
         </div>
       </Grid>
     </Grid>

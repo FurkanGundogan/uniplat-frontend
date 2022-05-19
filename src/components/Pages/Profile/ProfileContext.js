@@ -300,35 +300,7 @@ export const ProfileContextProvider = ({ children }) => {
     }
   }, [profileState.userInfo]); //eslint-disable-line
 
-  /*
-  useEffect(() => {
-    const setIsFollow = () => {
-      let item;
-      if (userid!==undefined) {
-        item = profileFollowers.filter((element) => {
-          console.log("elememtn:", element);
-          return element.userId === mainState.user.id;
-        });
-      }
-      if (uniid!==undefined) {
-        item = profileFollowers.filter((element) => {
-          console.log("elememtn:", element);
-          return element.userId === mainState.user.id;
-        });
-      }
 
-      if (item.length === 1) {
-        console.log("item: ", item);
-        setProfileState({ ...profileState, isFollow: true, followShip: item });
-      }else{
-        setProfileState({ ...profileState, isFollow: false, followShip: item });
-      }
-    };
-    if (profileFollowers !== undefined) {
-      setIsFollow();
-    }
-  }, [profileFollowers]); //eslint-disable-line
-*/
   //
 
   //// follows of user

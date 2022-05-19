@@ -86,7 +86,7 @@ export default function ProfileSettingsModal({ settings, setSettings,mainState,p
   
 
   const classes = ProfileSettingsModalStyles();
-  console.log("ss:",settings)
+  // console.log("ss:",settings)
   return (
     <div>
       <Modal

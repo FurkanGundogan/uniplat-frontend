@@ -32,11 +32,12 @@ import FollowersListModal from "./FollowersListModal/FollowersListModal";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import {TYPE_USER,TYPE_UNI} from "../../Contexts/Paths"
 import AdminChangeModal from "./AdminChangeModal";
+import RightSide from "../RightSide/RightSide";
 const MainProfilePage = () => {
   // const navigate = useNavigate();
   const [tab, setTab] = React.useState(0);
   const locstate = useLocation();
-  console.log("locstate",locstate)
+  // console.log("locstate",locstate)
   const mainState = useAuthState(); //read user details from context
  
 
@@ -54,7 +55,7 @@ const MainProfilePage = () => {
   } = useContext(ProfileContext);
   useEffect(()=>{
     setTab(0)
-    console.log("locstate.state:",locstate.state)
+    // console.log("locstate.state:",locstate.state)
     if(locstate.state===null){
       // burada yapılan aksiyon:
       // bir profil sayfasına yönlenme 2 türlü olmakta
@@ -454,15 +455,7 @@ const MainProfilePage = () => {
       </Grid>
       <Grid item className={classes.RightSide}>
         <div className={classes.rightSideInner}>
-          <Typography variant="body1" className={classes.UserDept}>
-            Right Side
-          </Typography>
-          <Typography variant="body1" className={classes.UserDept}>
-            Right Side
-          </Typography>
-          <Typography variant="body1" className={classes.UserDept}>
-            Right Side
-          </Typography>
+        <RightSide/>
         </div>
       </Grid>
     </Grid>

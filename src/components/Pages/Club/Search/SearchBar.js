@@ -71,54 +71,7 @@ import NewSeachBar from "./NewSeachBar"
 const SearchBar = () => {
 
   return <NewSeachBar placeholder={"Search"} data={top100Films}/>
-  /*
-  const [input,setInput]=useState("")
-  const onCompanyChange = (event, value, reason) => {
-    setInput(value)
-   };
-
-   const clickListElement = (value) => {
-     if(value!==null)
-      console.log("Go with click: ",value)
-   }
-   const CustomPopper = function (props) {
-    const classes = useStyles();
-    return <Popper {...props} className={classes.root} placement="bottom" />;
-  };
-  const classes = useStyles();
-  
-  return (
-    <Stack spacing={2} sx={{ width: 300 }}>
-      <Autocomplete
-        id="free-solo-demo"
-        open={input!==""}
-        clearIcon={<ClearIcon fontSize="small" />}
-        popupIcon={null}
-        PopperComponent={CustomPopper}
-        onInputChange={onCompanyChange}
-        onChange={(e, value) => clickListElement(value)}
-        options={top100Films}
-        getOptionLabel={(option) => option.title}
-        renderInput={(params) => <CssTextField 
-          {...params} 
-          hiddenLabel
-          sx={{ input: { color: 'white' } }} 
-          placeholder="Search"
-          value={input}
-          />}
-          noOptionsText={
-            <Button onMouseDown={() => {
-                console.log("CLICK SUCCESSFUL")
-                setInput("")
-            }}>
-              No results! Click to close
-            </Button>}
-      />
-  
-    </Stack>
-     )
-
- */
+ 
 }
 
 const top100Films = [

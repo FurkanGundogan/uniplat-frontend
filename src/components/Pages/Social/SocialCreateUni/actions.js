@@ -36,12 +36,14 @@ const createWithUploadedImageId = (name,description, adminId, bodyFormData) => {
     data: bodyFormData,
   })
     .then((fileresponse) => {
+      /*
       console.log("Create Uni data:", {
         name,
         description,
         adminId,
         profileImgId: fileresponse.data.id,
       });
+      */
       axios(URL_UNIVERSITIES, {
         method: "POST",
         header: { "Content-type": "application/json" },
@@ -53,7 +55,7 @@ const createWithUploadedImageId = (name,description, adminId, bodyFormData) => {
         },
       })
         .then((response) => {
-          console.log("Uni Created w file ", response);
+          // console.log("Uni Created w file ", response);
           // admin uni usersa eklenen ilk kişi
           PostToUserFollow(response.data.id,adminId)
         })
@@ -67,18 +69,20 @@ const createWithUploadedImageId = (name,description, adminId, bodyFormData) => {
 };
 
 const createWithBlankImageId = (name,description, adminId) => {
+  /*
   console.log("Create uni standart data:", {
     name,
     description,
     adminId,
   });
+  */
   axios(URL_UNIVERSITIES, {
     method: "POST",
     header: { "Content-type": "application/json" },
     data: { name,description, adminId },
   })
     .then((response) => {
-      console.log("Uni Created Response:", response);
+      // console.log("Uni Created Response:", response);
       // admin uni usersa eklenen ilk kişi
       PostToUserFollow(response.data.id,adminId)
     })
@@ -97,7 +101,7 @@ const PostToUserFollow= (universityId,userId) => {
       followType:TYPE_UNI
     },
   }).then((response) => {
-    console.log("Posted Succes To Uniusers ", response);
+    // console.log("Posted Succes To Uniusers ", response);
     goToNewUniPage(universityId)
   });
 };

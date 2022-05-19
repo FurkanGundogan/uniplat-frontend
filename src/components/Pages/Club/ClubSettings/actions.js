@@ -2,7 +2,7 @@ import axios from "axios";
 import { URL_FILES,URL_CLUBS } from "../../../Contexts/Paths";
 
 export const save = (settings, clubState, setClubState,mainState) => {
-  console.log("id:",mainState.user.id)
+  //console.log("id:",mainState.user.id)
   const { name,adminId, profileImgId,originalFile } = settings;
   
   const bodyFormData = getFile(originalFile);
@@ -18,7 +18,7 @@ export const save = (settings, clubState, setClubState,mainState) => {
     );
   } else {
     // görselli
-    console.log("es1:",name,adminId)
+    //console.log("es1:",name,adminId)
     editStandard(
       mainState,
       clubState,
@@ -55,11 +55,12 @@ const editWithUploadedImageId = (
     data: bodyFormData,
   })
     .then((fileresponse) => {
+      /*
       console.log("Edit Club w Image data:", {
         ...updatedClub,
         profileImgId: fileresponse.data.id,
       });
-
+      */
       axios(URL_CLUBS + "/" + updatedClub.id, {
         method: "PUT",
         headers: { "Content-type": "application/json","userId":mainState.user.id  },
@@ -78,14 +79,14 @@ const editWithUploadedImageId = (
 };
 
 const editStandard = (mainState,clubState, setClubState, name,adminId,profileImgId) => {
-  console.log("es:",name,adminId)
+  // console.log("es:",name,adminId)
   const updatedClub = {
     ...clubState.clubInfo,
     name: name,
     adminId:adminId,
     profileImgId:profileImgId
   };
-  console.log("Edit Club Standard data:", updatedClub);
+   // console.log("Edit Club Standard data:", updatedClub);
   // file yoksa direkt  update et
 
   axios(URL_CLUBS + "/" + updatedClub.id, {
@@ -95,7 +96,7 @@ const editStandard = (mainState,clubState, setClubState, name,adminId,profileImg
   })
     .then((response) => {
       setClubState({ ...clubState, clubInfo: response.data });
-      console.log("Club Update Response:", response);
+      // console.log("Club Update Response:", response);
     })
     .catch((error) => {
       console.log("Club Update Error",error);

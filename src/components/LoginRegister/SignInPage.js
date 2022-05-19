@@ -48,7 +48,7 @@ const SignInPage = (props) => {
   const dispatch = useAuthDispatch();
   const navigate = useNavigate();
   const validate = () => {
-    console.log("Remember me:", checked);
+    //console.log("Remember me:", checked);
     let control = true;
     if (
       (/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.+-]+\.edu.tr$/.test(email) === false) |
@@ -84,7 +84,7 @@ const SignInPage = (props) => {
             console.log("User Info Error:", response);
             setInputError(response.response.data.message);
           } else {
-            console.log("Login Success:", response);
+            //console.log("Login Success:", response);
             setInputError("");
             navigate("/Home");
           }

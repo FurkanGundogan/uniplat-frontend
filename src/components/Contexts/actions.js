@@ -12,7 +12,7 @@ export async function loginUser(dispatch, loginPayload) {
       },
     })
     .then((response) => {
-      console.log("İstek Sonucu:", response);
+      
       
       if (response.data) {
         dispatch({ type: "LOGIN_SUCCESS", payload: response.data });

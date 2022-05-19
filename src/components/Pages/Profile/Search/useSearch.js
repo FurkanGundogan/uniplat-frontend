@@ -18,7 +18,7 @@ function useSearch(text,filters,pageNumber,size,setResults) {
         if(str!=="" && str!==null && str!==undefined){
         str = str.trim().replace(/\s+/g, '&').toLowerCase();
         
-        console.log(str);
+        // console.log(str);
         setLoading(true)
         setError(false)
 
@@ -34,7 +34,7 @@ function useSearch(text,filters,pageNumber,size,setResults) {
             },
             cancelToken: new axios.CancelToken(c=>cancel=c)
         }).then(response=>{
-            console.log("gelenler:",response.data.content)
+            // console.log("gelenler:",response.data.content)
             setResults(prev=>[...prev,...response.data.content])
             setPage(response.data.page)
             setHasMore(response.data.content.length>0)

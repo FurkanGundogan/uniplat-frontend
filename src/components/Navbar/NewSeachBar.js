@@ -59,7 +59,7 @@ function NewSeachBar({ placeholder, data }) {
   const [filters]=useState(TYPE_USER+","+TYPE_UNI+","+TYPE_CLUB)
   
   const goToSearch = () => {
-    console.log("search with:",wordEntered)
+    //console.log("search with:",wordEntered)
     navigate("/search?filters="+filters+","+TYPE_POST+"&text="+wordEntered+"&page="+pageNumber+"&size=10")
     clearInput()
    };
@@ -136,7 +136,7 @@ function NewSeachBar({ placeholder, data }) {
               sx={{marginBottom:"6px !important"}}
               onClick={(e)=>{
                   e.stopPropagation()
-                  console.log("Search all")
+                   // console.log("Search all")
                   goToSearch()
               }}
               >See All Results</Button>

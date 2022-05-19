@@ -27,11 +27,11 @@ export default function RequestListModal({ showJoinReqList, setJoinReqList }) {
 
 
   const handleListItemDeleteClick = (value) => {
-    console.log("Rejected:",value);
+    //console.log("Rejected:",value);
   };
 
   const handleListItemAcceptClick = (value) => {
-    console.log("Accepted:",value);
+    //console.log("Accepted:",value);
   };
 
   

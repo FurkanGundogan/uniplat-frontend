@@ -148,14 +148,14 @@ const SignUpPage = () => {
       let mydate = values.birthDate;
       mydate.setTime(mydate.getTime() + 3 * 60 * 60 * 1000);
       let datestring = mydate.toISOString();
-      console.log("values:", values);
+      //console.log("values:", values);
       setTypeWithEmail(values.email);
       let yeniKayit = JSON.parse(JSON.stringify(values));
       yeniKayit.birthDate = datestring;
       yeniKayit.departmentId = "";
 
-      console.log("yeniKayit:", yeniKayit);
-      console.log(checked);
+      //console.log("yeniKayit:", yeniKayit);
+      //console.log(checked);
       // yeniKayit nesnesi gönderilecek
       window.scrollTo(0, 0);
       //post işlemi:
@@ -165,7 +165,7 @@ const SignUpPage = () => {
         data: yeniKayit,
       })
         .then((response) => {
-          console.log("Response:", response);
+          // console.log("Response:", response);
           handleResponse(response);
           setAlert(true);
           window.scrollTo(0, 0);
@@ -207,12 +207,12 @@ const SignUpPage = () => {
 
     if (event !== null) {
       event = new Date(event);
-      console.log(event);
+      //console.log(event);
       let myDate = event.toLocaleDateString();
       let dateArr = myDate.split(".");
-      console.log(event);
-      console.log(myDate);
-      console.log(dateArr);
+      //console.log(event);
+      //console.log(myDate);
+      //console.log(dateArr);
       //length < 3 : girilen tarih zaten bozuksa, component onu invalid olarak getiriyor
       // bu yüzden düzgün 3 elemanlı split olmamış oluyor ve direkt hatalı koşulu sağlıyor.
       if ((dateArr.length < 3) | (dateArr[2] > 2014) | (dateArr[2] < 1925)) {
@@ -226,12 +226,12 @@ const SignUpPage = () => {
       control = "blank birthDate";
       setErrors({ ...errors, birthDate: "Please Enter Date" });
     }
-    console.log(control);
+    //console.log(control);
     return control;
   };
   const setTypeWithEmail = (email) => {
     let mailArr = email.split("@");
-    console.log(mailArr);
+    //console.log(mailArr);
     mailArr = mailArr[1].split(".");
     if (mailArr[0] !== "stu") {
       values.type = "TEACHER";
@@ -252,7 +252,7 @@ const SignUpPage = () => {
     axios
       .get(URL_UNIVERSITIES)
       .then((response) => {
-        console.log("res:", response.data.content);
+        // console.log("res:", response.data.content);
         setUniList(response.data.content);
       })
       .catch((e) => {

@@ -3,7 +3,7 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import Box from "@mui/material/Box";
 import PostCardStyles from "../HomePosts/PostCardStyles";
 function Comment({ comment }) {
-  console.log("comment:",comment)
+  // console.log("comment:",comment)
   const classes = PostCardStyles();
   return (
     <div>

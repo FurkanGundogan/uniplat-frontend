@@ -34,7 +34,7 @@ const style = {
 
 export default function ClubSettingsModal({ settings, setSettings,mainState,clubState,setClubState }) {
   //let navigate = useNavigate();
-  console.log(settings)
+  // console.log(settings)
 
   const [avatar,setAvatar]=useState(clubState.clubInfo.profileImgId?
     URL_FILES+"/"+clubState.clubInfo.profileImgId : blankavatarurl)

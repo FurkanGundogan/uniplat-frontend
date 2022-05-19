@@ -74,7 +74,7 @@ function NewSurvey({ modalState, setModal }) {
                   component="span"
                   onClick={() => {
                     handleAddClick();
-                    console.log(modalState.surveyOptions);
+                    //console.log(modalState.surveyOptions);
                   }}
                   sx={{color:"#0b3f3d"}}
                 >

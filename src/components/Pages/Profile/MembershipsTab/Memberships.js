@@ -20,7 +20,7 @@ function Memberships() {
   const { profileState } = useContext(ProfileContext);
  
   const [memberShips,setMemberShips]=useState()
-  console.log("ms:",userid,memberShips)
+  // console.log("ms:",userid,memberShips)
   useEffect(() => {
     const setUserMemberships = async () => {
         await axios({

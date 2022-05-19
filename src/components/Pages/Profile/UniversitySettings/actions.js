@@ -17,7 +17,7 @@ export const save = (settings, profileState, setProfileState,mainState) => {
     );
   } else {
     // görselli
-    console.log("es1:",name,adminId)
+    // console.log("es1:",name,adminId)
     editStandard(
       mainState,
       profileState,
@@ -56,11 +56,12 @@ const editWithUploadedImageId = (
     data: bodyFormData,
   })
     .then((fileresponse) => {
+      /*
       console.log("Edit Uni w Image data:", {
         ...updateduser,
         profileImgId: fileresponse.data.id,
       });
-
+      */
       axios(URL_UNIVERSITIES + "/" + updateduser.id, {
         method: "PUT",
         headers: { "Content-type": "application/json","userId":mainState.user.id  },
@@ -68,7 +69,7 @@ const editWithUploadedImageId = (
       })
         .then((response) => {
           setProfileState({ ...profileState, userInfo: response.data });
-          console.log("res:",response.data)
+          // console.log("res:",response.data)
         })
         .catch((userupdateerror) => {
           console.log("Uni Update w file Error");
@@ -80,7 +81,7 @@ const editWithUploadedImageId = (
 };
 
 const editStandard = (mainState,profileState, setProfileState, name,description,adminId,profileImgId) => {
-  console.log("es:",name,adminId)
+  // console.log("es:",name,adminId)
   const updateduser = {
     ...profileState.userInfo,
     name: name,
@@ -89,7 +90,7 @@ const editStandard = (mainState,profileState, setProfileState, name,description,
     profileImgId:profileImgId
    
   };
-  console.log("Edit Uni Standard data:", updateduser);
+  // console.log("Edit Uni Standard data:", updateduser);
   // file yoksa direkt  update et
 
   axios(URL_UNIVERSITIES + "/" + updateduser.id, {
@@ -99,7 +100,7 @@ const editStandard = (mainState,profileState, setProfileState, name,description,
   })
     .then((response) => {
       setProfileState({ ...profileState, userInfo: response.data });
-      console.log("Uni Update Response:", response);
+      // console.log("Uni Update Response:", response);
     })
     .catch((error) => {
       console.log("Uni Update Error");

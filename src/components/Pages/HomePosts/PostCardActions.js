@@ -29,7 +29,7 @@ export const likeToggle = (
     },
   })
     .then((response) => {
-      console.log("set begenme:", !isLiked);
+      // console.log("set begenme:", !isLiked);
     })
     .catch((error) => {
       console.log("begenme sorunu:", error);
@@ -57,7 +57,7 @@ export const activityJoinToggle = (
       },
     })
       .then((response) => {
-        console.log("set activity join:", !isJoin);
+        // console.log("set activity join:", !isJoin);
       })
       .catch((error) => {
         console.log("activity join error:", error);
@@ -76,7 +76,7 @@ export const activityJoinToggle = (
       })
         .then((response) => {
         
-            console.log("res:",response.data)
+            
             axios({
                 method: "DELETE",
                 headers: { userId: userId },

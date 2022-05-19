@@ -245,21 +245,6 @@ export const ClubContextProvider = ({ children }) => {
       setClubUsers();
     }
   }, [clubState.clubUniInfo]); //eslint-disable-line
-/*
-  useEffect(() => {
-    const setIsMember = () => {
-      let item = clubState.clubUsers.filter((element) => {
-        return element.userId === mainState.user.id;
-      });
-      if (item.length === 1) {
-        console.log("item: ", item);
-        setClubState({ ...clubState, isMember: true, memberShip: item });
-      }
-    };
-    if (clubID !== undefined && clubState.clubUsers !== []) {
-      setIsMember();
-    }
-  }, [clubState.clubUsers]); //eslint-disable-line
-*/
+
   return <ClubContext.Provider value={value}>{children}</ClubContext.Provider>;
 };

@@ -3,14 +3,14 @@ let user = localStorage.getItem("currentUser")
     ? JSON.parse(localStorage.getItem("currentUser"))
     : "";
 
-console.log("localdeki user:",user)
+//console.log("localdeki user:",user)
 
 export const initialState = {
     user:"" || user,
     loading: false,
 };
 
-console.log("initialstate user:",user)
+//console.log("initialstate user:",user)
 export const AuthReducer = (initialState, action) => {
     switch (action.type) {
         case "REQUEST_LOGIN":

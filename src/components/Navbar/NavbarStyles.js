@@ -59,12 +59,18 @@ const NavbarStyles = makeStyles((theme) => ({
   NavbarLogoutWrap: {
     alignSelf:"center",
     marginLeft:"14px",
-    color:"#a00d0d",
+    color:"#c16160",
     [theme.breakpoints.up("sm")]: {
       display: "none !important",
      
     },
   },
+  uplogo:{
+    width:"39px",
+    height:"39px",
+    border:"1px solid white",
+    borderRadius:"4px"
+  }
 
 }));
 

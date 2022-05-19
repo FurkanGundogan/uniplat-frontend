@@ -10,7 +10,7 @@ function CommentsArea({ postId,setCommentCount }) {
     const mainState = useAuthState(); //read user details from context
   const [comments, setComments] = useState();
   const [showMore, setShowMore] = useState(false);
-  console.log("show more?",showMore)
+  // console.log("show more?",showMore)
   useEffect(()=>{
     axios({
         method:"GET",
@@ -22,7 +22,7 @@ function CommentsArea({ postId,setCommentCount }) {
         },
         
     }).then(response=>{
-        console.log("res:",response)
+        // console.log("res:",response)
         if(response.data.page.totalElements>5)setShowMore(true)
         setComments(response.data.content)
         

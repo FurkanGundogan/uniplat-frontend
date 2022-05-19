@@ -46,7 +46,7 @@ useEffect(()=>{
     }
    
 },[post,mainState.user.id])
-console.log("owner:",postOwner)
+//console.log("owner:",postOwner)
   return (
     <div>
       {(post && postOwner) && 

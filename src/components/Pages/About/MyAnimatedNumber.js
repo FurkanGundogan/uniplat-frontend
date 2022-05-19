@@ -1,8 +1,7 @@
-import React,{ useState } from "react";
+import React from "react";
 import AnimatedNumbers from "react-animated-numbers";
 import AboutStyles from "./AboutStyles";
 import MuiAlert from '@mui/material/Alert';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;

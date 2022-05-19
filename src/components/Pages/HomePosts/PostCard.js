@@ -96,7 +96,7 @@ export default function PostCard(props) {
  
 
   const handleShare = () => {
-    console.log("girdi")
+   
     setNewPostState({ type: "Post", 
     isOpen: true,
     ownerId:mainState.user.id,

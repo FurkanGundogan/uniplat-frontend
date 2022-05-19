@@ -18,7 +18,7 @@ function Comment({ comment, mainUserId }) {
     })
       .then((response) => {
         setOwner(response.data);
-        console.log("set Owner:", response.data);
+        // console.log("set Owner:", response.data);
       })
       .catch((error) => {
         console.log("get comment owner error");

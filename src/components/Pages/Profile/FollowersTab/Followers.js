@@ -10,15 +10,14 @@ import CircularProgressForTabs from "../CircularProgressForTabs";
 import Follower from "./Follower";
 import { ListItem } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
-import { useContext,useCallback,useState,useEffect,useRef } from "react";
-import { ProfileContext } from "../ProfileContext";
+import { useCallback,useState,useEffect,useRef } from "react";
 import UseGetFollowers from "./UseGetFollowers";
 
 function Followers() {
   const classes = MainProfileStyles();
   const navigate = useNavigate();
-  const { profileFollowers} = useContext(ProfileContext);
-  console.log("FLWS:", profileFollowers);
+
+  // console.log("FLWS:", profileFollowers);
   const { userid, uniid,clubID } = useParams();
   const [pageNumber, setPageNumber] = useState(0);
   const [owner, setOwner] = useState();
@@ -47,7 +46,7 @@ function Followers() {
   );
 
 
-  console.log("followerssss:",followers)
+  // console.log("followerssss:",followers)
   return (
     <div className={classes.PostAreaWrapper}>
       <List sx={{ pt: 0 }}>

@@ -24,11 +24,11 @@ const sendPost = (modalState) => {
   const bodyFormData = getFile(originalFile);
   if (bodyFormData === null) {
     // görselsiz
-    console.log( "send: ",{text,ownerType,type,ownerId} );
+    //console.log( "send: ",{text,ownerType,type,ownerId} );
      createWithBlankImageId(sharedPostId,text,ownerType,type.toUpperCase(),ownerId)
   } else {
     // görselli
-    console.log("send: ",{text,ownerType,type,ownerId,bodyFormData});
+    //console.log("send: ",{text,ownerType,type,ownerId,bodyFormData});
     createWithUploadedImageId(sharedPostId,text,ownerType,type.toUpperCase(),ownerId,bodyFormData)
   }
 };
@@ -45,6 +45,7 @@ const createWithBlankImageId = (
 
 
 ) => {
+  /*
   console.log("Create post standart data:", {
     sharedPostId,
     description,
@@ -56,6 +57,7 @@ const createWithBlankImageId = (
     activityLocationDescription:eventLocation,
 
   });
+  */
   axios(URL_POSTS, {
     method: "POST",
     header: { "Content-type": "application/json" },
@@ -72,7 +74,7 @@ const createWithBlankImageId = (
     },
   })
     .then((response) => {
-      console.log("POST Response:", response);
+      //console.log("POST Response:", response);
       // admin uni usersa eklenen ilk kişi
     })
     .catch((error) => {
@@ -101,6 +103,7 @@ const createWithUploadedImageId = (
     data: bodyFormData,
   })
     .then((fileresponse) => {
+      /*
       console.log(" createWithUploadedImageId data:", {
         sharedPostId,
         description,
@@ -113,6 +116,7 @@ const createWithUploadedImageId = (
         imgId: fileresponse.data.id,
      
       });
+      */
       axios(URL_POSTS, {
         method: "POST",
         header: { "Content-type": "application/json" },
@@ -130,7 +134,7 @@ const createWithUploadedImageId = (
         },
       })
         .then((response) => {
-          console.log("POST Created w file ", response);
+         //  console.log("POST Created w file ", response);
           // admin uni usersa eklenen ilk kişi
           
         })
@@ -153,19 +157,19 @@ const sendEvent = (modalState) => {
   if (bodyFormData === null) {
     // görselsiz
     // title ve location eklenecek
-    console.log({ sharedPostId,type, text,ownerType,ownerId,dateISO,eventLocation  });
+    //console.log({ sharedPostId,type, text,ownerType,ownerId,dateISO,eventLocation  });
     createWithBlankImageId(sharedPostId,text,ownerType,type.toUpperCase(),ownerId,activityTitle,dateISO,eventLocation)
   } else {
     // görselli
-    console.log({sharedPostId, type, text,ownerType,ownerId,dateISO,eventLocation,bodyFormData  });
+    //console.log({sharedPostId, type, text,ownerType,ownerId,dateISO,eventLocation,bodyFormData  });
     createWithUploadedImageId(sharedPostId,text,ownerType,type.toUpperCase(),ownerId,bodyFormData,activityTitle,dateISO,eventLocation)
   }
 };
 
 const sendSurvey = (modalState) => {
-  const { type, text, surveyOptions } = modalState;
-  console.log({ type, text, surveyOptions });
-  console.log("survey'e kaç saat süreceği eklenmedi");
+  // const { type, text, surveyOptions } = modalState;
+  //console.log({ type, text, surveyOptions });
+
 };
 
 const getFile = (originalFile) => {

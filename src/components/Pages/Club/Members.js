@@ -17,7 +17,7 @@ function Members() {
   const isAdmin = groupID === "1";
     const memmbers = ["username@gmail.com", "user02@gmail.com"];
     const handleListItemClick = (value) => {
-        console.log(value);
+        // console.log(value);
       };
   return (
     <div className={classes.PostAreaWrapper}>

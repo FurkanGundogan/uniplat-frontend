@@ -83,7 +83,6 @@ export default function DetailPostCard(props) {
   };
 
 
-  let shareCount = 0;
   const [owner, setOwner] = useState();
   useEffect(() => {
     let target = "";
@@ -107,7 +106,7 @@ export default function DetailPostCard(props) {
   const navigate = useNavigate();
   const locstate = useLocation();
   const handleShare = () => {
-    console.log("girdi")
+ 
     setNewPostState({ type: "Post", 
     isOpen: true,
     ownerId:mainState.user.id,
@@ -136,7 +135,7 @@ export default function DetailPostCard(props) {
                 locstate.state?.prevPath !== undefined &&
                 locstate.state?.prevPath !== null
               ) {
-                console.log({ prevScrollY: locstate.state.scrollY })
+                //console.log({ prevScrollY: locstate.state.scrollY })
                 setPageNumber(pageNumber+1)
                 
                
@@ -146,7 +145,7 @@ export default function DetailPostCard(props) {
                 // path yerine -1 girince detaydan profile dönüşteki scroll sorunu düzeldi
   
               } else {
-                console.log("direk home")
+               
                 navigate("/Home");
               }
             }}

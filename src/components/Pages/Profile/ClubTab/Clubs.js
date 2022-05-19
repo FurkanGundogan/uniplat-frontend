@@ -22,7 +22,7 @@ function Clubs() {
   const navigate = useNavigate();
   const [uniClubs, setUniClubs] = useState();
 
-  console.log("buradakiClubs:", uniClubs);
+  // console.log("buradakiClubs:", uniClubs);
   useEffect(() => {
     const setClubs = async () => {
       await axios

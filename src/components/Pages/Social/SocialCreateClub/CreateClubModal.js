@@ -38,7 +38,7 @@ export default function CreateClubModal({
   adminId,
   profileImgId,
 }) {
-  console.log("settings club modal:", settings);
+  // console.log("settings club modal:", settings);
   const handleSend = async () => {
     if (validate()) {
       save({ ...settings, adminId: adminId, universityId: selected.id });
@@ -71,7 +71,7 @@ export default function CreateClubModal({
 
   const [alertState, setAlert] = useState({ msg: "", isOpen: false });
   const [selected, setSelected] = useState();
-  console.log("selected:", selected);
+  // console.log("selected:", selected);
   const classes = CreateClubModalStyles();
 
   React.useEffect(()=>{

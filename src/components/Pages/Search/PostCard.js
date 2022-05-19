@@ -76,7 +76,7 @@ export default function PostCard(props) {
  // kart img ekle, warningi düzelt
 
  const handleShare = () => {
-  console.log("girdi")
+  
   setNewPostState({ type: "Post", 
   isOpen: true,
   ownerId:mainState.user.id,

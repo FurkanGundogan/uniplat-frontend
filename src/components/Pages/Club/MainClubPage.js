@@ -27,6 +27,7 @@ import { ClubContext } from "./ClubContext";
 import { join, leave } from "./PanelActions";
 import UserAvatarResponsive from "./UserAvatarResponsive";
 import { TYPE_CLUB } from "../../Contexts/Paths";
+import RightSide from "../RightSide/RightSide";
 const MainClubPage = () => {
   // const navigate = useNavigate();
   const [tab, setTab] = React.useState(0);
@@ -277,15 +278,7 @@ const MainClubPage = () => {
       </Grid>
       <Grid item className={classes.RightSide}>
         <div className={classes.rightSideInner}>
-          <Typography variant="body1" className={classes.UserDept}>
-            Right Side
-          </Typography>
-          <Typography variant="body1" className={classes.UserDept}>
-            Right Side
-          </Typography>
-          <Typography variant="body1" className={classes.UserDept}>
-            Right Side
-          </Typography>
+        <RightSide/>
         </div>
       </Grid>
     </Grid>

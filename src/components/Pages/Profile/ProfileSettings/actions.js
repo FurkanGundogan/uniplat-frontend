@@ -70,7 +70,7 @@ export const editReq = ({
   if (bodyFormData !== undefined) {
     // varsa önce file'ı yükle sonra user'ı update et
 
-    console.log("uu:", updateduser);
+    // console.log("uu:", updateduser);
     
     axios(URL_FILES, {
       method: "POST",
@@ -80,7 +80,7 @@ export const editReq = ({
       data: bodyFormData,
     })
       .then((fileresponse) => {
-        console.log("updateduser:",{...updateduser, profileImgId: fileresponse.data.id})
+        // console.log("updateduser:",{...updateduser, profileImgId: fileresponse.data.id})
         axios(URL_USERS + "/" + mainState.user.id, {
           method: "PUT",
           headers: { "Content-type": "application/json",
@@ -105,7 +105,7 @@ export const editReq = ({
       });
   } else {
     // file yoksa direkt user'ı update et
-    console.log("uu:", updateduser);
+    // console.log("uu:", updateduser);
     axios(URL_USERS + "/" + mainState.user.id, {
       method: "PUT",
       headers: { "Content-type": "application/json",
@@ -117,7 +117,7 @@ export const editReq = ({
         dispatch({ type: "UPDATE", payload: response.data });
         localStorage.setItem("currentUser", JSON.stringify(response.data));
         setProfileState({ ...profileState, userInfo: response.data });
-        console.log("User Update Response:", response);
+        // console.log("User Update Response:", response);
       })
       .catch((error) => {
         console.log("User Update Error:",error.message);

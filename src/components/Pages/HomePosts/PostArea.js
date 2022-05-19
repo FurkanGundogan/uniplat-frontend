@@ -16,7 +16,7 @@ function PostArea() {
   const mainState = useAuthState(); //read user details from context
   const {posts,setPosts,pageNumber, setPageNumber,click}=useContext(PostsContext)
   const userid = mainState.user.id;
-  console.log("page:",pageNumber)
+  // console.log("page:",pageNumber)
 
   //const [posts,setPosts]=useState([])
   const { hasMore, loading } = useGetPostFlow(userid, pageNumber,setPosts,click);

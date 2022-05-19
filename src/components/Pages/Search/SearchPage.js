@@ -47,11 +47,11 @@ const SearchPage = () => {
     setSize(query.get("size"))
   }, [query]);
 
-  console.log("filters:", filters);
-  console.log("text:", text);
-  console.log("page:", pageNumber);
+  //("filters:", filters);
+  //console.log("text:", text);
+  //console.log("page:", pageNumber);
   const {page} = useSearch(text, filters, pageNumber,size, setResults);
-  console.log("results:", results);
+  //console.log("results:", results);
 
   const handleFilterClick = (filter) => {
     if(filter===TYPE_ALL){
@@ -62,7 +62,7 @@ const SearchPage = () => {
   };
 
   const handlePagination = (event,value) => {
-    console.log("setpage:",value-1)
+    // console.log("setpage:",value-1)
 
     if(filters===TYPE_ALL){
       navigate("/search?filters="+filters+"&text="+text+"&page="+(value-1)+"&size=10")

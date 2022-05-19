@@ -13,7 +13,7 @@ function Follower({follower}) {
     const [user, setUser] = useState();
    
  
-    console.log(user?.name," - user :",user)
+    // console.log(user?.name," - user :",user)
     useEffect(() => {
       
         const setFollowerUser = async () => {

@@ -11,7 +11,7 @@ export const getUserClubs = async (id,setClubs)=> {
           size:SIZE,
         },
       }).then((response) => {
-         console.log("resss",response.data.content)
+         // console.log("resss",response.data.content)
           setClubs(response.data.content);
         }).catch((e) => {
           console.log("user-clubs-get-error");
