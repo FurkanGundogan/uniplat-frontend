@@ -55,7 +55,7 @@ function MembershipItem({membership}) {
     <>
       <ListItemAvatar>
         <Avatar 
-        src={club && URL_FILES+"/"+club?.profileImgId}
+        src={club?.profileImgId && URL_FILES+"/"+club?.profileImgId}
         sx={{ bgcolor: blue[100], color: blue[600] }}>
           <PersonIcon />
         </Avatar>

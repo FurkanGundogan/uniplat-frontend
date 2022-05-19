@@ -34,7 +34,7 @@ function FollowUserItem({ follow }) {
     <>
       <ListItemAvatar>
         <Avatar
-        src={userDetails && URL_FILES+"/"+userDetails?.profileImgId}
+        src={userDetails?.profileImgId && URL_FILES+"/"+userDetails?.profileImgId}
         sx={{ bgcolor: blue[100], color: blue[600] }}>
           <PersonIcon />
         </Avatar>

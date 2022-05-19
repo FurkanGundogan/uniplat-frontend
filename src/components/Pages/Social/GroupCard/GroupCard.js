@@ -46,7 +46,7 @@ export default function RecipeReviewCard({clubId,clubsAsAdmin}) {
       <CardHeader
         avatar={
           <Avatar 
-          src={clubInfo && URL_FILES+"/"+clubInfo.profileImgId }
+          src={clubInfo?.profileImgId && URL_FILES+"/"+clubInfo.profileImgId }
           sx={{ bgcolor: red[500] }} aria-label="recipe">
             C
           </Avatar>

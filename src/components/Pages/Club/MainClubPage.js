@@ -42,8 +42,8 @@ const MainClubPage = () => {
 
   const isAdmin = mainState.user.id === clubState.clubInfo.adminId;
   const isMember = clubState.clubInfo.followedByUser;
-  console.log("Club Admin?: ", isAdmin);
-  console.log("Club Member?: ", isMember, clubState.memberShip);
+  //console.log("Club Admin?: ", isAdmin);
+  //console.log("Club Member?: ", isMember, clubState.memberShip);
   // const isMember = clubID === "2";
   // const [joinReq, setJoinReq] = useState(false);
   const classes = MainClubStyles();
@@ -58,7 +58,7 @@ const MainClubPage = () => {
     leave(mainState.user.id, clubState, setClubState);
   };
 
-  console.log("state:", clubState);
+  // console.log("state:", clubState);
   return (
     <Grid id={"xyz"} container className={classes.HomeContainer}>
       {showAdminChange === true && (

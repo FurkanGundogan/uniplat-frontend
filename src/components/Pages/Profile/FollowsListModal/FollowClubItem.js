@@ -50,7 +50,7 @@ import {
       <>
         <ListItemAvatar>
           <Avatar
-          src={clubDetails && URL_FILES+"/"+clubDetails?.profileImgId}
+          src={clubDetails?.profileImgId && URL_FILES+"/"+clubDetails?.profileImgId}
           sx={{ bgcolor: blue[100], color: blue[600] }}>
             <PersonIcon />
           </Avatar>

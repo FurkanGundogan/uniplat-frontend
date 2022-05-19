@@ -27,7 +27,7 @@ function HomeRoute({ children }) {
   // bu / route'u için de geçerli
   const auth = useAuthState();
 
-  console.log("auth:", auth);
+  // console.log("auth:", auth);
 
   return auth.user ? children : <Navigate to="/SignIn" />;
 }

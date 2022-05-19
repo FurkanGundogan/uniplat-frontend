@@ -50,7 +50,7 @@ export default function RecipeReviewCard({
         avatar={
           <Avatar
             src={
-              universityInfo && URL_FILES + "/" + universityInfo.profileImgId
+              universityInfo?.profileImgId && URL_FILES + "/" + universityInfo.profileImgId
             }
             sx={{ bgcolor: red[500] }}
             aria-label="recipe"

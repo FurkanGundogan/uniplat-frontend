@@ -33,7 +33,7 @@ import {
       <>
         <ListItemAvatar>
           <Avatar
-          src={uniDetails && URL_FILES+"/"+uniDetails?.profileImgId}
+          src={uniDetails?.profileImgId && URL_FILES+"/"+uniDetails?.profileImgId}
           sx={{ bgcolor: blue[100], color: blue[600] }}>
             <PersonIcon />
           </Avatar>

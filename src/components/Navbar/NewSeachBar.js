@@ -52,7 +52,7 @@ function NewSeachBar({ placeholder, data }) {
   const [text,setText]=useState("")
 
   useEffect(() => {
-    console.log("text set oldu sonuclar:",results)
+    // console.log("text set oldu sonuclar:",results)
     // eslint-disable-next-line
   }, [text])
   
