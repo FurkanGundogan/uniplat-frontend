@@ -31,6 +31,7 @@ import moment from "moment";
 import { send } from "./actions";
 
 import CropEasy from "./crop/CropEasy";
+import { useNavigate } from "react-router-dom";
 const style = {
   position: "absolute",
 
@@ -44,9 +45,12 @@ const style = {
 };
 
 export default function NewPostModal({ modalState, setModal,owner,ownerType }) {
+  const navigate=useNavigate()
   const handleSend = async () => {
     if (validate()) {
       send(modalState,owner,ownerType);
+      setModal({ isOpen: false });
+      navigate(0)
       
     } else {
       window.scrollTo(0, 0);
