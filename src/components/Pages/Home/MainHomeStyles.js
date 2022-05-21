@@ -74,11 +74,38 @@ const MainHomeStyles = makeStyles((theme) => ({
     margin: theme.spacing(1) + "!important",
     textAlign: "center",
   },
+  LeftSidePostButtonWrapper: {
+    textAlign: "center",
+    marginBottom: "8px",
+  },
+  LeftSidePostButton: {
+    border: "1px solid black !important",
+    paddingLeft: "16px !important",
+    paddingRight: "16px !important",
+    paddingTop: "4px !important",
+    paddingBottom: "4px !important",
+    borderRadius: "18px !important",
+    fontFamily: "'Exo 2' !important",
+    fontSize: "14px !important",
+    background: "black !important",
+    color: "white !important",
+    letterSpacing: "1px !important",
+    "&:hover": {
+      background: "#2195a3 !important",
+      color: "white !important",
+      borderColor: "white !important",
+    },
+  },
   LeftSideButtonWrapper: {
     marginLeft: "12px !important",
   },
   LeftSideButton: {
     color: "black !important",
+  },
+  LeftSideExitButtonWrapper: {
+    textAlign: "center",
+    marginBottom: "8px",
+    marginTop:"18px",
   },
   "@global": {
     body: {

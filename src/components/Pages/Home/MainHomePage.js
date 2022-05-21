@@ -5,8 +5,6 @@ import UserAvatar from "../UserAvatar";
 import Divider from "@mui/material/Divider";
 import Typography from "@mui/material/Typography";
 import { Button } from "@mui/material";
-import EventIcon from "@mui/icons-material/Event";
-import ArticleIcon from "@mui/icons-material/Article";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useAuthDispatch, logout, useAuthState } from "../../Contexts";
@@ -56,9 +54,9 @@ const MainHomePage = () => {
           <Typography variant="body1" className={classes.UserDept}>
             {mainState.user.description}
           </Typography>
-          <div className={classes.LeftSideButtonWrapper}>
+          <div className={classes.LeftSidePostButtonWrapper}>
             <Button
-              className={classes.LeftSideButton}
+              className={classes.LeftSidePostButton}
               startIcon={<AddCircleOutlineIcon />}
               onClick={() => {
                 setNewPostState({ type: "Post", isOpen: true,ownerId:mainState.user.id,ownerType:"USER"});
@@ -67,23 +65,7 @@ const MainHomePage = () => {
               New Post
             </Button>
           </div>
-          <div className={classes.LeftSideButtonWrapper}>
-            <Button
-              className={classes.LeftSideButton}
-              startIcon={<EventIcon />}
-            >
-              Etkinlikler
-            </Button>
-          </div>
-          <div className={classes.LeftSideButtonWrapper}>
-            <Button
-              className={classes.LeftSideButton}
-              startIcon={<ArticleIcon />}
-            >
-              Anketler
-            </Button>
-          </div>
-          <div className={classes.LeftSideButtonWrapper}>
+          <div className={classes.LeftSideExitButtonWrapper}>
             <Button
               className={classes.LeftSideButton}
               startIcon={<LogoutIcon />}
