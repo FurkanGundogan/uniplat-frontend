@@ -1,7 +1,7 @@
 import moment from "moment";
 export const validateMessage = (text) => {
   if ((text === undefined) | (text === "")) return false;
-  if (/^(?! *$)[a-zA-ZıiİçÇşŞğĞÜüÖö.+ '-]+$/.test(text) === false) return false;
+  if (/^(?! *$)[a-zA-ZıiİçÇşŞğĞÜüÖö.+ '-,-\/\\?\\!\\=\\_\\(\\)\\{\\}:\d+]+$/.test(text) === false) return false; //eslint-disable-line
 
   return true;
 };
@@ -53,7 +53,7 @@ export const validateISODate = (dateISO,maxDate) => {
 export const validateEventLocation = (loc) => {
 
   if ((loc === undefined) | (loc === "")) return false;
-  if (/^(?! *$)[a-zA-ZıiİçÇşŞğĞÜüÖö.+ '-]+$/.test(loc) === false) return false;
+  if (/^(?! *$)[a-zA-ZıiİçÇşŞğĞÜüÖö.+ '-,-\/:\d+]+$/.test(loc) === false) return false; //eslint-disable-line
 
   return true;
 };
@@ -61,7 +61,7 @@ export const validateEventLocation = (loc) => {
 export const validateEventTitle = (loc) => {
 
   if ((loc === undefined) | (loc === "")) return false;
-  if (/^(?! *$)[a-zA-ZıiİçÇşŞğĞÜüÖö.+ '-]+$/.test(loc) === false) return false;
+  if (/^(?! *$)[a-zA-ZıiİçÇşŞğĞÜüÖö.+ '-,-\/:\d+]+$/.test(loc) === false) return false; //eslint-disable-line
 
   return true;
 };

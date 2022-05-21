@@ -1,6 +1,6 @@
 export const validateNames = (text) => {
   if ((text === undefined) | (text === "")) return false;
-  if (/^(?! *$)[a-zA-ZıiİçÇşŞğĞÜüÖö ]+$/.test(text) === false) return false;
+  if (/^(?! *$)[a-zA-ZıiİçÇşŞğĞÜüÖö.+ '-,-\/:\d+]+$/.test(text) === false) return false; //eslint-disable-line
 
   return true;
 };
