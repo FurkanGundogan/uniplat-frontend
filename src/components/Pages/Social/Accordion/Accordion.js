@@ -65,7 +65,7 @@ export default function CustomizedAccordions({
         onChange={handleChange}
       >
         <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
-          <Typography component="span">Teacher Panel</Typography>
+          <Typography component="span">Panel</Typography>
         </AccordionSummary>
         <AccordionDetails sx={{ padding: "0px !important" }}>
           <List

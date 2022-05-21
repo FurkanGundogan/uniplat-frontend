@@ -141,7 +141,7 @@ const getFile = (originalFile) => {
 export const getUniversitiesForEdit = (setUniList,mainuserid) => {
   
   axios
-    .get(URL_UNIVERSITIES + "?page=0&size=10",{headers:{"userId":mainuserid}})
+    .get(URL_UNIVERSITIES + "?page=0&size=999",{headers:{"userId":mainuserid}})
     .then((response) => { 
       setUniList(response.data.content);
     })

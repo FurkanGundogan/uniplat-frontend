@@ -128,7 +128,7 @@ export default function NewPostModal({ modalState, setModal,owner,ownerType }) {
                 id="multiline-static"
                 multiline
                 rows={5}
-                placeholder="What do you want to write about, İsim"
+                placeholder="What do you want to write about..."
                 className={classes.text}
                 onChange={(e) => {
                   setModal({ ...modalState, text: e.target.value });
