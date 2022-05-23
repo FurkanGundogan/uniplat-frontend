@@ -26,6 +26,7 @@ function WriteCommentComponent({postId,comments,setComments,setCommentCount}) {
     // console.log("res:",response)
      setComments([response.data,...comments])
      setCommentCount(prev=>prev+1)
+     setComment("") 
       
   }).catch(error=>{
     console.log("comment send error")
@@ -49,7 +50,7 @@ function WriteCommentComponent({postId,comments,setComments,setCommentCount}) {
             >
               asd
             </Avatar>
-        <TextField label="Write Comment..." variant="standard"fullWidth 
+        <TextField label="Write Comment..." variant="standard"fullWidth value={comment}
         onChange={(e)=>{
           setComment(e.target.value)
         }}

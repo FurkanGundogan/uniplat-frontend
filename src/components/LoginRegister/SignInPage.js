@@ -65,7 +65,8 @@ const SignInPage = (props) => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [inputError, setInputError] = React.useState("");
-  const [checked, setChecked] = React.useState(false);
+  // eslint-disable-next-line
+  const [checked, setChecked] = React.useState(false); 
   //theme için
   const classes = useStyles();
   const inputClasses = InputStyles();
@@ -162,6 +163,7 @@ const SignInPage = (props) => {
           <Grid container>
             <Grid item xs>
               <UILink
+                sx={{display:"none"}}
                 component={Link}
                 to="#"
                 variant="body2"
