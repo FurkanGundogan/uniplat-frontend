@@ -18,7 +18,7 @@ import { save } from "./actions";
 import CropEasy from "./crop/CropEasy";
 import { Avatar } from "@mui/material";
 import SaveAsIcon from "@mui/icons-material/SaveAs";
-import { blankavatarurl } from "../../../Contexts/Paths";
+import { blankavatarurl, URL_FILES } from "../../../Contexts/Paths";
 const style = {
   position: "absolute",
 
@@ -37,9 +37,13 @@ export default function CreateClubModal({
   adminId,
   profileImgId,
   universityId,
+  
 }) {
-
+  console.log("settings:",settings)
   // console.log("settings club modal:",settings)
+  const [avatar,setAvatar]=useState(settings.profileImgId?
+    URL_FILES+"/"+settings.profileImgId : blankavatarurl)
+
   const handleSend = async () => {
     if (validate()) {
       save({ ...settings, adminId: adminId, universityId: universityId });
@@ -129,11 +133,7 @@ export default function CreateClubModal({
                   />
                   <Avatar
                     alt="Remy Sharp"
-                    src={
-                      settings.selectedFile
-                        ? settings.selectedFile
-                        : blankavatarurl
-                    }
+                    src={avatar}
                     sx={{ width: 100, height: 100, cursor: "pointer" }}
                   />
                 </label>
@@ -169,7 +169,7 @@ export default function CreateClubModal({
 
                   <div>
                     {settings.cropModalOpen && (
-                      <CropEasy {...{ settings, setSettings }} />
+                      <CropEasy {...{ settings, setSettings,setAvatar }} />
                     )}
                   </div>
                 </div>

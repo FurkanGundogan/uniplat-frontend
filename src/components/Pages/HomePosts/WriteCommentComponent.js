@@ -48,7 +48,7 @@ function WriteCommentComponent({postId,comments,setComments,setCommentCount}) {
               aria-label="recipe"
               src={mainState.user?.profileImgId && URL_FILES+"/"+mainState.user?.profileImgId}
             >
-              asd
+              
             </Avatar>
         <TextField label="Write Comment..." variant="standard"fullWidth value={comment}
         onChange={(e)=>{
