@@ -31,6 +31,7 @@ export default function FollowsListModal({
   const [owner, setOwner] = useState();
   useEffect(() => {
     setOwner(userid ? userid : uniid);
+    setPageNumber(0)
   }, [userid, uniid]);
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const navigate = useNavigate();
@@ -40,7 +41,9 @@ export default function FollowsListModal({
       owner,
       pageNumber,
     );
-   
+   console.log("follows: ",follows)
+   console.log("owner: ",owner)
+   console.log("page: ",pageNumber)
     const observer = useRef();
     const lastPostElementRef = useCallback(
       (node) => {
