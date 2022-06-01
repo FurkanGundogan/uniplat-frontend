@@ -85,7 +85,7 @@ const MainProfilePage = () => {
 
   useEffect(() => {
     setIsAdmin(profileState.userInfo.adminId === mainState.user.id);
-  }, [profileState.userInfo]); //eslint-disable-line
+  }, [profileState.userInfo,mainState.user.id,tab]); //eslint-disable-line
 
   // buradaki durum bilgisi istekle yönetilecek
   // degisti const isFollow = profileState.isFollow;
@@ -451,7 +451,7 @@ const MainProfilePage = () => {
 
         <MyTabs isUni={uniid} tab={tab} setTab={setTab} />
 
-        <Content tab={tab} userid={userid} uniid={uniid} />
+        <Content tab={tab} userid={userid} uniid={uniid} isAdmin={isAdmin}/>
       </Grid>
       <Grid item className={classes.RightSide}>
         <div className={classes.rightSideInner}>

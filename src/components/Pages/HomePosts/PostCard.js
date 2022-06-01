@@ -7,7 +7,6 @@ import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import { red } from "@mui/material/colors";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import PostCardStyles from "./PostCardStyles";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
@@ -29,6 +28,8 @@ import { likeToggle } from "./PostCardActions";
 import EventArea from "./EventArea";
 import { NewPostModalContext } from "../../Contexts/NewPostModalContext";
 import CommentsArea from "./CommentsArea/CommentsArea";
+import CardActionPopupMenu from "./CardActionPopupMenu";
+import DeletePostConfirmAlert from "./DeletePostConfirmAlert";
 export default function PostCard(props) {
   const { setNewPostState } = useContext(NewPostModalContext);
   const mainState = useAuthState(); //read user details from context
@@ -104,9 +105,14 @@ export default function PostCard(props) {
     sharedPostId:sharedPostId?sharedPostId:id
   })
 }
+
+const [deleteAlert,setDeleteAlert]=useState(false)
  
   return (
     <>
+      {
+        deleteAlert && <DeletePostConfirmAlert id={id} deleteAlert={deleteAlert} setDeleteAlert={setDeleteAlert}/>
+      }
       <LikesModal showLikes={showLikes} setShowLikes={setShowLikes} postId={id} />
       <Card
       
@@ -139,8 +145,9 @@ export default function PostCard(props) {
             </Avatar>
           }
           action={
-            <IconButton aria-label="settings" sx={{ display: "none" }}>
-              <MoreVertIcon />
+            ownerId===mainState.user.id &&
+            <IconButton aria-label="settings" onClick={(e)=>{e.stopPropagation()}}>
+              <CardActionPopupMenu setDeleteAlert={setDeleteAlert}/>
             </IconButton>
           }
           title={owner?.name+" "+(owner?.surname?owner?.surname:"")}

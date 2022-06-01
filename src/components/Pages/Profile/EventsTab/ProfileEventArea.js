@@ -13,7 +13,7 @@ import EventListRadioButton from "./EventListRadioButton";
 import ParticipatedEvents from "./ParticipatedEvents"
 // statik post verileri, postdetailaction'da bir tanesi seçilip kullanılıyor
 
-function ProfileEventArea() {
+function ProfileEventArea({isAdmin}) {
  
   const { profileState } = useContext(ProfileContext);
   //
@@ -80,6 +80,7 @@ function ProfileEventArea() {
                 post={p}
                 owner={profileState.userInfo}
                 usertype={usertype}
+                isAdmin={isAdmin}
               />
             </div>
           );
@@ -90,6 +91,7 @@ function ProfileEventArea() {
               post={p}
               owner={profileState.userInfo}
               usertype={usertype}
+              isAdmin={isAdmin}
             />
           );
         }

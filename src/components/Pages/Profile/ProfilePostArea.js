@@ -12,7 +12,7 @@ import EndOfPosts from "./EndOfPosts";
 
 // statik post verileri, postdetailaction'da bir tanesi seçilip kullanılıyor
 
-function ProfilePostArea() {
+function ProfilePostArea({isAdmin}) {
  
   const { profileState,posts,setPosts,pageNumber, setPageNumber,click } = useContext(ProfileContext);
   //
@@ -72,6 +72,7 @@ function ProfilePostArea() {
                 post={p}
                 owner={profileState.userInfo}
                 usertype={usertype}
+                isAdmin={isAdmin}
               />
             </div>
           );
@@ -82,6 +83,7 @@ function ProfilePostArea() {
               post={p}
               owner={profileState.userInfo}
               usertype={usertype}
+              isAdmin={isAdmin}
             />
           );
         }

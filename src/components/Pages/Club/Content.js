@@ -2,14 +2,13 @@ import React, { useEffect,useState } from 'react'
 
 import {getContent} from "./ContentActions"
 
-function Content({tab}) {
-
+function Content({tab,isAdmin}) {
   const [value,setValue]=useState("")
-
+  console.log("isAdmin conent",isAdmin)
   useEffect(() => {
-    setValue(getContent(tab))
+    setValue(getContent(tab,isAdmin))
   
-  }, [tab])
+  }, [tab,isAdmin])
   
 
 

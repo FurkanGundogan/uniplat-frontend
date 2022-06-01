@@ -67,6 +67,8 @@ export default function PostCard({ postId }) {
 
   return (
     <>
+    {
+      post ? 
       <Card
         className={classes.CardWrapper + " " + classes.nestedCardWrapper}
         onClick={(e) => {
@@ -149,6 +151,23 @@ export default function PostCard({ postId }) {
           </Typography>
         </CardContent>
       </Card>
+      : 
+      <Card
+        className={classes.CardWrapper + " " + classes.nestedCardWrapper}
+      >
+        <CardHeader
+          title={"..."}
+        />
+ 
+        <CardContent>
+          {" This post is no longer accessible "}
+          <Typography variant="body2" color="black">
+        
+          </Typography>
+        </CardContent>
+      </Card>
+    }
+      
     </>
   );
 }

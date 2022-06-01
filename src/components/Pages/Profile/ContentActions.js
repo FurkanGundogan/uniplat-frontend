@@ -13,7 +13,7 @@ export const alltabs={
   Memberships:<Memberships/>
 }
 
-export const GetContent = (index,useriid,uniid) => {
+export const GetContent = (index,useriid,uniid,isAdmin) => {
 
   if(useriid){
     switch (index) {
@@ -24,7 +24,7 @@ export const GetContent = (index,useriid,uniid) => {
         return <ProfileEventArea />;
   
       case 2:
-        return <Memberships/>;
+        return <Memberships />;
   
       default:
         break;
@@ -35,16 +35,16 @@ export const GetContent = (index,useriid,uniid) => {
   if(uniid){
     switch (index) {
       case 0:
-        return <ProfilePostArea />;
+        return <ProfilePostArea isAdmin={isAdmin} />;
   
       case 1:
-        return <Followers/>;
+        return <Followers isAdmin={isAdmin}/>;
   
       case 2:
-        return <ProfileEventArea />;
+        return <ProfileEventArea isAdmin={isAdmin}/>;
   
       case 3:
-        return (<Clubs/>);
+        return (<Clubs isAdmin={isAdmin}/>);
   
       default:
         break;

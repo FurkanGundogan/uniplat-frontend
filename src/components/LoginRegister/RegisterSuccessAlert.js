@@ -12,6 +12,7 @@ export default function RegisterSuccessAlert(props) {
         <Button
           size="medium"
           sx={{
+            textAlign:"center",
             backgroundColor: "green",
             color: "white",
             display: props.type === "success" ? "inherit" : "none",
@@ -19,7 +20,7 @@ export default function RegisterSuccessAlert(props) {
           component={Link}
           to="/SignIn"
         >
-          GİRİŞ YAP
+          LOGIN
         </Button>
       }
     >

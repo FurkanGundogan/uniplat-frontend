@@ -11,7 +11,7 @@ import EndOfPosts from "../../Profile/EndOfPosts";
 import {ClubContext} from "../ClubContext"
 // statik post verileri, postdetailaction'da bir tanesi seçilip kullanılıyor
 
-function ClubEventArea() {
+function ClubEventArea({isAdmin}) {
  
   const { clubState } = useContext(ClubContext);
   //
@@ -69,6 +69,7 @@ function ClubEventArea() {
                 post={p}
                 owner={clubState.clubInfo}
                 usertype={usertype}
+                isAdmin={isAdmin}
               />
             </div>
           );
@@ -79,6 +80,7 @@ function ClubEventArea() {
               post={p}
               owner={clubState.clubInfo}
               usertype={usertype}
+              isAdmin={isAdmin}
             />
           );
         }

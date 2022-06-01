@@ -17,8 +17,8 @@ import { makeStyles } from "@mui/styles";
 import { Form } from "./SignUpUseForm";
 import InputStyles from "./InputStyles";
 import bgImage from "./uni2.jpg";
-import { useNavigate } from "react-router-dom";
 import { loginUser, useAuthDispatch } from "../Contexts";
+
 //theme için makeStyles,classess yapılarını kullanıyoruz
 // globalden body'i style verdiğimiz için classess şimdilik kullanılmadı
 const useStyles = makeStyles((theme) => ({
@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
 
 const SignInPage = (props) => {
   const dispatch = useAuthDispatch();
-  const navigate = useNavigate();
+ 
   const validate = () => {
     //console.log("Remember me:", checked);
     let control = true;
@@ -65,6 +65,7 @@ const SignInPage = (props) => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [inputError, setInputError] = React.useState("");
+  
   // eslint-disable-next-line
   const [checked, setChecked] = React.useState(false); 
   //theme için
@@ -76,6 +77,7 @@ const SignInPage = (props) => {
     if (validate()) {
       let payload = { email, password };
       try {
+     
         let response = await loginUser(dispatch, payload);
 
         if (response === undefined) {
@@ -87,7 +89,8 @@ const SignInPage = (props) => {
           } else {
             //console.log("Login Success:", response);
             setInputError("");
-            navigate("/Home");
+            // navigate("/Home");
+            window.location.href = '/Home';
           }
         }
       } catch (error) {

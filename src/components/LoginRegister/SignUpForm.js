@@ -26,7 +26,15 @@ import InputStyles from "./InputStyles";
 import axios from "axios";
 import RegisterSuccessAlert from "./RegisterSuccessAlert";
 import { useEffect } from "react";
-import {URL_USERS,URL_UNIVERSITIES,URL_USERFOLLOWS,TYPE_UNI} from "../Contexts/Paths"
+import {
+  URL_USERS,
+  URL_UNIVERSITIES,
+  URL_USERFOLLOWS,
+  TYPE_UNI,
+} from "../Contexts/Paths";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
+
 //theme için makeStyles,classess yapılarını kullanıyoruz
 // globalden body'i style verdiğimiz için classess şimdilik kullanılmadı
 const useStyles = makeStyles((theme) => ({
@@ -139,6 +147,7 @@ const SignUpPage = () => {
   const [showAlert, setAlert] = React.useState(false);
   const [alertType, setAlertType] = React.useState("");
   const [alertMsg, setAlertMsg] = React.useState("bos");
+  const [loading, setLoading] = React.useState(false);
   const handleSubmit = (event) => {
     event.preventDefault();
     if (!checked) {
@@ -159,6 +168,7 @@ const SignUpPage = () => {
       // yeniKayit nesnesi gönderilecek
       window.scrollTo(0, 0);
       //post işlemi:
+      setLoading(true);
       axios(URL_USERS, {
         method: "POST",
         header: { "Content-type": "application/json" },
@@ -166,11 +176,13 @@ const SignUpPage = () => {
       })
         .then((response) => {
           // console.log("Response:", response);
+          setLoading(false);
           handleResponse(response);
           setAlert(true);
           window.scrollTo(0, 0);
         })
         .catch((error) => {
+          setLoading(false);
           setAlertType("error");
           setAlertMsg(error.response.data.message);
           setAlert(true);
@@ -183,15 +195,15 @@ const SignUpPage = () => {
     let status = response.status;
     if (status === 200) {
       setAlertType("success");
-      setAlertMsg("Register Sucess");
+      setAlertMsg("Register Success. Please Verify Your Email!");
       // olusturulan kullaniciya universitesini takip ettirme
       axios(URL_USERFOLLOWS, {
         method: "POST",
         header: { "Content-type": "application/json" },
         data: {
-          followId:values.universityId,
-          userId:response.data.id,
-          followType:TYPE_UNI
+          followId: values.universityId,
+          userId: response.data.id,
+          followType: TYPE_UNI,
         },
       }).then((response) => {
         console.log("Uni Ekleme Response:", response);
@@ -248,7 +260,6 @@ const SignUpPage = () => {
 
   const [uniList, setUniList] = React.useState([]);
   useEffect(() => {
-    
     axios
       .get(URL_UNIVERSITIES)
       .then((response) => {
@@ -262,6 +273,15 @@ const SignUpPage = () => {
 
   return (
     <Container component="main" maxWidth="sm">
+      {
+        <Backdrop
+          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={loading}
+        >
+          {" "}
+          <CircularProgress color="inherit" />
+        </Backdrop>
+      }
       {showAlert && (
         <RegisterSuccessAlert type={alertType} alertMsg={alertMsg} />
       )}

@@ -7,7 +7,6 @@ import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import { red } from "@mui/material/colors";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
 import CommentIcon from "@mui/icons-material/Comment";
@@ -39,6 +38,8 @@ import { NewPostModalContext } from "../../Contexts/NewPostModalContext";
 import NestedPostCard from "../HomePosts/NestedPostCard"
 import CommentsArea from "./CommentsArea/CommentsArea"
 import { PostsContext } from "../HomePosts/PostsContext";
+import DeletePostConfirmAlert from "../HomePosts/DeletePostConfirmAlert";
+import CardActionPopupMenu from "../HomePosts/CardActionPopupMenu";
 
 
 export default function DetailPostCard(props) {
@@ -84,6 +85,7 @@ export default function DetailPostCard(props) {
 
 
   const [owner, setOwner] = useState();
+
   useEffect(() => {
     let target = "";
     if (ownerType === TYPE_USER) target = URL_USERS;
@@ -114,8 +116,31 @@ export default function DetailPostCard(props) {
     sharedPostId:sharedPostId?sharedPostId:id
   })
   }
+  const [isOwnerPost, setisOwnerPost] = useState(false);
+  const [isAdminPost, setisAdminPost] = useState(false);
+ useEffect(() => {
+
+    setisOwnerPost( ownerId === mainState.user.id);
+    if(ownerType===TYPE_UNI | ownerType===TYPE_CLUB){
+      setisAdminPost(owner?.adminId===mainState.user.id)
+    }
+    
+    // eslint-disable-next-line
+  }, [
+    ownerId,
+    mainState.user.id,
+    owner,
+  ]);
+  const [deleteAlert, setDeleteAlert] = useState(false);
   return (
     <>
+    {deleteAlert && (
+        <DeletePostConfirmAlert
+          id={id}
+          deleteAlert={deleteAlert}
+          setDeleteAlert={setDeleteAlert}
+        />
+      )}
       <LikesModal
         showLikes={showLikes}
         setShowLikes={setShowLikes}
@@ -172,9 +197,18 @@ export default function DetailPostCard(props) {
             </Avatar>
           }
           action={
-            <IconButton aria-label="settings" sx={{ display: "none" }}>
-              <MoreVertIcon />
-            </IconButton>
+            (isAdminPost|isOwnerPost) ? (
+              <IconButton
+                aria-label="settings"
+                onClick={(e) => {
+                  e.stopPropagation();
+                }}
+              >
+                <CardActionPopupMenu setDeleteAlert={setDeleteAlert} />
+              </IconButton>
+            ) : (
+              ""
+            )
           }
           title={owner?.name + " " + (owner?.surname ? owner?.surname : "")}
           subheader={

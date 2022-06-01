@@ -7,7 +7,6 @@ import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import { red } from "@mui/material/colors";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import PostCardStyles from "../HomePosts/PostCardStyles";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
@@ -16,7 +15,7 @@ import Divider from "@mui/material/Divider";
 import EventArea from "../HomePosts/EventArea";
 import Collapse from "@mui/material/Collapse";
 import LikesModal from "../HomePosts/LikesModal/LikesModal";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 //import { LikePost } from "./HomePostActions";
 import CardMedia from "@mui/material/CardMedia";
 import NestedPostCard from "../HomePosts/NestedPostCard";
@@ -24,14 +23,19 @@ import NestedPostCard from "../HomePosts/NestedPostCard";
 import { URL_FILES } from "../../Contexts/Paths";
 import { likeToggle } from "../HomePosts/PostCardActions";
 import { useAuthState } from "../../Contexts";
-import { useState,useContext } from "react";
+import { useState, useContext } from "react";
 import { NewPostModalContext } from "../../Contexts/NewPostModalContext";
 import CommentsArea from "../HomePosts/CommentsArea/CommentsArea";
+import DeletePostConfirmAlert from "../HomePosts/DeletePostConfirmAlert";
+import CardActionPopupMenu from "../HomePosts/CardActionPopupMenu";
 export default function PostCard(props) {
-  const {  setNewPostState } = useContext(NewPostModalContext);
+  const { setNewPostState } = useContext(NewPostModalContext);
+ 
+
   const mainState = useAuthState(); //read user details from context
- // profil ve club postcardları owner olarak sayfa sahibini dogrudan alır
- // anasayfadakiler ise her post için kart için sahip bilgilerini çeker
+
+  // profil ve club postcardları owner olarak sayfa sahibini dogrudan alır
+  // anasayfadakiler ise her post için kart için sahip bilgilerini çeker
   const {
     id,
     imgId,
@@ -48,19 +52,24 @@ export default function PostCard(props) {
     activityLocationDescription,
     postType,
     // postType,
-     sharedPostId,
-     countComment,
+    sharedPostId,
+    countComment,
     // lastModifiedAt
   } = props.post;
 
-
-  
-  const [isLiked,setIsLiked]=useState(likedByUser)
-  const [likeCount,setLikeCount]=useState(countLike)
-  const [commentCount,setCommentCount]=useState(countComment)
-  const handleLike=()=>{
-    likeToggle(mainState.user.id,id,isLiked,setIsLiked,likeCount,setLikeCount)
-}
+  const [isLiked, setIsLiked] = useState(likedByUser);
+  const [likeCount, setLikeCount] = useState(countLike);
+  const [commentCount, setCommentCount] = useState(countComment);
+  const handleLike = () => {
+    likeToggle(
+      mainState.user.id,
+      id,
+      isLiked,
+      setIsLiked,
+      likeCount,
+      setLikeCount
+    );
+  };
   const [expanded, setExpanded] = React.useState(false);
   const handleExpandClick = (e) => {
     // parent onClick calismasin diye alttaki fonksiyon kullanilir
@@ -73,27 +82,62 @@ export default function PostCard(props) {
   const [showLikes, setShowLikes] = React.useState(false);
   const navigate = useNavigate();
   const locState = useLocation();
- // kart img ekle, warningi düzelt
+  // kart img ekle, warningi düzelt
 
- const handleShare = () => {
-  //console.log("girdi")
-  setNewPostState({ type: "Post", 
-  isOpen: true,
-  ownerId:mainState.user.id,
-  ownerType:"USER",
-  sharedPostId:sharedPostId?sharedPostId:id
-})
-}
+  const handleShare = () => {
+    //console.log("girdi")
+    setNewPostState({
+      type: "Post",
+      isOpen: true,
+      ownerId: mainState.user.id,
+      ownerType: "USER",
+      sharedPostId: sharedPostId ? sharedPostId : id,
+    });
+  };
 
+  const { userid, uniid } = useParams();
+ 
+  const [isOwnerPost, setisOwnerPost] = useState(false);
+
+  React.useEffect(() => {
+
+    setisOwnerPost(userid ? ownerId === mainState.user.id : false);
+    // eslint-disable-next-line
+  }, [
+    uniid,
+    userid,
+    ownerId,
+    mainState.user.id,
+ 
+  ]);
+
+  const [deleteAlert, setDeleteAlert] = useState(false);
   return (
     <>
-      <LikesModal showLikes={showLikes} setShowLikes={setShowLikes} postId={id} />
+      {deleteAlert && (
+        <DeletePostConfirmAlert
+          id={id}
+          deleteAlert={deleteAlert}
+          setDeleteAlert={setDeleteAlert}
+        />
+      )}
+      <LikesModal
+        showLikes={showLikes}
+        setShowLikes={setShowLikes}
+        postId={id}
+      />
       <Card
         className={classes.CardWrapper}
         onClick={() =>
-          navigate("/" +ownerType.toLowerCase()+"/"+ ownerId + "/posts/" + id, {
-            state: { prevPath: locState.pathname, scrollY: window.pageYOffset },
-          })
+          navigate(
+            "/" + ownerType.toLowerCase() + "/" + ownerId + "/posts/" + id,
+            {
+              state: {
+                prevPath: locState.pathname,
+                scrollY: window.pageYOffset,
+              },
+            }
+          )
         }
       >
         <CardHeader
@@ -101,22 +145,34 @@ export default function PostCard(props) {
             <Avatar
               sx={{ bgcolor: red[500] }}
               aria-label="recipe"
-              src={props?.owner?.profileImgId && URL_FILES+"/"+props?.owner?.profileImgId}
+              src={
+                props?.owner?.profileImgId &&
+                URL_FILES + "/" + props?.owner?.profileImgId
+              }
               onClick={(e) => {
                 e.stopPropagation();
-               
-     
               }}
-            >
-              
-            </Avatar>
+            ></Avatar>
           }
           action={
-            <IconButton aria-label="settings" sx={{ display: "none" }}>
-              <MoreVertIcon />
-            </IconButton>
+            (props?.isAdmin | isOwnerPost) ? (
+              <IconButton
+                aria-label="settings"
+                onClick={(e) => {
+                  e.stopPropagation();
+                }}
+              >
+                <CardActionPopupMenu setDeleteAlert={setDeleteAlert} />
+              </IconButton>
+            ) : (
+              ""
+            )
           }
-          title={props?.owner?.name+" "+(props?.owner?.surname?props?.owner?.surname:"")}
+          title={
+            props?.owner?.name +
+            " " +
+            (props?.owner?.surname ? props?.owner?.surname : "")
+          }
           subheader={
             new Date(createdAt).toLocaleDateString() +
             " - " +
@@ -126,30 +182,43 @@ export default function PostCard(props) {
             })
           }
         />
-       {
-        postType === "ACTIVITY" && <EventArea
-        userId={mainState.user.id}
-        postId={id}
-        activityTitle={activityTitle}
-        activityStartAt={activityStartAt} 
-        activityParticipatedByUser={activityParticipatedByUser}
-        activityCountParticipant={activityCountParticipant}
-        activityLocationDescription={activityLocationDescription}
-       
-        />
-
-        }
+        {postType === "ACTIVITY" && (
+          <EventArea
+            userId={mainState.user.id}
+            postId={id}
+            activityTitle={activityTitle}
+            activityStartAt={activityStartAt}
+            activityParticipatedByUser={activityParticipatedByUser}
+            activityCountParticipant={activityCountParticipant}
+            activityLocationDescription={activityLocationDescription}
+          />
+        )}
 
         <div
           onClick={(e) => {
             e.stopPropagation();
             //setFullSize({ isOpen: true, img: img });
-            navigate("/" +ownerType.toLowerCase()+"/"+ ownerId + "/posts/" + id+"/media/"+imgId, {
-              state: { ...locState, backgroundLocation: locState },
-            });
+            navigate(
+              "/" +
+                ownerType.toLowerCase() +
+                "/" +
+                ownerId +
+                "/posts/" +
+                id +
+                "/media/" +
+                imgId,
+              {
+                state: { ...locState, backgroundLocation: locState },
+              }
+            );
           }}
         >
-          <CardMedia component="img" image={""} alt=""  src={imgId && URL_FILES+"/"+imgId} />
+          <CardMedia
+            component="img"
+            image={""}
+            alt=""
+            src={imgId && URL_FILES + "/" + imgId}
+          />
         </div>
 
         <CardContent
@@ -162,15 +231,11 @@ export default function PostCard(props) {
             {description}
           </Typography>
         </CardContent>
-        {
-        sharedPostId!==null && (
+        {sharedPostId !== null && (
           <div className={classes.innerPostCardWrapper}>
-            <NestedPostCard
-              postId={sharedPostId}
-            />
+            <NestedPostCard postId={sharedPostId} />
           </div>
-        )
-        }
+        )}
         <div className={classes.LCSInfoWrapper}>
           <div
             onClick={(e) => {
@@ -195,8 +260,7 @@ export default function PostCard(props) {
             className={classes.LikebuttonWrapper}
             onClick={(e) => {
               e.stopPropagation();
-              handleLike()
-    
+              handleLike();
             }}
           >
             <ThumbUpAltIcon
@@ -213,23 +277,21 @@ export default function PostCard(props) {
           >
             <CommentIcon />
           </IconButton>
-          <IconButton aria-label="share" className={classes.SharebuttonWrapper}
-          onClick={
-            (e)=>{
+          <IconButton
+            aria-label="share"
+            className={classes.SharebuttonWrapper}
+            onClick={(e) => {
               e.stopPropagation();
-              handleShare()
-            }
-          }
+              handleShare();
+            }}
           >
             <DoubleArrowIcon />
           </IconButton>
         </CardActions>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <div className={classes.commentsAreaWrapper}>
-            {
-              <CommentsArea postId={id} setCommentCount={setCommentCount}/>
-            }
-              <Divider/>
+            {<CommentsArea postId={id} setCommentCount={setCommentCount} />}
+            <Divider />
           </div>
         </Collapse>
       </Card>

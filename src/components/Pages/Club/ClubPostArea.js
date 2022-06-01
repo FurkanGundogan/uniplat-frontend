@@ -10,11 +10,11 @@ import CircularProgressForTabs from "./CircularProgressForTabs";
 import EndOfPosts from "../Profile/EndOfPosts";
 import {ClubContext} from "./ClubContext"
 
-function ClubPostArea() {
+function ClubPostArea({isAdmin}) {
   const { clubID } = useParams();
   const usertype = TYPE_CLUB;
   const [owner, setOwner] = useState();
- 
+ console.log("isAdminPostArea",isAdmin)
  const {clubState,postsAtClub,setPostsAtClub,pageNumberAtClub, setPageNumberAtClub,click} = useContext(ClubContext)
 
  const classes= MainClubStyles();
@@ -64,6 +64,7 @@ const lastPostElementRef = useCallback(
                   post={p}
                   owner={clubState.clubInfo}
                   usertype={usertype}
+                  isAdmin={isAdmin}
                 />
               </div>
             );
@@ -74,6 +75,7 @@ const lastPostElementRef = useCallback(
                 post={p}
                 owner={clubState.clubInfo}
                 usertype={usertype}
+                isAdmin={isAdmin}
               />
             );
           }

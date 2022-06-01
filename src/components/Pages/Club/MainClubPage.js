@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Grid from "@mui/material/Grid";
 import MainClubStyles from "./MainClubStyles";
 import UserAvatar from "../UserAvatar";
@@ -40,7 +40,13 @@ const MainClubPage = () => {
 
   const [settings, setSettings] = useState();
 
-  const isAdmin = mainState.user.id === clubState.clubInfo.adminId;
+  // const isAdmin = mainState.user.id === clubState.clubInfo.adminId;
+    const [isAdmin,setisAdmin]=useState(false)
+  useEffect(()=>{
+    setisAdmin(mainState.user.id === clubState?.clubInfo?.adminId)
+  },[mainState.user.id,clubState.clubInfo,tab])
+
+    console.log("isAdmin Main",isAdmin)
   const isMember = clubState.clubInfo.followedByUser;
   //console.log("Club Admin?: ", isAdmin);
   //console.log("Club Member?: ", isMember, clubState.memberShip);
@@ -274,7 +280,7 @@ const MainClubPage = () => {
         )}
         <MyTabs tab={tab} setTab={setTab} />
 
-        <Content tab={tab} />
+        <Content tab={tab} isAdmin={isAdmin}/>
       </Grid>
       <Grid item className={classes.RightSide}>
         <div className={classes.rightSideInner}>
