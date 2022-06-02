@@ -16,11 +16,13 @@ import SearchIcon from "@mui/icons-material/Search";
 import { useNavigate } from "react-router-dom";
 
 export default function SearchList({ results, filters, text }) {
+  
   const navigate = useNavigate();
   let users = results.filter((r) => r.searchType === TYPE_USER);
   let universities = results.filter((r) => r.searchType === TYPE_UNI);
   let clubs = results.filter((r) => r.searchType === TYPE_CLUB);
   let posts = results.filter((r) => r.searchType === TYPE_POST);
+
   const TYPE_ALL =
     TYPE_USER + "," + TYPE_UNI + "," + TYPE_CLUB + "," + TYPE_POST;
 

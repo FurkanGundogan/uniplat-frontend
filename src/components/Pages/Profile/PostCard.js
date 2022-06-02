@@ -288,9 +288,10 @@ export default function PostCard(props) {
             <DoubleArrowIcon />
           </IconButton>
         </CardActions>
-        <Collapse in={expanded} timeout="auto" unmountOnExit>
+        <Collapse in={expanded} timeout="auto" unmountOnExit onClick={(e)=>e.stopPropagation()}>
           <div className={classes.commentsAreaWrapper}>
-            {<CommentsArea postId={id} setCommentCount={setCommentCount} />}
+            {<CommentsArea postId={id} setCommentCount={setCommentCount}  ownerType={ownerType} 
+              ownerId={ownerId}/>}
             <Divider />
           </div>
         </Collapse>

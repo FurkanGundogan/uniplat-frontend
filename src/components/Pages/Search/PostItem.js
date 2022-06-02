@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Divider from "@mui/material/Divider";
-import { URL_POSTS, URL_USERS } from "../../Contexts/Paths";
+import { TYPE_CLUB, TYPE_UNI, TYPE_USER, URL_CLUBS, URL_POSTS, URL_UNIVERSITIES, URL_USERS } from "../../Contexts/Paths";
 import { useAuthState } from "../../Contexts";
 import SearchPageStyles from "./SearchPageStyles";
 import axios from "axios";
@@ -9,13 +9,14 @@ function PostItem({ user, i }) {
   const mainState = useAuthState(); //read user details from context
   const classes = SearchPageStyles();
   const [post, setPost] = useState();
- 
+
   useEffect(() => {
     axios
       .get(URL_POSTS + "/" + user.id, {
         headers: { userId: mainState.user.id },
       })
       .then((response) => {
+        
         setPost(response.data);
       })
       .catch((e) => {
@@ -26,9 +27,14 @@ function PostItem({ user, i }) {
   const [owner, setOwner] = useState();
 
   useEffect(() => {
+    let target = "";
+    if (post?.ownerType === TYPE_USER) target = URL_USERS;
+    if (post?.ownerType === TYPE_UNI) target = URL_UNIVERSITIES;
+    if (post?.ownerType === TYPE_CLUB) target = URL_CLUBS;
+
     if (post?.ownerId !== undefined && post?.ownerId !== null) {
       axios
-        .get(URL_USERS + "/" + post.ownerId, {
+        .get(target + "/" + post.ownerId, {
           headers: { userId: mainState.user.id },
         })
         .then((response) => {
@@ -38,6 +44,7 @@ function PostItem({ user, i }) {
           console.log("-serach-post-owner-detail-get-error");
         });
     }
+    // eslint-disable-next-line
   }, [post?.ownerId,mainState.user.id]);
 
  

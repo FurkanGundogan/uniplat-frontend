@@ -6,10 +6,11 @@ import { URL_POST_COMMENTS } from "../../../Contexts/Paths";
 import WriteCommentComponent from "../WriteCommentComponent";
 import Comment from "./Comment";
 import ShowMore from "./ShowMore"
-function CommentsArea({ postId,setCommentCount }) {
+function CommentsArea({ postId,setCommentCount,ownerType,ownerId }) {
     const mainState = useAuthState(); //read user details from context
   const [comments, setComments] = useState();
   const [showMore, setShowMore] = useState(false);
+
   // console.log("show more?",showMore)
   useEffect(()=>{
     axios({
@@ -48,10 +49,16 @@ function CommentsArea({ postId,setCommentCount }) {
       </Divider>
     }
       {comments && comments.map((comment, i) => (
-        <Comment key={i} comment={comment} mainUserId={mainState.user.id} />
+        <Comment key={i} comment={comment} mainUserId={mainState.user.id} 
+        setComments={setComments} setCommentCount={setCommentCount} />
       ))}
       {
-          showMore && <ShowMore/>
+          showMore && <ShowMore
+          ownerType={ownerType}
+          ownerId={ownerId}
+          postId={postId}
+        
+          />
       }
     </>
   );

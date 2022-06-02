@@ -6,7 +6,8 @@ import axios from "axios";
 import { Avatar } from "@mui/material";
 import { red } from "@mui/material/colors";
 import { useNavigate } from "react-router-dom";
-function Comment({ comment, mainUserId }) {
+import CommentActionPopupMenu from "../../HomePosts/CommentsArea/CommentActionPopupMenu";
+function Comment({ comment, mainUserId,setComments,setCommentCount }) {
   const navigate = useNavigate();
   const [owner, setOwner] = useState();
 
@@ -27,13 +28,14 @@ function Comment({ comment, mainUserId }) {
 
   const classes = PostCardStyles();
   return (
-    <div>
+    <div style={{display:"flex"}}>
       <Box
         sx={{
           display: "flex",
           alignItems: "flex-end",
           padding: "0px 16px 0px 16px",
           marginBottom: "16px",
+          width:"100%"
         }}
       >
         <Avatar
@@ -66,6 +68,12 @@ function Comment({ comment, mainUserId }) {
           </div>
         </div>
       </Box>
+      <div className="div">
+            {
+              (owner?.id === mainUserId) &&
+              <CommentActionPopupMenu comment={comment} setComments={setComments} setCommentCount={setCommentCount}/>
+              }
+      </div>
     </div>
   );
 }

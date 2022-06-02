@@ -48,7 +48,7 @@ function CommentsArea({ postId,setCommentCount }) {
           if (comments.length === i + 1) {
             return (
               <div key={i} ref={lastPostElementRef} className="div">
-                <Comment comment={comment} mainUserId={mainState.user.id} />
+                <Comment comment={comment} mainUserId={mainState.user.id}  setCommentCount={setCommentCount} setComments={setComments}/>
               </div>
             );
           } else {
@@ -57,6 +57,8 @@ function CommentsArea({ postId,setCommentCount }) {
                 key={i}
                 comment={comment}
                 mainUserId={mainState.user.id}
+                setComments={setComments}
+                setCommentCount={setCommentCount}
               />
             );
           }
