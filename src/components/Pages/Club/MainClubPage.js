@@ -46,7 +46,7 @@ const MainClubPage = () => {
     setisAdmin(mainState.user.id === clubState?.clubInfo?.adminId)
   },[mainState.user.id,clubState.clubInfo,tab])
 
-    console.log("isAdmin Main",isAdmin)
+   
   const isMember = clubState.clubInfo.followedByUser;
   //console.log("Club Admin?: ", isAdmin);
   //console.log("Club Member?: ", isMember, clubState.memberShip);

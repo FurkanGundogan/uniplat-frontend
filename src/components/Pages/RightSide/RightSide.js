@@ -58,7 +58,7 @@ const RightSide = () => {
         {
         <MarkEmailUnreadIcon className={classes.icon}/>
         }
-      <a href="https://github.com/FurkanGundogan/uniplat-frontend" rel="noreferrer" target="_blank" className={classes.element}>Contact</a>
+      <a href="mailto: uniplat1010@gmail.com" rel="noreferrer" target="_blank" className={classes.element}>Contact</a>
       </div>
         </Grid>
 

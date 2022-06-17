@@ -21,6 +21,7 @@ import { URL_POSTS } from "../../Contexts/Paths";
 import "react-awesome-lightbox/build/style.css";
 import axios from "axios";
 import { UserExtraInfoContext } from "../../Contexts/UserExtraInfoContext";
+import RightSide from "../RightSide/RightSide";
 
 const PostDetailsItem = () => {
   const mainState = useAuthState(); //read user details from context
@@ -126,15 +127,7 @@ const PostDetailsItem = () => {
       </Grid>
       <Grid item className={classes.RightSide}>
         <div className={classes.rightSideInner}>
-          <Typography variant="body1" className={classes.UserDept}>
-            Right Side
-          </Typography>
-          <Typography variant="body1" className={classes.UserDept}>
-            Right Side
-          </Typography>
-          <Typography variant="body1" className={classes.UserDept}>
-            Right Side
-          </Typography>
+        <RightSide/>
         </div>
       </Grid>
     </Grid>

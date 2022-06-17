@@ -5,6 +5,7 @@ import PostAreaStyles from "./PostAreaStyles";
 import {  useRef, useCallback } from "react";
 import CircularProgressForTabs from "./CircularProgressForTabs";
 import EndOfPosts from "./EndOfPosts";
+import NoPosts from "./NoPosts";
 import { useAuthState } from "../../Contexts";
 import useGetPostFlow from "./useGetPostFlow";
 import {PostsContext} from "./PostsContext"
@@ -60,7 +61,8 @@ function PostArea() {
         }
       })}
       {loading && <CircularProgressForTabs />}
-      {!loading && !hasMore && <EndOfPosts />}
+      {!loading && !hasMore && posts.length===0 && <NoPosts />}
+      {!loading && !hasMore && posts.length>0 && <EndOfPosts />}
     </div>
   );
 }

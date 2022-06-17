@@ -4,7 +4,7 @@ import {getContent} from "./ContentActions"
 
 function Content({tab,isAdmin}) {
   const [value,setValue]=useState("")
-  console.log("isAdmin conent",isAdmin)
+
   useEffect(() => {
     setValue(getContent(tab,isAdmin))
   

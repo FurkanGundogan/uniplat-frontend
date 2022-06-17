@@ -99,7 +99,7 @@
 
   @media only screen and (max-width: 600px) {
     .dataResult {
-        inset:7% auto auto 0px;
+        inset:6% auto auto 0px;
         width: 100%;
         height: 93%;
    

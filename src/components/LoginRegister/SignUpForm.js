@@ -29,12 +29,9 @@ import { useEffect } from "react";
 import {
   URL_USERS,
   URL_UNIVERSITIES,
-  URL_USERFOLLOWS,
-  TYPE_UNI,
 } from "../Contexts/Paths";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
-
 //theme için makeStyles,classess yapılarını kullanıyoruz
 // globalden body'i style verdiğimiz için classess şimdilik kullanılmadı
 const useStyles = makeStyles((theme) => ({
@@ -154,6 +151,7 @@ const SignUpPage = () => {
       setcheckError(true);
     }
     if (validate() && checked) {
+      
       let mydate = values.birthDate;
       mydate.setTime(mydate.getTime() + 3 * 60 * 60 * 1000);
       let datestring = mydate.toISOString();
@@ -162,6 +160,10 @@ const SignUpPage = () => {
       let yeniKayit = JSON.parse(JSON.stringify(values));
       yeniKayit.birthDate = datestring;
       yeniKayit.departmentId = "";
+      if(values.universityId===0){
+        yeniKayit.universityId=null
+        console.log("yeniKayit",yeniKayit)
+      }
 
       //console.log("yeniKayit:", yeniKayit);
       //console.log(checked);
@@ -192,11 +194,13 @@ const SignUpPage = () => {
 
   const handleResponse = (response) => {
     // let status=response.status
+    
     let status = response.status;
     if (status === 200) {
       setAlertType("success");
       setAlertMsg("Register Success. Please Verify Your Email!");
       // olusturulan kullaniciya universitesini takip ettirme
+      /*
       axios(URL_USERFOLLOWS, {
         method: "POST",
         header: { "Content-type": "application/json" },
@@ -208,6 +212,7 @@ const SignUpPage = () => {
       }).then((response) => {
         console.log("Uni Ekleme Response:", response);
       });
+    */
     } else if (status === 404) {
       setAlertType("error");
       setAlertMsg("Register Failed");
@@ -259,12 +264,13 @@ const SignUpPage = () => {
   const selectionClasses = InputStyles();
 
   const [uniList, setUniList] = React.useState([]);
+ 
   useEffect(() => {
     axios
       .get(URL_UNIVERSITIES)
       .then((response) => {
         // console.log("res:", response.data.content);
-        setUniList(response.data.content);
+        setUniList([{id:0,name:"None"},...response.data.content]);
       })
       .catch((e) => {
         console.log("getall-uni-error");
@@ -408,7 +414,8 @@ const SignUpPage = () => {
                   value={values.universityId}
                   options={uniList}
                   error={errors.universityId}
-                ></MySelect>
+                >
+                </MySelect>
               </Box>
             </Grid>
 

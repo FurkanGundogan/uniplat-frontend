@@ -19,7 +19,7 @@
 
   @media only screen and (max-width: 600px) {
     .dataResultForAdmin {
-        inset:23% auto auto 46px !important;
+        inset:20% auto auto 46px !important;
         height: 35% !important;
    
       }

@@ -115,6 +115,7 @@ export default function PostCard({ postId }) {
             activityStartAt={post?.activityStartAt}
             activityParticipatedByUser={post?.activityParticipatedByUser}
             activityCountParticipant={post?.activityCountParticipant}
+            activityLocationDescription={post?.activityLocationDescription}
           />
         )}
         <div

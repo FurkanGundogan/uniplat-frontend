@@ -30,6 +30,7 @@ import { NewPostModalContext } from "../../Contexts/NewPostModalContext";
 import CommentsArea from "./CommentsArea/CommentsArea";
 import CardActionPopupMenu from "./CardActionPopupMenu";
 import DeletePostConfirmAlert from "./DeletePostConfirmAlert";
+
 export default function PostCard(props) {
   const { setNewPostState } = useContext(NewPostModalContext);
   const mainState = useAuthState(); //read user details from context
@@ -182,6 +183,7 @@ const [deleteAlert,setDeleteAlert]=useState(false)
           }}
         >
           <CardMedia component="img" image={""} alt=""  src={imgId && URL_FILES+"/"+imgId} />
+          
         </div>
 
         <CardContent
